@@ -10,10 +10,10 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -23,7 +23,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class MainController extends BroadcastReceiver implements
-		OnEditorActionListener, OnItemClickListener {
+		OnEditorActionListener, OnItemClickListener,
+		SwipeDismisserListView.DismissCallbacks, OnTouchListener {
 	public static final long LOCATION_UPDATE_FREQUENCY = 120000L;
 	public static final long TWO_HOURS = 7200000L;
 	public static final long LOCATION_UPDATE_TIMEOUT = TWO_HOURS
@@ -35,6 +36,8 @@ public class MainController extends BroadcastReceiver implements
 	private MainModel model;
 	private EditText etStart, etDestination;
 	private int numberOfLocationUpdates;
+	private SwipeDismisserListView swipeDismisserListView;
+	private float x1, x2;
 
 	public MainController(Context c) {
 		model = new MainModel();
@@ -60,6 +63,9 @@ public class MainController extends BroadcastReceiver implements
 	public void setListView(ListView v) {
 		v.setAdapter(mainListViewAdapter);
 		v.setOnItemClickListener(this);
+		swipeDismisserListView = new SwipeDismisserListView(v, this);
+		v.setOnTouchListener(this);
+		v.setOnScrollListener(swipeDismisserListView.makeScrollListener());
 	}
 
 	public void resetLocationUpdateCount() {
@@ -100,6 +106,23 @@ public class MainController extends BroadcastReceiver implements
 	private void fetchNewCards(String start, String dest) {
 		QueryTask q = new QueryTask();
 		q.execute(start, dest);
+	}
+	
+	@Override
+	public boolean canDismiss(int position) {
+		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
+	}
+	
+	/* When a card is dismissed, notify server */
+	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+		MainListViewItem itemDismissed;
+		for (int position : reverseSortedPositions) {
+			if (position != 0 && position != mainListViewAdapter.getCount() - 1) {
+				itemDismissed = mainListViewAdapter.getItem(position + 1);
+				mainListViewAdapter.remove(itemDismissed);
+			}
+		}
+		mainListViewAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -209,5 +232,34 @@ public class MainController extends BroadcastReceiver implements
 			mainListViewAdapter.addAll(result);
 			super.onPostExecute(result);
 		}
+	}
+	
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+	    switch (event.getAction()) {
+	    case MotionEvent.ACTION_DOWN:
+	    	x1 = event.getX();
+	    	swipeDismisserListView.onTouch(v, event);
+	    case MotionEvent.ACTION_UP:
+	    	if (event.getX() > x1){
+	    		System.out.println("CHECK");
+	    		swipeDismisserListView.onTouch(v, event);
+	    	}
+	    	break;
+	    case MotionEvent.ACTION_MOVE:
+	    	if (event.getX() > x1){
+	    		System.out.println("CHECK");
+	    		swipeDismisserListView.onTouch(v, event);
+	    	}
+	        System.out.println("Intercepted");
+	        break;
+	    case MotionEvent.ACTION_CANCEL:
+	    	if (event.getX() > x1){
+	    		System.out.println("CHECK");
+	    		swipeDismisserListView.onTouch(v, event);
+	    	}
+	        break;
+	    }
+		return false;
 	}
 }
