@@ -1,0 +1,101 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gray_background"
+    tools:context="com.example.busme.MainActivity" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" >
+    </View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <EditText
+            android:id="@+id/etStart"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:drawableLeft="@drawable/abc_ic_search_api_holo_light"
+            android:drawablePadding="15dp"
+            android:gravity="center_vertical"
+            android:hint="Current Location"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:nextFocusDown="@+id/etDestination"
+            android:paddingLeft="15dp"
+            android:textColorHint="#6599FF"
+            android:visibility="gone" >
+        </EditText>
+
+        <ImageView
+            android:id="@+id/mainEtDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/etStart"
+            android:background="@drawable/main_et_divider"
+            android:contentDescription="main divider"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@id/etDestination"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/mainEtDivider"
+            android:background="@android:color/white"
+            android:cursorVisible="false"
+            android:drawableLeft="@drawable/abc_ic_search_api_holo_light"
+            android:drawablePadding="15dp"
+            android:gravity="center_vertical"
+            android:hint="Where are you going?"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:nextFocusDown="@+id/lvMain"
+            android:onClick="showEtStart"
+            android:paddingLeft="15dp" >
+        </EditText>
+
+        <ListView
+            android:id="@id/lvMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/etDestination"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/list_background"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12sp" >
+        </ListView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/shadowExpanded"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_shadow_height"
+        android:layout_gravity="top"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/gradient_down"
+        android:visibility="gone" >
+    </View>
+
+    <View
+        android:id="@+id/shadowRetracted"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_shadow_height"
+        android:layout_gravity="top"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/gradient_down" >
+    </View>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_shadow_height"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient_up" >
+    </View>
+
+</FrameLayout>
