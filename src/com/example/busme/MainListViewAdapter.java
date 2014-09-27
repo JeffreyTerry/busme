@@ -57,7 +57,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 		position++;
 		
 
-		if (loading || !loading) {
+		if (loading) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			View v = inflater.inflate(R.layout.list_loading, parent, false);
 			v.setTag("loading");
@@ -77,14 +77,14 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			// well set up the ViewHolder
 			viewHolder = new ViewHolderItem();
 
-//			viewHolder.tvEstimatedBusTime = (TextView) convertView
-//					.findViewById(R.id.tvEstimatedBusTime);
-//			viewHolder.tvRouteNumber = (TextView) convertView
-//					.findViewById(R.id.tvRouteNumber);
-//			viewHolder.tvRouteStart = (TextView) convertView
-//					.findViewById(R.id.tvRouteStart);
-//			viewHolder.tvRouteDestination = (TextView) convertView
-//					.findViewById(R.id.tvRouteDestination);
+			viewHolder.tvTime = (TextView) convertView
+					.findViewById(R.id.tvTime);
+			viewHolder.tvRouteNumber = (TextView) convertView
+					.findViewById(R.id.tvRouteNumber);
+			viewHolder.tvRouteStart = (TextView) convertView
+					.findViewById(R.id.tvRouteStart);
+			viewHolder.tvRouteDestination = (TextView) convertView
+					.findViewById(R.id.tvRouteDestination);
 
 			// store the holder with the view.
 			convertView.setTag(viewHolder);
@@ -103,21 +103,21 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			// get the TextView from the ViewHolder and then set the text (item
 			// name) and tag (item ID) values
 
-			viewHolder.tvEstimatedBusTime.setText(item.getTime()
+			viewHolder.tvTime.setText(item.getTime()
 					+ " mins");
 			viewHolder.tvRouteNumber.setText("Bus #" + item.getRouteNumber());
 			viewHolder.tvRouteStart.setText(item.getRouteStart());
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
 			if (item.getTime() < 11) {
-				viewHolder.tvEstimatedBusTime.setTextColor(Color
+				viewHolder.tvTime.setTextColor(Color
 						.rgb(0, 200, 20));
 			} else if (item.getTime() < 21) {
-				viewHolder.tvEstimatedBusTime.setTextColor(Color.BLACK);
+				viewHolder.tvTime.setTextColor(Color.BLACK);
 			} else if (item.getTime() < 31) {
-				viewHolder.tvEstimatedBusTime.setTextColor(Color.rgb(240, 110,
+				viewHolder.tvTime.setTextColor(Color.rgb(240, 110,
 						20));
 			} else {
-				viewHolder.tvEstimatedBusTime.setTextColor(Color.RED);
+				viewHolder.tvTime.setTextColor(Color.RED);
 			}
 		}
 
@@ -125,7 +125,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 	}
 
 	private static class ViewHolderItem {
-		public TextView tvEstimatedBusTime;
+		public TextView tvTime;
 		public TextView tvRouteNumber;
 		public TextView tvRouteStart;
 		public TextView tvRouteDestination;
