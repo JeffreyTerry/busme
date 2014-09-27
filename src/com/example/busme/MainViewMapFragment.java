@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainViewMapFragment extends Fragment implements LocationListener {
 
 	GoogleMap gmap;
-
+	FragmentTransaction fragmentTransaction;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		
 		LocationManager locationManager = (LocationManager) this.getActivity().getSystemService(this.getActivity().LOCATION_SERVICE);
 		Criteria crit = new Criteria();
+		crit.setAccuracy(Criteria.ACCURACY_FINE);
 		String provider = locationManager.getBestProvider(crit, true);
 		Location location = locationManager.getLastKnownLocation(provider);
 		
@@ -46,6 +51,13 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 			onLocationChanged(location);
 		}
 		locationManager.requestLocationUpdates(provider, 20000, 0, this);
+		
+		//adding the initial marker
+		MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()));
+		markerOptions.title("You are here!");
+		Marker locationMarker = gmap.addMarker(markerOptions);
+		locationMarker.showInfoWindow();
+		
 	}
 
 	@Override
@@ -74,5 +86,21 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+	
+	
+	
+	
 
 }
