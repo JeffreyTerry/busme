@@ -16,6 +16,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainViewMapFragment extends Fragment implements LocationListener {
 
@@ -51,10 +53,10 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		locationManager.requestLocationUpdates(provider, 20000, 0, this);
 		
 		//adding the initial marker
-		//MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()));
-		//markerOptions.title("You are here!");
-		//Marker locationMarker = gmap.addMarker(markerOptions);
-		//locationMarker.showInfoWindow();
+		MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()));
+		markerOptions.title("You are here!");
+		Marker locationMarker = gmap.addMarker(markerOptions);
+		locationMarker.showInfoWindow();
 		
 	}
 	
