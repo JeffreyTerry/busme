@@ -43,7 +43,6 @@ local.properties
 # PDT-specific
 .buildpath
 
-<<<<<<< HEAD
 # api key file
 res/values/api_key.xml
 
