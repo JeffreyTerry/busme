@@ -26,13 +26,10 @@
             android:shape="rectangle" >
             <corners android:radius="2dp" />
 
-            <solid android:color="@android:color/white" />
+            <solid android:color="#eee" />
 
             <padding
-                android:bottom="8dp"
-                android:left="8dp"
-                android:right="8dp"
-                android:top="8dp" />
+                android:bottom="2dp" />
         </shape>
     </item>
 
