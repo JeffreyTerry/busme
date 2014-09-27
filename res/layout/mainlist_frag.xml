@@ -22,6 +22,7 @@
             android:background="@android:color/white"
             android:drawableLeft="@drawable/abc_ic_search_api_holo_light"
             android:drawablePadding="15dp"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="Current Location"
             android:imeOptions="actionSearch"
@@ -50,6 +51,7 @@
             android:cursorVisible="false"
             android:drawableLeft="@drawable/abc_ic_search_api_holo_light"
             android:drawablePadding="15dp"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:hint="Where are you going?"
             android:imeOptions="actionSearch"
@@ -68,7 +70,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/list_background"
             android:divider="@android:color/transparent"
-            android:dividerHeight="12sp">
+            android:dividerHeight="12sp" >
         </ListView>
     </RelativeLayout>
 
