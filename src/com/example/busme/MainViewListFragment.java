@@ -23,7 +23,8 @@ public class MainViewListFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View android = (FrameLayout) inflater.inflate(R.layout.mainlist_frag, container, false);
-		mainController = ((MainActivity) this.getActivity()).getMainController();
+		MainActivity mainActivity = (MainActivity) this.getActivity();
+		mainController = mainActivity.getMainController();
 		
 		etStart = (EditText) android.findViewById(R.id.etStart);
 		etDestination = (EditText) android.findViewById(R.id.etDestination);
@@ -35,6 +36,10 @@ public class MainViewListFragment extends Fragment {
 		mainController.setEtStart(etStart);
 		mainController.setEtDestination(etDestination);
 		mainController.setListView(mainListView);
+
+		mainActivity.setShadows(shadowExpanded, shadowRetracted);
+		mainActivity.setMainEts(etStart, etDestination, mainEtDivider);
+		
 		return android;
 		
 	}
