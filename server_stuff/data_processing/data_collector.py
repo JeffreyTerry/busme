@@ -28,8 +28,8 @@ for route in routes:
     sleep(2)
 
 # these are the routes we will collect data for
-# stops = ["Cornell", "Downtown", "Country"]
-stops = []
+stops = ["Cornell", "Downtown", "Country"]
+# stops = []
 full_coordinate_list = []
 for stop in stops:
     data = urllib2.urlopen('http://www.tcatbus.com/kml/route' + stop + '.kml').read();
@@ -40,20 +40,24 @@ for stop in stops:
     for placemark in placemarks:
         coordinate_data += unicode(placemark.name).encode('ascii', 'ignore') + ',' + str(placemark.Point.coordinates) + ','
     coordinate_data = coordinate_data[:-1].strip()
+    coordinate_data = coordinate_data.replace(', ', ' ')
     coordinate_data = re.compile('[,]').split(coordinate_data)
     coordinate_list = transform_coordinate_quartets(coordinate_data)
     full_coordinate_list.extend(coordinate_list)
-    # print coordinate_list
     # sleep so the server doesn't get suspicious and kick us out
     sleep(2)
+print full_coordinate_list
+coordinate_dictionary = {}
+for coordinates in full_coordinate_list:
+    coordinate_dictionary[coordinates[2]] = coordinates[:2]
 if len(full_coordinate_list) > 0:
-    open('stops.txt', 'w').write(str(full_coordinate_list)) 
+    open('data/stops.txt', 'w').write(str(coordinate_dictionary)) 
 
 # a dictionary where each entry is (e.g.) {"route11MON" + n where n is some integer: value}
 # the values are dictionaries where each entry is (e.g.) {"stop name": [times]}
 routes = {}
 # these are the numbers for each route to query on tcat's website
-route_schedules = ['428']
+route_schedules = []
 for route_schedule in route_schedules:
     # data = urllib2.urlopen('http://tcat.nextinsight.com/routes/' + route_schedule).read();
     # open('schedule_test_data.txt', 'w').write(data)
