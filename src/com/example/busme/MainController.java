@@ -136,6 +136,12 @@ public class MainController extends BroadcastReceiver implements
 		 i.putExtra("time", item.getTime());
 		 i.putExtra("start", item.getRouteStart());
 		 i.putExtra("destination", item.getRouteDestination());
+		 i.putExtra("routeNumber", item.getRouteNumber());
+		 i.putExtra("startLat", item.getStartLat());
+		 i.putExtra("startLng", item.getStartLng());
+		 i.putExtra("destLat", item.getDestLat());
+		 i.putExtra("destLng", item.getDestLng());
+		 i.putExtra("travelTime", item.getTravelTime());
 		 context.startActivity(i);
 	}
 
@@ -217,13 +223,13 @@ public class MainController extends BroadcastReceiver implements
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 					result.add(new MainListViewItem(-1, -1, "invalid params",
-							"invalid params"));
+							"invalid params", -1, -1, -1, -1, "N/A"));
 					return result;
 				}
 			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 				result.add(new MainListViewItem(-1, -1, "network error",
-						"network error"));
+						"network error", -1, -1, -1, -1, "N/A"));
 				return result;
 			}
 		}
