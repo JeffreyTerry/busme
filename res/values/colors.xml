@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 	<color name="marshgreen">#37c570</color>
+ 	<color name="stalemustard">#f4bf41</color>
+ 	<color name="clearblood">#db443d</color>
+ 	<color name="aquablast">#47a4f3</color>
+ 	<color name="gunmetal">#343434</color>
+ 	<color name="darkchalk">#e7e7e7</color>
+ 	<color name="silverado">#cecccd</color>
+ 	<color name="black">#000000</color>
+ 	<color name="white">#ffffff</color>
+</resources>
