@@ -40,7 +40,7 @@ public class MainController extends BroadcastReceiver implements
 		model = new MainModel();
 		context = c;
 		createMainListViewAdapter();
-		
+
 		numberOfLocationUpdates = 1;
 		c.registerReceiver(this,
 				LocationTracker.getLocationBroadcastIntentFilter());
@@ -107,16 +107,17 @@ public class MainController extends BroadcastReceiver implements
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
-//		MainListViewItem item = mainListViewAdapter.getItem(position);
-//		Intent i = new Intent(context, MapActivity.class);
-//		i.putExtra("estimatedTime", item.getEstimatedTime());
-//		i.putExtra("start", item.getRouteStart());
-//		i.putExtra("destination", item.getRouteDestination());
-//		context.startActivity(i);
+		// MainListViewItem item = mainListViewAdapter.getItem(position);
+		// Intent i = new Intent(context, MapActivity.class);
+		// i.putExtra("estimatedTime", item.getEstimatedTime());
+		// i.putExtra("start", item.getRouteStart());
+		// i.putExtra("destination", item.getRouteDestination());
+		// context.startActivity(i);
 	}
 
 	/**
-	 * This pushes location updates to our server if the phone is believed to be on a bus
+	 * This pushes location updates to our server if the phone is believed to be
+	 * on a bus
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -163,7 +164,8 @@ public class MainController extends BroadcastReceiver implements
 				break;
 			}
 
-			fetchNewCards(etStart.getText().toString(), etDestination.getText().toString());
+			fetchNewCards(etStart.getText().toString(), etDestination.getText()
+					.toString());
 
 			// Must return true here to consume event
 			return true;
@@ -185,11 +187,17 @@ public class MainController extends BroadcastReceiver implements
 
 		@Override
 		protected ArrayList<MainListViewItem> doInBackground(String... args) {
-			if (args.length == 2) {
-				return model.getCardsForQuery(args[0], args[1]);
-			} else {
+			try {
+				if (args.length == 2) {
+					return model.getCardsForQuery(args[0], args[1]);
+				} else {
+					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+					result.add(new MainListViewItem(-1, -1, "invalid params", "invalid params"));
+					return result;
+				}
+			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-				result.add(new MainListViewItem(-1, -1, "error", "error"));
+				result.add(new MainListViewItem(-1, -1, "network error", "network error"));
 				return result;
 			}
 		}
