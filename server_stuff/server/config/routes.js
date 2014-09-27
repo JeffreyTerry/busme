@@ -27,17 +27,17 @@ module.exports = function(app, config){
 
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    res.json([{'next_bus': '23', 'route_number': '10', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
   });
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    res.json([{'next_bus': '13', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
   });
 
   // get user suggested routes
   app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    res.json([{'next_bus': '17', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
   });
 
   app.post('/api/newdevice', function(req, res){
