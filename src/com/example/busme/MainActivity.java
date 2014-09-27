@@ -53,7 +53,6 @@ public class MainActivity extends FragmentActivity {
         
         //map fragment
         fragmentManager = this.getSupportFragmentManager();
-
         
 	}
 	

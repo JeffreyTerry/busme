@@ -21,14 +21,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		// TODO Auto-generated method stub
-//
-//		if (position == 1) {
-//			fragmentTransaction = this.fragments.get(1).getFragmentManager()
-//					.beginTransaction();
-//			fragmentTransaction.replace(R.id.pager, this.fragments.get(0));
-//			fragmentTransaction.addToBackStack(null);
-//			fragmentTransaction.commit();
-//		}
+
 		return fragments.get(position);
 	}
 
