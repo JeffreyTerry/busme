@@ -98,7 +98,13 @@ public class MainModel {
 						.getString("next_bus")), Integer.parseInt(currentRoute
 						.getString("route_number")), currentRoute
 						.getString("start"), currentRoute
-						.getString("destination")));
+						.getString("destination"),
+						Double.parseDouble(currentRoute.getString("start_lat")),
+						Double.parseDouble(currentRoute.getString("start_lng")),
+						Double.parseDouble(currentRoute.getString("dest_lat")),
+						Double.parseDouble(currentRoute.getString("dest_lng")),
+						currentRoute.getString("travel_time")
+						));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
