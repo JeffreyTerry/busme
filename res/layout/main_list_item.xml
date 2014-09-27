@@ -23,7 +23,7 @@
 	        android:textSize="18dp"
 	        android:textStyle="bold"
 	        android:textColor="@color/gunmetal"
-	        android:padding="3dp"/>
+	        android:padding="5dp"/>
 	    <TextView
 	        android:layout_weight="1"
 	        android:id="@+id/tvRouteDestination"
@@ -34,7 +34,7 @@
 	        android:gravity="right|bottom"
 	        android:textStyle="bold"
 	        android:textColor="@color/gunmetal"
-	        android:padding="3dp"
+	        android:padding="5dp"
 />
 	    </LinearLayout>
 	    

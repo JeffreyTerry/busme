@@ -1,0 +1,1847 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+<!---<link rel="alternate" type="application/rss+xml" title="ROR" href="ror.xml" />--->
+<title>TCAT - Route 11</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<META NAME="ROBOTS" CONTENT="NONE">
+<META NAME="keywords" CONTENT="TCAT, Tompkins Consolidated Area Transit, bus, buses, Ithaca, Tompkins County, New York, Cornell University, public transportation, public transit, schedule, route, stop, trip planner, system map">
+<META NAME="description" CONTENT="TCAT, Inc (Tompkins Consolidated Area Transit, Inc.) is a not-for-profit corporation that provides public transportation for Tompkins County and portions of Tioga County. TCAT transports over 3 million passengers every year with a fleet of approximately sixty vehicles (including six hybrid buses), covering a distance of more than 1.6 million miles. Plan a trip using TCAT's trip planner">
+<META NAME="revisit-after" CONTENT="1 days">
+<META NAME="copyright" CONTENT="Copyright 2014 Next Insight Transportation Software LLC">
+<META NAME="robots" CONTENT="FOLLOW,INDEX">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="http://tcatbus.com/ie6styles.css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="http://tcatbus.com/ie7styles.css" /><![endif]-->
+<!--<link rel="stylesheet" href="/templates/styles.css" type="text/css">-->
+<link rel="stylesheet" href="http://tcatbus.com/styles.css" text="text/css">
+<link rel="stylesheet" href="/templates/lightbox.css" type="text/css" media="screen" />
+
+
+<script type="text/javascript" src="/js/main.js" language="javaScript"></script>
+<script type="text/javascript" src="/js/tabcontent.js" language="javaScript"></script>
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/js/moo.fx.js"></script>
+<script type="text/javascript" src="/js/litebox-1.0.js"></script>
+<script type="text/javascript" src="/js/lib.js"></script>
+
+<!--
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-358606-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+-->
+
+
+
+
+</head>
+<body onload="MM_preloadImages('/images/funFacts-ON.png', '/images/go-ON.gif');">
+<div id="wrapper">
+
+<!-- HEADER INCLUDE FILE STARTS HERE
+ //-->
+<div id="header">
+	<div id="logo"><a href="http://www.tcatbus.com"><img src="/images/logo.gif" alt="tcat logo" border="0" height="94" width="184" /></a></div>
+	<div id="topOptions">
+		<ul id="maintab" class="shadetabs">
+			<li class="selected"><a href="#" rel="tcontent1">GET BUS TIMES</a></li>
+			<li><a href="#" rel="tcontent2">LOG-IN TO MY COMMUTE</a></li>
+			<li><a href="/register.php">REGISTER</a></li>
+			<li><a href="#" rel="tcontent8">SEARCH</a></li>
+		</ul>
+
+<div class="tabcontentstyle">
+
+
+<div id="tcontent1" class="tabcontent">
+
+<table width="435" border="0" cellspacing="0" cellpadding="0" summary="This table contains the dropdown for quick access to a route or stop page.">
+  <tr valign="middle">
+  	<td>Quick Views:</td>
+    <td>
+    <form method="get" action="temp.php">
+    <label for="stopid"><select onChange="submit(); return true" id="stopid" name="stopid" style="background-color: #EEEEEE; color:#000000; font-size: 7pt; font-weight:normal; font-family: Verdana; margin-top:3px" ><option value="">---TCAT Stops---</option>
+<option value="3660"0>A Lot</option><option value="9402"0>Acacia - see "Highland @Country Club Rd"</option><option value="2220"0>Airport</option><option value="9182"0>Albany @ Salvation Army</option><option value="8086"0>Aldi</option><option value="9342"0>Alpha Epsilon Pi</option><option value="8091"0>Anabel Taylor Hall</option><option value="9340"0>Appel Commons @ Cradit Farm</option><option value="9355"0>Asbury @ Triphammer</option><option value="6500"0>Aubles Trailer Park</option><option value="9357"0>Auburn Rd. (Rt. 34) @ Buck Rd.</option><option value="9358"0>Auburn Rd. (Rt. 34) @ E. Lansing/Searles</option><option value="8064"0>Aurora @ Commons</option><option value="8102"0>B Lot</option><option value="3900"0>Baker Flagpole</option><option value="8083"0>Baker Flagpole/Slopeside</option><option value="8092"0>Balch Hall @ Cradit Farm</option><option value="3600"0>Balch Hall @ Thurston</option><option value="9215"0>Bed Bath and Beyond</option><option value="9135"0>BOCES (Elmira Rd.)</option><option value="9249"0>BOCES (TST BOCES-Warren Rd.)</option><option value="9368"0>Boiceville Rd. @ Rt. 79</option><option value="9032"0>Boldt Hall</option><option value="3360"0>Boyce-Thompson Institute</option><option value="9197"0>Boynton Middle School</option><option value="8093"0>Bradfield Hall</option><option value="8094"0>Bradfield Parking Lot</option><option value="9251"0>Brentwood Dr. @ Arrowood Dr.</option><option value="5115"0>Brooktondale Park & Ride Outbound</option><option value="9057"0>Brooktondale Park and Ride Inbound</option><option value="5110"0>Brooktondale Store</option><option value="9268"0>Brown Rd. @ Culligan</option><option value="9054"0>Buffalo @ Fulton (Greenstar backside)</option><option value="1900"0>Buttermilk Falls @ Rt. 13</option><option value="9404"0>Buttermilk Falls SP - Lower entrance</option><option value="9205"0>Campbell @ Brookfield Rd.</option><option value="9203"0>Campbell @ Hector St. (Rte. 79)</option><option value="9204"0>Campbell @ Hopkins Pl.</option><option value="9207"0>Candlewyck Dr @ Route 96 (Trumansburg Rd</option><option value="5140"0>Caroline Town Hall</option><option value="8072"0>Caroline Turn-Around</option><option value="9020"0>Carpenter Hall</option><option value="9155"0>Cascadilla @ Albany</option><option value="9202"0>Cascadilla @ Cayuga</option><option value="9082"0>Cascadilla @ Third</option><option value="8025"0>Cass Park</option><option value="8023"0>Cayuga @ Boynton MS</option><option value="9166"0>Cayuga @ Buffalo</option><option value="9191"0>Cayuga @ Cascadilla</option><option value="9167"0>Cayuga @ Court</option><option value="9168"0>Cayuga @ Farm</option><option value="9012"0>Cayuga @ Ithaca HS</option><option value="9153"0>Cayuga @ Jay</option><option value="9083"0>Cayuga @ Lewis</option><option value="1460"0>Cayuga @ Lincoln</option><option value="9169"0>Cayuga @ Marshall</option><option value="9171"0>Cayuga @ Tompkins</option><option value="9170"0>Cayuga @ Yates</option><option value="6000"0>Cayuga Medical Center</option><option value="8026"0>Cayuga Nature Center</option><option value="9208"0>Cayuga Ridge @ Route 96</option><option value="9088"0>Chestnut @ Elm Street</option><option value="9089"0>Chestnut Hill Apartments</option><option value="9388"0>Cinema Dr. @ Uptown Rd.</option><option value="9387"0>Cinema Drive @ Crosswalk</option><option value="9380"0>Ciser (Across Street)</option><option value="9379"0>Ciser Shelter</option><option value="9124"0>Clinton @ Albany</option><option value="8142"0>Clinton @ Corn</option><option value="9125"0>Clinton @ Fayette</option><option value="1221"0>Clinton @ Geneva</option><option value="9127"0>Clinton @ Plain</option><option value="1250"0>Clinton West Plaza</option><option value="8043"0>College @ Dryden</option><option value="1750"0>College @ Mitchell</option><option value="9315"0>Commonland (Rt. 79 @ Lois Lane)</option><option value="9092"0>Conifer Village</option><option value="8122"0>Convenient Care</option><option value="3220"0>Corson/Mudd Hall</option><option value="8125"0>Court @ Linn</option><option value="4070"0>Creekwood Apartments</option><option value="3350"0>Dairy Bar</option><option value="8095"0>Dairy Bar Across Street</option><option value="5300"0>Danby Fire Station</option><option value="9190"0>Demand and Response (DAR) Zone</option><option value="9255"0>Dewitt Middle School</option><option value="302"0>Dryden @ Turkey Hill Road</option><option value="9359"0>Dryden Rd. @ Baker Hill Rd.</option><option value="9317"0>Dryden Rd. @ Game Farm Rd.</option><option value="9381"0>Dryden Rd. @ Humphreys Crosswalk</option><option value="9080"0>Dryden Rd. @ Ithaca Rd.</option><option value="9320"0>Dryden Rd. @ Mt. Pleasant Rd.</option><option value="4230"0>Dryden South</option><option value="9365"0>Dryden Village @ Post Office</option><option value="8060"0>Dryden Village @ Sunoco</option><option value="9377"0>East Hill Office Building</option><option value="9378"0>East Hill Office Building Across Street</option><option value="3540"0>East Hill Plaza</option><option value="9303"0>East Ithaca Apts. @ Maple (inbound)</option><option value="9302"0>East Ithaca Apts. @ Maple (outbound)</option><option value="9278"0>East Shore Dr. @ Asbury Rd.</option><option value="9279"0>East Shore Dr. @ Atwater Rd.</option><option value="9275"0>East Shore Dr. @ Autumn Ridge</option><option value="9284"0>East Shore Dr. @ Bolton Point Rd.</option><option value="9274"0>East Shore Dr. @ Burdick Hill Rd.</option><option value="9280"0>East Shore Dr. @ Cayuga Vista Dr.</option><option value="9281"0>East Shore Dr. @ Drake Rd.</option><option value="9283"0>East Shore Dr. @ East Lake Rd.</option><option value="9282"0>East Shore Dr. @ East Shore Circle</option><option value="9285"0>East Shore Dr. @ Esty Dr.</option><option value="9286"0>East Shore Dr. @ James L. Gibbs Dr.</option><option value="9276"0>East Shore Dr. @ Waterwagon</option><option value="9311"0>Eastern Hts. @ Joanne Dr.</option><option value="9310"0>Eastern Hts. @ Sharlene Dr.</option><option value="5020"0>Eastern Hts. @ Skyvue</option><option value="6950"0>EcoVillage @ Rt. 79</option><option value="5114"0>Ellis Hollow @ Genung Rd.</option><option value="9369"0>Ellis Hollow @ Rt. 79</option><option value="8117"0>Elmira @ Spencer</option><option value="9139"0>Elmira Rd. @ Hess gas station</option><option value="6900"0>Enfield Center / Park-n-Ride</option><option value="6910"0>Enfield Main Rd. @ Rt. 79</option><option value="8056"0>Etna @ Pinckney</option><option value="4090"0>Etna Mills Apartments</option><option value="9305"0>Fairview Apts. @ Maple Ave (inbound)</option><option value="9304"0>Fairview Apts. @ Maple Ave (outbound)</option><option value="9149"0>Falls @ Lake</option><option value="9403"0>Farmers Market / Aldi</option><option value="9336"0>Farrel Rd. @ Springbrook Circle</option><option value="9210"0>Finger Lakes School of Massage</option><option value="8105"0>Foundry - Cornell</option><option value="9366"0>Freeville - Railroad St. (Rt. 38 @ Rt. 3</option><option value="8055"0>Freeville Park-n-Ride</option><option value="4100"0>Freeville Village</option><option value="9264"0>Gaslight Village Apts.</option><option value="9122"0>Geneva @ Clinton</option><option value="9142"0>Geneva @ Green</option><option value="9326"0>Geneva @ State</option><option value="3040"0>Goldwin Smith Hall</option><option value="9338"0>Graham @ Triphammer Rd.</option><option value="1010"0>Green @ Commons</option><option value="9056"0>Green @ Fayette</option><option value="9052"0>Green @ Meadow</option><option value="9385"0>Greenstar</option><option value="9363"0>Groton Express Mart</option><option value="9362"0>Groton High School</option><option value="4300"0>Groton Main Street</option><option value="9361"0>Groton Rd. @ Peruville Rd.</option><option value="8061"0>Groton Town Hall</option><option value="9396"0>Gun Hill Apartments</option><option value="9395"0>Guthrie Clinic @ Hanshaw Rd.</option><option value="9100"0>Haller @ Elm</option><option value="9194"0>Hancock @ Auburn</option><option value="9094"0>Hancock @ First St.</option><option value="9093"0>Hancock @ Second St.</option><option value="9157"0>Hancock @ Third</option><option value="1480"0>Hancock Plaza</option><option value="9260"0>Hanshaw @ Blackstone</option><option value="9254"0>Hanshaw @ Murial</option><option value="9256"0>Hanshaw @ Salem Dr.</option><option value="9189"0>Hanshaw @ Sapsucker Woods Rd.</option><option value="8107"0>Hanshaw @ Warren</option><option value="8115"0>Hanshaw Village</option><option value="9248"0>Hasbrouck - Pleasant Grove Rd. @ Jessup</option><option value="3700"0>Hasbrouck Apts.</option><option value="9042"0>Hector (rte 79) @ Fall View Terrace</option><option value="9098"0>Hector (rte 79) @ Oakwood</option><option value="9095"0>Hector (rte 79) @ Sunrise</option><option value="8068"0>Hector (rte 79) @ Warren Pl.</option><option value="9096"0>Hector St. (413 Hector Street)</option><option value="8084"0>Helen Newman</option><option value="9375"0>Hickeys Music - see Cayuga @ Lewis</option><option value="9401"0>Highland @ Country Club Rd./Acacia</option><option value="9400"0>Highland @ Country Club Rd./Lakeland</option><option value="1580"0>Highland @ Thurston</option><option value="9030"0>Highland @ Wyckoff</option><option value="9318"0>Hillside Acres @ Dryden Rd.</option><option value="5340"0>Hillside View Trailer Park</option><option value="9078"0>Hillview @ Aurora</option><option value="9079"0>Hillview @ Hudson</option><option value="5060"0>Honness Lane @ Rt. 79</option><option value="9314"0>Honness Ln. @ Harwick Rd.</option><option value="9313"0>Honness Ln. @ Ithaca recreation Way</option><option value="9099"0>Hook @ Haller</option><option value="9206"0>Hopkins @ Route 96 (Trumansburgburg Rd)</option><option value="9213"0>Hospital - See "Cayuga Medical"</option><option value="9211"0>Hospital Rd @ Harris B. Dates Drive</option><option value="9063"0>Hudson @ Aurora</option><option value="9065"0>Hudson @ Coddington (to IC)</option><option value="9066"0>Hudson @ Coddington (to Ithaca)</option><option value="9062"0>Hudson @ Columbia (to Commons)</option><option value="9061"0>Hudson @ Columbia (to IC)</option><option value="1800"0>Hudson @ Grandview</option><option value="8077"0>Hudson @ Pearsall</option><option value="9070"0>IC - Circle @ Main Entrance (towards Par</option><option value="9069"0>IC - Circle @ Main Entrance (Towards Tow</option><option value="9075"0>IC - East Entrance</option><option value="9068"0>IC - Emerson Hall</option><option value="9073"0>IC - Garden Apartments</option><option value="9067"0>IC - Hudson @ IC East Entrance</option><option value="305"0>IC - Roy Park School</option><option value="9071"0>IC - Smiddy Hall</option><option value="9072"0>IC - Smiddy Hall / Football Field side</option><option value="9076"0>IC - Terrace 1</option><option value="9077"0>IC - Terrace 2</option><option value="8076"0>IC - The Towers @ Ithaca College</option><option value="9228"0>Island Health (Chemung Canal Bank)</option><option value="9229"0>Island Health (LeHigh Valley House)</option><option value="1160"0>Ithaca Bus Station</option><option value="9137"0>Ithaca Plaza</option><option value="1780"0>Ithaca Rd. @ Elmwood Ave.</option><option value="9237"0>Jacksonville Park-n-ride</option><option value="8070"0>Jacksonville Post Office</option><option value="9232"0>Jacksonville Shursave</option><option value="8071"0>Jessup @ Pleasant Grove</option><option value="9330"0>Jessup Rd. @ Jessup Place</option><option value="9339"0>Jessup Rd. @ Tennis Courts</option><option value="9312"0>Joanne Dr. @ Regency Ln.</option><option value="6420"0>Juniper Manor</option><option value="9138"0>K-Mart - behind Sherwin WIlliams</option><option value="4240"0>Keith @ Lake</option><option value="3200"0>Kennedy Hall</option><option value="9327"0>Kohls / Home Depot @ Elmira Rd.</option><option value="1510"0>Lake @ Ithaca HS</option><option value="9038"0>Lake/East Shore Dr. @ Boynton MS</option><option value="9150"0>Lake/East Shore Dr. @ Renwick Dr.</option><option value="9209"0>Lakeside Nursing Home - See Cayuge Rdige</option><option value="8042"0>Langmuir Lab</option><option value="8053"0>Lansing Fire Co. #3</option><option value="4666"0>Lansing HS</option><option value="8046"0>Lansing Town Hall</option><option value="9110"0>Lehman Alternative School</option><option value="9192"0>Lincoln @ Auburn</option><option value="9034"0>Lincoln @ Cayuga</option><option value="9152"0>Lincoln @ Dey</option><option value="8075"0>Lincoln @ Tioga</option><option value="8123"0>Linderman Creek Apts.</option><option value="1870"0>Longview</option><option value="9118"0>Lowes</option><option value="4665"0>Ludlowville</option><option value="9195"0>Mall - See "Shops at Ithaca Mall"</option><option value="9301"0>Maplewood Park @ Maple Ave. (inbound)</option><option value="3520"0>Maplewood Park @ Maple Ave. (outbound)</option><option value="9120"0>McGraw House</option><option value="8065"0>Meadow @ Elmira</option><option value="9370"0>Meadow @ Tops gas station</option><option value="9041"0>Meadow @ Wood St.</option><option value="9392"0>Milstein Hall</option><option value="9212"0>Museum of the Earth</option><option value="8045"0>Myers Point Rd. @ Rt. 34</option><option value="4620"0>N. Lansing Fire Co. #4</option><option value="1310"0>Nates Floral Estates @ Lowes</option><option value="5405"0>Newfield Central School / Garden Apts</option><option value="8067"0>Newfield Depot @ W. Danby</option><option value="5420"0>Newfield Depot Rd. @ Valley Manor</option><option value="9371"0>Newfield Main St @ Elmira Rd.</option><option value="8112"0>Newfield Town Hall</option><option value="9383"0>No service</option><option value="2180"0>North Wood</option><option value="9245"0>Northway @ The Parkway</option><option value="9040"0>Oak Hill Manor</option><option value="8111"0>Ornithology Lab</option><option value="9009"0>Overlook Apts.</option><option value="9398"0>P and C - see East Hill Plaza for times</option><option value="8041"0>Parkway @ Upland</option><option value="8057"0>Pinckney @ Lower Creek</option><option value="9316"0>Pine Tree @ Honness Ln.</option><option value="9397"0>Pine Tree @ Rte. 79</option><option value="9307"0>Pine Tree Rd.@ East Hill Plaza</option><option value="9306"0>Pine Tree Rd.@ Rite Aid</option><option value="9130"0>Plain @ Center</option><option value="9128"0>Plain @ Clinton</option><option value="9216"0>Plain @ Elmira Rd.</option><option value="9132"0>Plain @ North Titus (Southbound)</option><option value="9131"0>Plain @ South Titus (Northbound)</option><option value="9134"0>Plain @ Wood</option><option value="8078"0>Pleasant Grove @ Hanshaw</option><option value="9261"0>Pleasant Grove @ Jessup</option><option value="9353"0>Post Office @ Warren Rd.</option><option value="9374"0>Professional Building</option><option value="2200"0>Public Safety Building</option><option value="9345"0>Ridgewood @ Thurston</option><option value="9346"0>Ridgewood @ Wyckoff</option><option value="3610"0>Risley Hall</option><option value="9405"0>Robert H. Treman S.P. - Lower entrance</option><option value="3650"0>Robert Purcell Community Center</option><option value="9329"0>Robert Purcell Community Center @ Jessup</option><option value="3030"0>Rockefeller Hall</option><option value="9259"0>Rose Hill Rd. @ Murial St.</option><option value="9015"0>Rt. 13 @ George</option><option value="4190"0>Rt. 13 @ Irish Settlement</option><option value="9014"0>Rt. 13 @ Johnson</option><option value="4110"0>Rt. 13 @ Kirk</option><option value="9364"0>Rt. 13 @ Mineah Rd.</option><option value="8059"0>Rt. 13 @ Yellowbarn</option><option value="9288"0>Rt. 34B (Auburn Rd.) @ Woodsedge Dr.</option><option value="9290"0>Rt. 34B (Ridge Rd.) @ Beach</option><option value="9296"0>Rt. 34B (Ridge Rd.) @ Beckwith Ln.</option><option value="9291"0>Rt. 34B (Ridge Rd.) @ Brickyard</option><option value="9289"0>Rt. 34B (Ridge Rd.) @ Conlon Rd.</option><option value="9300"0>Rt. 34B (Ridge Rd.) @ Drake Rd.</option><option value="9292"0>Rt. 34B (Ridge Rd.) @ Emmons Rd.</option><option value="9298"0>Rt. 34B (Ridge Rd.) @ Lakeview Dr.</option><option value="9293"0>Rt. 34B (Ridge Rd.) @ Lansing Station Rd</option><option value="9299"0>Rt. 34B (Ridge Rd.) @ Portland Pt. Rd.</option><option value="9295"0>Rt. 34B (Ridge Rd.) @ Ross Rd.</option><option value="9297"0>Rt. 34B (Ridge Rd.) @ Speary Ln.</option><option value="9294"0>Rt. 34B (Ridge Rd.) @ Swayze Rd.</option><option value="9360"0>Rt. 366 @ Kirk Rd.</option><option value="9224"0>Rt. 79 @ Applegate</option><option value="8073"0>Rt. 79 @ Crispell's</option><option value="9226"0>Rt. 79 @ Sheffield</option><option value="9225"0>Rt. 79 @ VanDorn</option><option value="9214"0>Rt. 96 @ Bundy Road</option><option value="9239"0>Rt. 96 @ Elm St.</option><option value="9230"0>Rt. 96 @ Krums Corner</option><option value="9231"0>Rt. 96 @ Perry City Rd.</option><option value="9234"0>Rt. 96 @ South Street</option><option value="3300"0>Sage Hall</option><option value="9257"0>Salem Dr. @ Birchwood</option><option value="9141"0>Salvation Army @ Spencer/Elmira Rd.</option><option value="9186"0>Sandy Creek Mobile Home Park</option><option value="3000"0>Schwartz Performing Arts</option><option value="9055"0>Seneca @ Albany</option><option value="1040"0>Seneca @ Commons</option><option value="9053"0>Seneca @ Fulton (Greenstar)</option><option value="9386"0>Sheraton Dr. @ Triphammer</option><option value="9028"0>Shops at Ithaca Mall @ Sears</option><option value="9343"0>Sigma Delta Tau</option><option value="9308"0>Snyder Hill Rd @ Regency</option><option value="9309"0>Snyder Hill Rd @ Sharlene Rd.</option><option value="9035"0>South Hill Business Park</option><option value="9064"0>South Hill School</option><option value="8121"0>Spencer Rd. @ Meadow St.</option><option value="9105"0>State @ Albany</option><option value="8038"0>State @ Corn</option><option value="8036"0>State @ Fulton (Maxie's)</option><option value="9109"0>State @ Meadow</option><option value="9106"0>State @ Plain</option><option value="9037"0>State @ Quarry</option><option value="9351"0>State @ Stewart (inbound to Commons)</option><option value="9036"0>State @ Stewart (outbound)</option><option value="9394"0>State St. @ Taughannock Blvd.</option><option value="3330"0>Statler Hall</option><option value="9399"0>Stewart @ Seneca (Outbound)</option><option value="9247"0>Stewart @ Seneca St. (Inbound)</option><option value="3910"0>Stewart @ University</option><option value="3800"0>Stewart @ Williams</option><option value="1520"0>Stewart Park</option><option value="9372"0>Sunnys @ Rt. 34/96</option><option value="9111"0>Sunrise @ Hector</option><option value="9199"0>Target-stop moved to Sears entrance</option><option value="8027"0>Taughannock Falls</option><option value="9328"0>TC Community Action</option><option value="9382"0>TC Public Library - see Green@Commons</option><option value="4440"0>TC3</option><option value="9188"0>TC3 Dorms</option><option value="8139"0>TCAT Offices</option><option value="3070"0>Teagle Hall</option><option value="9112"0>Third @ Adams</option><option value="9159"0>Third @ Cascadilla</option><option value="8031"0>Third @ Hancock</option><option value="9158"0>Third @ Madison</option><option value="9267"0>Thornwood Dr. @ Courtyard Ithaca</option><option value="9196"0>Thurston @ Fall Creek Dr.</option><option value="9344"0>Thurston @ Highland</option><option value="1570"0>Thurston @ Ridgewood</option><option value="9347"0>Thurston @ Stewart</option><option value="9376"0>Thurston @ Waite</option><option value="9240"0>Thurston @ Wyckoff</option><option value="9027"0>Tioga @ Court St.</option><option value="9406"0>Tioga @ Falls</option><option value="1290"0>Titus Towers I</option><option value="9017"0>Tobin Field House</option><option value="9408"0>Tobin Field House-Across the street</option><option value="8085"0>Tompkins @ Cayuga</option><option value="8082"0>Tompkins @ Dey</option><option value="8140"0>Tops Supermarket (Ithaca)</option><option value="8110"0>Tops Supermarket (Lansing)</option><option value="9356"0>Triphammer @ 34B</option><option value="8137"0>Triphammer @ Cayuga Mall</option><option value="9271"0>Triphammer @ Dearborn</option><option value="8079"0>Triphammer @ Hanshaw</option><option value="9025"0>Triphammer @ Jessup</option><option value="9242"0>Triphammer @ Lansing West Apts.</option><option value="9198"0>Triphammer @ Mobile / First Niagara</option><option value="9243"0>Triphammer @ Northway</option><option value="9044"0>Triphammer @ Savage Farm</option><option value="8133"0>Triphammer @ Sheraton</option><option value="9241"0>Triphammer @ Tompkins Trust Co.</option><option value="1640"0>Triphammer @ Upland</option><option value="9333"0>Triphammer @ Wait</option><option value="9236"0>Trumansburg - W. Main @ Washington</option><option value="9235"0>Trumansburg @ Tompkins Trust Co.</option><option value="6400"0>Trumansburg Central School</option><option value="9233"0>Trumansburg Fairgrounds</option><option value="9238"0>Trumansburg Park-n-ride</option><option value="301"0>Turkey Hill @ Ellis Hollow</option><option value="9321"0>Turkey Hill Rd. @ Mt. Pleasant Rd.</option><option value="9322"0>Turkey Hill Rd. @ Stevenson</option><option value="9033"0>University @ Cornell Ave.</option><option value="9059"0>University @ Lake</option><option value="8127"0>University @ Stewart</option><option value="9263"0>Uptown Rd. @ Cinema Dr.</option><option value="9266"0>Uptown Rd. @ Warren Rd.</option><option value="9265"0>Uptown Rd. @ Warrenwood Apts.</option><option value="2540"0>Uptown Village Apts.</option><option value="3090"0>Uris Hall</option><option value="8106"0>Uris Hall Across Street</option><option value="9367"0>Valley Rd. @ Boiceville Rd.</option><option value="4000"0>Varna (Shelter)</option><option value="9319"0>Varna Auto (across from bus shelter)</option><option value="8101"0>Vet Medical Center</option><option value="8044"0>Vet School</option><option value="2160"0>Village Meadows Townhouses</option><option value="9348"0>Wait @ Triphammer</option><option value="9272"0>Wait Ave. @ Thurston Ave.</option><option value="8138"0>Wal*Mart</option><option value="9008"0>Warren Pl. @ Cliff Park</option><option value="9114"0>Warren Pl. @ Hector (Route 79)</option><option value="9117"0>Warren Pl. @ Hook</option><option value="9115"0>Warren Pl. @ Richard</option><option value="9116"0>Warren Pl. @ Sunrise</option><option value="9250"0>Warren Rd. @ Arrowood</option><option value="9354"0>Warren Rd. @ Asbury</option><option value="9269"0>Warren Rd. @ Dart Dr.</option><option value="9334"0>Warren Rd. @ Dutch Mill Rd.</option><option value="4570"0>Warren Rd. @ Farrell</option><option value="9409"0>Warren Rd. @ Hanshaw</option><option value="9337"0>Warren Rd. @ Northwoods Dr.</option><option value="9270"0>Warren Rd. @ Uptown Rd.</option><option value="9335"0>Warren Rd. @ Village Circle</option><option value="9253"0>Warren Rd. @ Winthrop</option><option value="9252"0>Warrenwood Apts.</option><option value="8132"0>Wegmans</option><option value="8118"0>West Village @ Elm St.</option><option value="2320"0>Winston Ct.</option><option value="9258"0>Winston Dr. @ Rose Hill Rd.</option><option value="9287"0>Woodsedge Apartments</option><option value="9016"0>Wyckoff @ Highland</option><option value="9332"0>Wyckoff @ Wait</option><option value="9200"0>YMCA</option><option value="9151"0>Youth Bureau</option></select>
+</label>
+</form>
+</td>
+
+<td>
+<form method="get" action="temp.php">
+<label for="mrnid">
+<select onChange="submit(); return true" id="mrnid" name="mrnid" style="background-color: #EEEEEE; color:#000000; font-size: 7pt; font-weight:normal; font-family: Verdana; margin-top:3px" ><option value="">---TCAT Routes---</option>
+<option value="416">Route 10</option><option value="428" selected>Route 11</option><option value="453">Route 13</option><option value="313">Route 14</option><option value="415">Route 15</option><option value="343">Route 17</option><option value="314">Route 20</option><option value="315">Route 21</option><option value="386">Route 30</option><option value="482">Route 31</option><option value="424">Route 32</option><option value="389">Route 36</option><option value="484">Route 37</option><option value="391">Route 40</option><option value="340">Route 41</option><option value="393">Route 43</option><option value="460">Route 51</option><option value="329">Route 52</option><option value="330">Route 53</option><option value="401">Route 65</option><option value="422">Route 67</option><option value="478">Route 70</option><option value="320">Route 72</option><option value="325">Route 74_Starts Saturday 10/4</option><option value="464">Route 74_through Sunday 9/28</option><option value="406">Route 75</option><option value="407">Route 77</option><option value="408">Route 81</option><option value="398">Route 82</option><option value="430">Route 83</option><option value="410">Route 90</option><option value="426">Route 92</option><option value="427">Route 93</option></select>
+</label>
+</form></td>
+</tr>
+</table>
+
+</div>
+
+<div id="tcontent2" class="tabcontent">
+<form method="POST" action="/mycommute.php">
+<table width="435" border="0" cellspacing="0" cellpadding="0" summary="This table contains the login form for the My Commute section.">
+  <tr valign="middle">
+  	<td>Please Enter:</td>
+    <td><label for="email"><input name="email" type="text" value="E-mail" id="email" size="18"/></label></td>
+	<td><label for="password"><input name="password" type="password" value="Password" id="password" size="18"/></label></td>
+	<td><input name="Submit" type="submit" value="Submit" /></td>
+    </tr>
+</table>
+</form>
+</div>
+
+<div id="tcontent8" class="tabcontent" style="text-align:left;">
+	<!-- Google CSE Search Box Begins  -->
+	<form action="http://tcatbus.com/pages/search" id="searchbox_001467802522247462133:p7eonhbntre">
+	  Search the TCAT Bus Website: <input type="hidden" name="cx" value="001467802522247462133:p7eonhbntre" />
+	  <input type="hidden" name="cof" value="FORID:11" />
+
+	  <input type="text" name="q" size="25" />
+	  <input type="submit" name="sa" value="Search" />
+	</form>
+	<!-- Google CSE Search Box Ends -->
+</div>
+
+</div>
+
+</div>
+  <div id="nav">
+	<ul id="navul">
+<li><a href="http://www.tcatbus.com">Home</a></li>
+<li><a href="http://tcat.nextinsight.com" class="active">Ride</a>
+<ul>
+<li><a href="http://tcat.nextinsight.com">Trip Planner</a></li>
+<li><a href="/allroutes.php">All Routes</a></li>
+<li><a href="/allstops.php">All Stops</a></li>
+<li><a href="http://www.tcatbus.com/content/view/all-areas.html">All Areas</a></li>
+<li><a href="http://www.tcatbus.com/destinations.php">Popular Destinations</a></li>
+<li><a href="http://www.tcatbus.com/content/view/fare-pass-options.html">Fare &amp; Pass Options</a></li>
+<li><a href="http://www.tcatbus.com/pages/buy">Buy A Pass Online</a></li>
+<li><a href="http://www.tcatbus.com/pages/wheretobuy">Where To Buy</a></li>
+</ul>
+
+</li>
+<li><a href="http://www.tcatbus.com/adaparatransit.php" >Learn</a>
+	<ul>
+	<li><a href="http://tcatbus.com/transportation.php">Transportation Resources</a></li>
+	<li><a href="http://tcatbus.com/content/view/bikes-on-buses.html">Bikes On Buses</a></li>
+	<li><a href="http://tcatbus.com/content/view/park-ride.html">Park &amp; Ride</a></li>
+	<li><a href="http://tcatbus.com/content/view/lost-found.html">Lost &amp; Found</a></li>
+	<li><a href="http://tcatbus.com/vanpool.php">Vanpool</a></li>
+	</ul>
+</li>
+
+<li><a href="http://www.tcatbus.com/about.php" >TCAT</a>
+<ul>
+	<li><a href="http://www.tcatbus.com/about.php">Frequently Asked Questions</a></li>
+	<li><a href="http://tcatbus.com/content/view/boards-committees.html">Boards &amp; Committees</a></li>
+	<li><a href="http://tcatbus.com/community.php">Schedule a Tour</a></li>
+	<li><a href="http://tcatbus.com/business.php">Business With TCAT</a></li>
+	<li><a href="http://tcatbus.com/careers.php">Careers</a></li>
+	<li><a href="http://tcatbus.com/content/view/marketing-downloads.html">Marketing / Downloads</a></li>
+	<li><a href="http://tcatbus.com/funfacts.php">Fun Facts</a></li>
+	<li><a href="http://tcatbus.com/content/view/title-vi.html">Title VI</a></li>
+</ul>
+</li>
+
+<li><a href="http://tcatbus.com/news">News &amp; Projects</a>
+<ul>
+<li ><a href="http://tcatbus.com/content/view/tcard.html">Tcard</a></li>
+<li><a href="http://tcatbus.com/news/category/tcat-news.html">TCAT News</a></li>
+<li><a href="http://tcatbus.com/news/category/tcat-blog.html">TCAT Blog</a></li>
+<li><a href="http://tcatbus.com/news/category/tcat-projects.html">TCAT Projects</a></li>
+<li><a href="http://tcatbus.com/news/category/transit-development-plan-route-study.html">Transit Development Plan Route Study</a></li>
+<li><a href="http://tcatbus.com/news/category/new-tcat-routes.html">New TCAT Routes!</a></li>
+</ul>
+</li>
+
+<li><a href="http://tcatbus.com/content/category/contact.html">Contact</a>
+	<ul>
+	<li><a href="http://tcatbus.com/content/view/get-in-touch.html">Get In Touch</a></li>
+	<li><a href="http://tcatbus.com/pages/feedback">Feedback</a></li>
+	</ul>
+</li>
+
+<li><a href="http://www.tcatbus.com/alerts.php" >Alerts</a>
+<ul>
+<li><a href="http://www.tcatbus.com/alerts.php">All Alerts</a></li>
+<li><a href="feed://tcat.nextinsight.com/feed/">RSS Feed</a></li>
+</ul>
+</li>
+
+<li><a href="http://www.tcatbus.com/pages/system" >System Map</a>
+	<ul>
+	<li><a href="http://www.tcatbus.com/pages/system">Interactive Map</a></li>
+	<li><a href="http://www.tcatbus.com/systemDownload.php">Downloadable Maps</a></li>
+	</ul>
+</li>
+
+
+<li><a href="http://tcatbus.com/content/category/ada-paratransit.html" id="cat-menu-item-9" class="lastItem">ADA</a>
+	<ul>
+	<li><a href="http://tcatbus.com/content/view/ada-paratransit-info-guide.html">ADA Paratransit Info Guide</a></li>
+	<li><a href="http://tcatbus.com/content/view/gadabout-vs-paratransit.html">Gadabout vs. Paratransit</a></li>
+	<li><a href="http://tcatbus.com/content/view/gadabout-service-faq.html">Gadabout service FAQ</a></li>
+	<li><a href="http://tcatbus.com/content/view/apply-for-ada.html">Apply for ADA</a></li>
+	<li><a href="http://tcatbus.com/content/view/appeals.html">Appeals</a></li>
+	<li><a href="http://tcatbus.com/content/view/contact-us.html">Contact us</a></li>
+	<li><a href="http://tcatbus.com/content/view/half-fare.html">Half-fare</a></li>
+	</ul>
+</li>
+
+
+
+
+
+</ul>
+
+  </div>
+
+  <!--<div id="funFacts">
+<p class="factHeading">FUN FACTS!</p>
+<p class="fact">We transport more than 3 million riders each year, that's more than the population of Panama.</p>
+</div>	<div id="factsButton"><a href="http://www.tcatbus.com/funfacts.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('funfacts','','/images/funFacts-ON.png',1)"><img src="/images/funFacts-OFF.png" alt="Fun TCAT Facts" name="funfacts" width="87" height="23" border="0" id="funfacts" /></a></div>-->
+</div>
+<!-- HEADER INCLUDE FILE ENDS HERE //-->
+<!--<a href="http://tcat.nextinsight.com/playoverall.php"><span style="display: none;">villa-shirtsleeve</span></a>--->
+<div id="page">
+	<div id="wideCol">
+		<div id="wideColPDF">
+		</div>
+		<h1>Route 11 Schedule and Map </h1>
+    	<p><a href="#bigpic"><img src="/mrnpics/800thumb.jpg" alt="routeThumb" border="0" align="left" class="map"/></a>
+	    <h4><a href="#bigpic">Route Map Only (JPG)</a></h4>
+
+		<h4><h4><a href="/pdfpics/11_fall.pdf">Click here to download PDF of schedule (PDF)</a></h4></h4>
+		<h4><a href="http://www.tcatbus.com/pages/system">System Map</a></h4></p>
+
+		<br clear="all" />
+      <p class="mapLink"><a href="#" map>Ithaca College - Commons</a></p>
+	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Monday - Wednesday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+<td>Hudson @ Grandview</td>
+<td>IC - Roy Park School</td>
+<td>IC - The Towers @ Ithaca College</td>
+<td>IC - Roy Park School</td>
+<td>South Hill Business Park</td>
+</tr>
+<tr align="center" class="tableSub"><td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>D</td>
+<td>F</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">6:51AM</td>
+<td width="75">7:00AM</td>
+<td width="75">7:05AM</td>
+<td width="75">7:09AM</td>
+<td width="75">7:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">7:21AM</td>
+<td width="75">7:30AM</td>
+<td width="75">7:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:39AM</td>
+<td width="75">7:43AM</td>
+</tr><tr class="bg1"><td width="75">7:51AM</td>
+<td width="75">8:00AM</td>
+<td width="75">8:05AM</td>
+<td width="75">8:09AM</td>
+<td width="75">8:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">8:21AM</td>
+<td width="75">8:30AM</td>
+<td width="75">8:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">8:39AM</td>
+<td width="75">8:43AM</td>
+</tr><tr class="bg1"><td width="75">8:51AM</td>
+<td width="75">9:00AM</td>
+<td width="75">9:05AM</td>
+<td width="75">9:09AM</td>
+<td width="75">9:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">9:21AM</td>
+<td width="75">9:30AM</td>
+<td width="75">9:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:39AM</td>
+<td width="75">9:43AM</td>
+</tr><tr class="bg1"><td width="75">9:51AM</td>
+<td width="75">10:00AM</td>
+<td width="75">10:05AM</td>
+<td width="75">10:09AM</td>
+<td width="75">10:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">10:21AM</td>
+<td width="75">10:30AM</td>
+<td width="75">10:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">10:39AM</td>
+<td width="75">10:43AM</td>
+</tr><tr class="bg1"><td width="75">10:51AM</td>
+<td width="75">11:00AM</td>
+<td width="75">11:05AM</td>
+<td width="75">11:09AM</td>
+<td width="75">11:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">11:21AM</td>
+<td width="75">11:30AM</td>
+<td width="75">11:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">11:39AM</td>
+<td width="75">11:43AM</td>
+</tr><tr class="bg1"><td width="75">11:51AM</td>
+<td width="75">12:00PM</td>
+<td width="75">12:05PM</td>
+<td width="75">12:09PM</td>
+<td width="75">12:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">12:21PM</td>
+<td width="75">12:30PM</td>
+<td width="75">12:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">12:39PM</td>
+<td width="75">12:43PM</td>
+</tr><tr class="bg1"><td width="75">12:51PM</td>
+<td width="75">1:00PM</td>
+<td width="75">1:05PM</td>
+<td width="75">1:09PM</td>
+<td width="75">1:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">1:21PM</td>
+<td width="75">1:30PM</td>
+<td width="75">1:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">1:39PM</td>
+<td width="75">1:43PM</td>
+</tr><tr class="bg1"><td width="75">1:51PM</td>
+<td width="75">2:00PM</td>
+<td width="75">2:05PM</td>
+<td width="75">2:09PM</td>
+<td width="75">2:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">2:21PM</td>
+<td width="75">2:30PM</td>
+<td width="75">2:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">2:39PM</td>
+<td width="75">2:43PM</td>
+</tr><tr class="bg1"><td width="75">2:51PM</td>
+<td width="75">3:00PM</td>
+<td width="75">3:05PM</td>
+<td width="75">3:09PM</td>
+<td width="75">3:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">3:21PM</td>
+<td width="75">3:30PM</td>
+<td width="75">3:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">3:39PM</td>
+<td width="75">3:43PM</td>
+</tr><tr class="bg1"><td width="75">3:51PM</td>
+<td width="75">4:00PM</td>
+<td width="75">4:05PM</td>
+<td width="75">4:09PM</td>
+<td width="75">4:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">4:21PM</td>
+<td width="75">4:30PM</td>
+<td width="75">4:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">4:39PM</td>
+<td width="75">4:43PM</td>
+</tr><tr class="bg1"><td width="75">4:51PM</td>
+<td width="75">5:00PM</td>
+<td width="75">5:05PM</td>
+<td width="75">5:09PM</td>
+<td width="75">5:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">5:21PM</td>
+<td width="75">5:30PM</td>
+<td width="75">5:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">5:39PM</td>
+<td width="75">5:43PM</td>
+</tr><tr class="bg1"><td width="75">5:51PM</td>
+<td width="75">6:00PM</td>
+<td width="75">6:05PM</td>
+<td width="75">6:09PM</td>
+<td width="75">6:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:21PM</td>
+<td width="75">6:30PM</td>
+<td width="75">6:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">6:39PM</td>
+<td width="75">6:43PM</td>
+</tr><tr class="bg1"><td width="75">6:51PM</td>
+<td width="75">7:00PM</td>
+<td width="75">7:05PM</td>
+<td width="75">7:09PM</td>
+<td width="75">7:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">7:21PM</td>
+<td width="75">7:30PM</td>
+<td width="75">7:35PM</td>
+<td width="75">7:39PM</td>
+<td width="75">7:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">7:51PM</td>
+<td width="75">8:00PM</td>
+<td width="75">8:05PM</td>
+<td width="75">8:09PM</td>
+<td width="75">8:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">8:21PM</td>
+<td width="75">8:30PM</td>
+<td width="75">8:35PM</td>
+<td width="75">8:39PM</td>
+<td width="75">8:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">9:21PM</td>
+<td width="75">9:30PM</td>
+<td width="75">9:35PM</td>
+<td width="75">9:39PM</td>
+<td width="75">9:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">10:21PM</td>
+<td width="75">10:30PM</td>
+<td width="75">10:35PM</td>
+<td width="75">10:39PM</td>
+<td width="75">10:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">11:21PM</td>
+<td width="75">11:30PM</td>
+<td width="75">11:35PM</td>
+<td width="75">11:39PM</td>
+<td width="75">11:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">12:21AM</td>
+<td width="75">12:30AM</td>
+<td width="75">12:35AM</td>
+<td width="75">12:39AM</td>
+<td width="75">12:43AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">1:43AM</td>
+<td width="75">--</td>
+<td width="75">1:47AM</td>
+<td width="75">1:50AM</td>
+<td width="75">1:53AM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Monday - Wednesday</h5><tr class="tableSub"><td>IC - The Towers @ Ithaca College</td>
+<td>South Hill Business Park</td>
+<td>IC - Roy Park School</td>
+<td>Hudson @ Pearsall</td>
+<td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>E</td>
+<td>F</td>
+<td>D</td>
+<td>G</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">7:13AM</td>
+<td width="75">--</td>
+<td width="75">7:17AM</td>
+<td width="75">7:20AM</td>
+<td width="75">7:23AM</td>
+<td width="75">7:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">7:43AM</td>
+<td width="75">7:47AM</td>
+<td width="75">7:50AM</td>
+<td width="75">7:53AM</td>
+<td width="75">7:58AM</td>
+</tr><tr class="bg1"><td width="75">8:13AM</td>
+<td width="75">--</td>
+<td width="75">8:17AM</td>
+<td width="75">8:20AM</td>
+<td width="75">8:23AM</td>
+<td width="75">8:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">8:43AM</td>
+<td width="75">8:47AM</td>
+<td width="75">8:50AM</td>
+<td width="75">8:53AM</td>
+<td width="75">8:58AM</td>
+</tr><tr class="bg1"><td width="75">9:13AM</td>
+<td width="75">--</td>
+<td width="75">9:17AM</td>
+<td width="75">9:20AM</td>
+<td width="75">9:23AM</td>
+<td width="75">9:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">9:43AM</td>
+<td width="75">9:47AM</td>
+<td width="75">9:50AM</td>
+<td width="75">9:53AM</td>
+<td width="75">9:58AM</td>
+</tr><tr class="bg1"><td width="75">10:13AM</td>
+<td width="75">--</td>
+<td width="75">10:17AM</td>
+<td width="75">10:20AM</td>
+<td width="75">10:23AM</td>
+<td width="75">10:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">10:43AM</td>
+<td width="75">10:47AM</td>
+<td width="75">10:50AM</td>
+<td width="75">10:53AM</td>
+<td width="75">10:58AM</td>
+</tr><tr class="bg1"><td width="75">11:13AM</td>
+<td width="75">--</td>
+<td width="75">11:17AM</td>
+<td width="75">11:20AM</td>
+<td width="75">11:23AM</td>
+<td width="75">11:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">11:43AM</td>
+<td width="75">11:47AM</td>
+<td width="75">11:50AM</td>
+<td width="75">11:53AM</td>
+<td width="75">11:58AM</td>
+</tr><tr class="bg1"><td width="75">12:13PM</td>
+<td width="75">--</td>
+<td width="75">12:17PM</td>
+<td width="75">12:20PM</td>
+<td width="75">12:23PM</td>
+<td width="75">12:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">12:43PM</td>
+<td width="75">12:47PM</td>
+<td width="75">12:50PM</td>
+<td width="75">12:53PM</td>
+<td width="75">12:58PM</td>
+</tr><tr class="bg1"><td width="75">1:13PM</td>
+<td width="75">--</td>
+<td width="75">1:17PM</td>
+<td width="75">1:20PM</td>
+<td width="75">1:23PM</td>
+<td width="75">1:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">1:43PM</td>
+<td width="75">1:47PM</td>
+<td width="75">1:50PM</td>
+<td width="75">1:53PM</td>
+<td width="75">1:58PM</td>
+</tr><tr class="bg1"><td width="75">2:13PM</td>
+<td width="75">--</td>
+<td width="75">2:17PM</td>
+<td width="75">2:20PM</td>
+<td width="75">2:23PM</td>
+<td width="75">2:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">2:43PM</td>
+<td width="75">2:47PM</td>
+<td width="75">2:50PM</td>
+<td width="75">2:53PM</td>
+<td width="75">2:58PM</td>
+</tr><tr class="bg1"><td width="75">3:13PM</td>
+<td width="75">--</td>
+<td width="75">3:17PM</td>
+<td width="75">3:20PM</td>
+<td width="75">3:23PM</td>
+<td width="75">3:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">3:43PM</td>
+<td width="75">3:47PM</td>
+<td width="75">3:50PM</td>
+<td width="75">3:53PM</td>
+<td width="75">3:58PM</td>
+</tr><tr class="bg1"><td width="75">4:13PM</td>
+<td width="75">--</td>
+<td width="75">4:17PM</td>
+<td width="75">4:20PM</td>
+<td width="75">4:23PM</td>
+<td width="75">4:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">4:43PM</td>
+<td width="75">4:47PM</td>
+<td width="75">4:50PM</td>
+<td width="75">4:53PM</td>
+<td width="75">4:58PM</td>
+</tr><tr class="bg1"><td width="75">5:13PM</td>
+<td width="75">--</td>
+<td width="75">5:17PM</td>
+<td width="75">5:20PM</td>
+<td width="75">5:23PM</td>
+<td width="75">5:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">5:43PM</td>
+<td width="75">5:47PM</td>
+<td width="75">5:50PM</td>
+<td width="75">5:53PM</td>
+<td width="75">5:58PM</td>
+</tr><tr class="bg1"><td width="75">6:13PM</td>
+<td width="75">--</td>
+<td width="75">6:17PM</td>
+<td width="75">6:20PM</td>
+<td width="75">6:23PM</td>
+<td width="75">6:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:43PM</td>
+<td width="75">6:47PM</td>
+<td width="75">6:50PM</td>
+<td width="75">6:53PM</td>
+<td width="75">6:58PM</td>
+</tr><tr class="bg1"><td width="75">7:13PM</td>
+<td width="75">--</td>
+<td width="75">7:17PM</td>
+<td width="75">7:20PM</td>
+<td width="75">7:23PM</td>
+<td width="75">7:28PM</td>
+</tr><tr class="bg2"><td width="75">7:43PM</td>
+<td width="75">--</td>
+<td width="75">7:47PM</td>
+<td width="75">7:50PM</td>
+<td width="75">7:53PM</td>
+<td width="75">7:58PM</td>
+</tr><tr class="bg1"><td width="75">8:13PM</td>
+<td width="75">--</td>
+<td width="75">8:17PM</td>
+<td width="75">8:20PM</td>
+<td width="75">8:23PM</td>
+<td width="75">8:28PM</td>
+</tr><tr class="bg2"><td width="75">8:43PM</td>
+<td width="75">--</td>
+<td width="75">8:47PM</td>
+<td width="75">8:50PM</td>
+<td width="75">8:53PM</td>
+<td width="75">8:58PM</td>
+</tr><tr class="bg1"><td width="75">9:43PM</td>
+<td width="75">--</td>
+<td width="75">9:47PM</td>
+<td width="75">9:50PM</td>
+<td width="75">9:53PM</td>
+<td width="75">9:58PM</td>
+</tr><tr class="bg2"><td width="75">10:43PM</td>
+<td width="75">--</td>
+<td width="75">10:47PM</td>
+<td width="75">10:50PM</td>
+<td width="75">10:53PM</td>
+<td width="75">10:58PM</td>
+</tr><tr class="bg1"><td width="75">11:43PM</td>
+<td width="75">--</td>
+<td width="75">11:47PM</td>
+<td width="75">11:50PM</td>
+<td width="75">11:53PM</td>
+<td width="75">11:58PM</td>
+</tr><tr class="bg2"><td width="75">12:43AM</td>
+<td width="75">--</td>
+<td width="75">12:47AM</td>
+<td width="75">12:50AM</td>
+<td width="75">12:53AM</td>
+<td width="75">12:58AM</td>
+</tr><tr class="bg1"><td width="75">1:21AM</td>
+<td width="75">1:30AM</td>
+<td width="75">1:35AM</td>
+<td width="75">1:39AM</td>
+<td width="75">1:43AM</td>
+</tr><tr class="bg2"><td width="75">9:30PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Thursday-Friday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+<td>Hudson @ Grandview</td>
+<td>IC - Roy Park School</td>
+<td>IC - The Towers @ Ithaca College</td>
+<td>IC - Roy Park School</td>
+<td>South Hill Business Park</td>
+</tr>
+<tr align="center" class="tableSub"><td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>D</td>
+<td>F</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">6:51AM</td>
+<td width="75">7:00AM</td>
+<td width="75">7:05AM</td>
+<td width="75">7:09AM</td>
+<td width="75">7:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">7:21AM</td>
+<td width="75">7:30AM</td>
+<td width="75">7:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:39AM</td>
+<td width="75">7:43AM</td>
+</tr><tr class="bg1"><td width="75">7:51AM</td>
+<td width="75">8:00AM</td>
+<td width="75">8:05AM</td>
+<td width="75">8:09AM</td>
+<td width="75">8:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">8:21AM</td>
+<td width="75">8:30AM</td>
+<td width="75">8:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">8:39AM</td>
+<td width="75">8:43AM</td>
+</tr><tr class="bg1"><td width="75">8:51AM</td>
+<td width="75">9:00AM</td>
+<td width="75">9:05AM</td>
+<td width="75">9:09AM</td>
+<td width="75">9:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">9:21AM</td>
+<td width="75">9:30AM</td>
+<td width="75">9:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:39AM</td>
+<td width="75">9:43AM</td>
+</tr><tr class="bg1"><td width="75">9:51AM</td>
+<td width="75">10:00AM</td>
+<td width="75">10:05AM</td>
+<td width="75">10:09AM</td>
+<td width="75">10:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">10:21AM</td>
+<td width="75">10:30AM</td>
+<td width="75">10:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">10:39AM</td>
+<td width="75">10:43AM</td>
+</tr><tr class="bg1"><td width="75">10:51AM</td>
+<td width="75">11:00AM</td>
+<td width="75">11:05AM</td>
+<td width="75">11:09AM</td>
+<td width="75">11:13AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">11:21AM</td>
+<td width="75">11:30AM</td>
+<td width="75">11:35AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">11:39AM</td>
+<td width="75">11:43AM</td>
+</tr><tr class="bg1"><td width="75">11:51AM</td>
+<td width="75">12:00PM</td>
+<td width="75">12:05PM</td>
+<td width="75">12:09PM</td>
+<td width="75">12:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">12:21PM</td>
+<td width="75">12:30PM</td>
+<td width="75">12:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">12:39PM</td>
+<td width="75">12:43PM</td>
+</tr><tr class="bg1"><td width="75">12:51PM</td>
+<td width="75">1:00PM</td>
+<td width="75">1:05PM</td>
+<td width="75">1:09PM</td>
+<td width="75">1:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">1:21PM</td>
+<td width="75">1:30PM</td>
+<td width="75">1:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">1:39PM</td>
+<td width="75">1:43PM</td>
+</tr><tr class="bg1"><td width="75">1:51PM</td>
+<td width="75">2:00PM</td>
+<td width="75">2:05PM</td>
+<td width="75">2:09PM</td>
+<td width="75">2:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">2:21PM</td>
+<td width="75">2:30PM</td>
+<td width="75">2:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">2:39PM</td>
+<td width="75">2:43PM</td>
+</tr><tr class="bg1"><td width="75">2:51PM</td>
+<td width="75">3:00PM</td>
+<td width="75">3:05PM</td>
+<td width="75">3:09PM</td>
+<td width="75">3:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">3:21PM</td>
+<td width="75">3:30PM</td>
+<td width="75">3:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">3:39PM</td>
+<td width="75">3:43PM</td>
+</tr><tr class="bg1"><td width="75">3:51PM</td>
+<td width="75">4:00PM</td>
+<td width="75">4:05PM</td>
+<td width="75">4:09PM</td>
+<td width="75">4:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">4:21PM</td>
+<td width="75">4:30PM</td>
+<td width="75">4:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">4:39PM</td>
+<td width="75">4:43PM</td>
+</tr><tr class="bg1"><td width="75">4:51PM</td>
+<td width="75">5:00PM</td>
+<td width="75">5:05PM</td>
+<td width="75">5:09PM</td>
+<td width="75">5:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">5:21PM</td>
+<td width="75">5:30PM</td>
+<td width="75">5:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">5:39PM</td>
+<td width="75">5:43PM</td>
+</tr><tr class="bg1"><td width="75">5:51PM</td>
+<td width="75">6:00PM</td>
+<td width="75">6:05PM</td>
+<td width="75">6:09PM</td>
+<td width="75">6:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:21PM</td>
+<td width="75">6:30PM</td>
+<td width="75">6:35PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">6:39PM</td>
+<td width="75">6:43PM</td>
+</tr><tr class="bg1"><td width="75">6:51PM</td>
+<td width="75">7:00PM</td>
+<td width="75">7:05PM</td>
+<td width="75">7:09PM</td>
+<td width="75">7:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">7:21PM</td>
+<td width="75">7:30PM</td>
+<td width="75">7:35PM</td>
+<td width="75">7:39PM</td>
+<td width="75">7:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">7:51PM</td>
+<td width="75">8:00PM</td>
+<td width="75">8:05PM</td>
+<td width="75">8:09PM</td>
+<td width="75">8:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">8:21PM</td>
+<td width="75">8:30PM</td>
+<td width="75">8:35PM</td>
+<td width="75">8:39PM</td>
+<td width="75">8:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">8:51PM</td>
+<td width="75">9:00PM</td>
+<td width="75">9:05PM</td>
+<td width="75">9:09PM</td>
+</tr><tr class="bg2"><td width="75">9:21PM</td>
+<td width="75">9:30PM</td>
+<td width="75">9:35PM</td>
+<td width="75">9:39PM</td>
+<td width="75">9:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">9:51PM</td>
+<td width="75">10:00PM</td>
+<td width="75">10:05PM</td>
+<td width="75">10:09PM</td>
+<td width="75">10:13PM</td>
+</tr><tr class="bg2"><td width="75">10:21PM</td>
+<td width="75">10:30PM</td>
+<td width="75">10:35PM</td>
+<td width="75">10:39PM</td>
+<td width="75">10:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">10:51PM</td>
+<td width="75">11:00PM</td>
+<td width="75">11:05PM</td>
+<td width="75">11:09PM</td>
+<td width="75">11:13PM</td>
+</tr><tr class="bg2"><td width="75">11:21PM</td>
+<td width="75">11:30PM</td>
+<td width="75">11:35PM</td>
+<td width="75">11:39PM</td>
+<td width="75">11:43PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">11:51PM</td>
+<td width="75">12:00AM</td>
+<td width="75">12:05AM</td>
+<td width="75">12:09AM</td>
+<td width="75">12:13AM</td>
+</tr><tr class="bg2"><td width="75">12:21AM</td>
+<td width="75">12:30AM</td>
+<td width="75">12:35AM</td>
+<td width="75">12:39AM</td>
+<td width="75">12:43AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">12:51AM</td>
+<td width="75">1:00AM</td>
+<td width="75">1:05AM</td>
+<td width="75">1:09AM</td>
+<td width="75">1:13AM</td>
+</tr><tr class="bg2"><td width="75">1:21AM</td>
+<td width="75">1:30AM</td>
+<td width="75">1:35AM</td>
+<td width="75">1:39AM</td>
+<td width="75">1:43AM</td>
+</tr><tr class="bg1"><td width="75">1:51AM</td>
+<td width="75">2:00AM</td>
+<td width="75">2:05AM</td>
+<td width="75">2:09AM</td>
+<td width="75">2:13AM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Thursday-Friday</h5><tr class="tableSub"><td>IC - The Towers @ Ithaca College</td>
+<td>South Hill Business Park</td>
+<td>IC - Roy Park School</td>
+<td>Hudson @ Pearsall</td>
+<td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>E</td>
+<td>F</td>
+<td>D</td>
+<td>G</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">7:13AM</td>
+<td width="75">--</td>
+<td width="75">7:17AM</td>
+<td width="75">7:20AM</td>
+<td width="75">7:23AM</td>
+<td width="75">7:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">7:43AM</td>
+<td width="75">7:47AM</td>
+<td width="75">7:50AM</td>
+<td width="75">7:53AM</td>
+<td width="75">7:58AM</td>
+</tr><tr class="bg1"><td width="75">8:13AM</td>
+<td width="75">--</td>
+<td width="75">8:17AM</td>
+<td width="75">8:20AM</td>
+<td width="75">8:23AM</td>
+<td width="75">8:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">8:43AM</td>
+<td width="75">8:47AM</td>
+<td width="75">8:50AM</td>
+<td width="75">8:53AM</td>
+<td width="75">8:58AM</td>
+</tr><tr class="bg1"><td width="75">9:13AM</td>
+<td width="75">--</td>
+<td width="75">9:17AM</td>
+<td width="75">9:20AM</td>
+<td width="75">9:23AM</td>
+<td width="75">9:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">9:43AM</td>
+<td width="75">9:47AM</td>
+<td width="75">9:50AM</td>
+<td width="75">9:53AM</td>
+<td width="75">9:58AM</td>
+</tr><tr class="bg1"><td width="75">10:13AM</td>
+<td width="75">--</td>
+<td width="75">10:17AM</td>
+<td width="75">10:20AM</td>
+<td width="75">10:23AM</td>
+<td width="75">10:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">10:43AM</td>
+<td width="75">10:47AM</td>
+<td width="75">10:50AM</td>
+<td width="75">10:53AM</td>
+<td width="75">10:58AM</td>
+</tr><tr class="bg1"><td width="75">11:13AM</td>
+<td width="75">--</td>
+<td width="75">11:17AM</td>
+<td width="75">11:20AM</td>
+<td width="75">11:23AM</td>
+<td width="75">11:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">11:43AM</td>
+<td width="75">11:47AM</td>
+<td width="75">11:50AM</td>
+<td width="75">11:53AM</td>
+<td width="75">11:58AM</td>
+</tr><tr class="bg1"><td width="75">12:13PM</td>
+<td width="75">--</td>
+<td width="75">12:17PM</td>
+<td width="75">12:20PM</td>
+<td width="75">12:23PM</td>
+<td width="75">12:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">12:43PM</td>
+<td width="75">12:47PM</td>
+<td width="75">12:50PM</td>
+<td width="75">12:53PM</td>
+<td width="75">12:58PM</td>
+</tr><tr class="bg1"><td width="75">1:13PM</td>
+<td width="75">--</td>
+<td width="75">1:17PM</td>
+<td width="75">1:20PM</td>
+<td width="75">1:23PM</td>
+<td width="75">1:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">1:43PM</td>
+<td width="75">1:47PM</td>
+<td width="75">1:50PM</td>
+<td width="75">1:53PM</td>
+<td width="75">1:58PM</td>
+</tr><tr class="bg1"><td width="75">2:13PM</td>
+<td width="75">--</td>
+<td width="75">2:17PM</td>
+<td width="75">2:20PM</td>
+<td width="75">2:23PM</td>
+<td width="75">2:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">2:43PM</td>
+<td width="75">2:47PM</td>
+<td width="75">2:50PM</td>
+<td width="75">2:53PM</td>
+<td width="75">2:58PM</td>
+</tr><tr class="bg1"><td width="75">3:13PM</td>
+<td width="75">--</td>
+<td width="75">3:17PM</td>
+<td width="75">3:20PM</td>
+<td width="75">3:23PM</td>
+<td width="75">3:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">3:43PM</td>
+<td width="75">3:47PM</td>
+<td width="75">3:50PM</td>
+<td width="75">3:53PM</td>
+<td width="75">3:58PM</td>
+</tr><tr class="bg1"><td width="75">4:13PM</td>
+<td width="75">--</td>
+<td width="75">4:17PM</td>
+<td width="75">4:20PM</td>
+<td width="75">4:23PM</td>
+<td width="75">4:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">4:43PM</td>
+<td width="75">4:47PM</td>
+<td width="75">4:50PM</td>
+<td width="75">4:53PM</td>
+<td width="75">4:58PM</td>
+</tr><tr class="bg1"><td width="75">5:13PM</td>
+<td width="75">--</td>
+<td width="75">5:17PM</td>
+<td width="75">5:20PM</td>
+<td width="75">5:23PM</td>
+<td width="75">5:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">5:43PM</td>
+<td width="75">5:47PM</td>
+<td width="75">5:50PM</td>
+<td width="75">5:53PM</td>
+<td width="75">5:58PM</td>
+</tr><tr class="bg1"><td width="75">6:13PM</td>
+<td width="75">--</td>
+<td width="75">6:17PM</td>
+<td width="75">6:20PM</td>
+<td width="75">6:23PM</td>
+<td width="75">6:28PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:43PM</td>
+<td width="75">6:47PM</td>
+<td width="75">6:50PM</td>
+<td width="75">6:53PM</td>
+<td width="75">6:58PM</td>
+</tr><tr class="bg1"><td width="75">7:13PM</td>
+<td width="75">--</td>
+<td width="75">7:17PM</td>
+<td width="75">7:20PM</td>
+<td width="75">7:23PM</td>
+<td width="75">7:28PM</td>
+</tr><tr class="bg2"><td width="75">7:43PM</td>
+<td width="75">--</td>
+<td width="75">7:47PM</td>
+<td width="75">7:50PM</td>
+<td width="75">7:53PM</td>
+<td width="75">7:58PM</td>
+</tr><tr class="bg1"><td width="75">8:13PM</td>
+<td width="75">--</td>
+<td width="75">8:17PM</td>
+<td width="75">8:20PM</td>
+<td width="75">8:23PM</td>
+<td width="75">8:28PM</td>
+</tr><tr class="bg2"><td width="75">8:43PM</td>
+<td width="75">--</td>
+<td width="75">8:47PM</td>
+<td width="75">8:50PM</td>
+<td width="75">8:53PM</td>
+<td width="75">8:58PM</td>
+</tr><tr class="bg1"><td width="75">9:13PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:13PM</td>
+<td width="75">--</td>
+<td width="75">9:17PM</td>
+<td width="75">9:20PM</td>
+<td width="75">9:23PM</td>
+<td width="75">9:28PM</td>
+</tr><tr class="bg2"><td width="75">9:43PM</td>
+<td width="75">--</td>
+<td width="75">9:47PM</td>
+<td width="75">9:50PM</td>
+<td width="75">9:53PM</td>
+<td width="75">9:58PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">10:13PM</td>
+<td width="75">--</td>
+<td width="75">10:17PM</td>
+<td width="75">10:20PM</td>
+<td width="75">10:23PM</td>
+<td width="75">10:28PM</td>
+</tr><tr class="bg2"><td width="75">10:43PM</td>
+<td width="75">--</td>
+<td width="75">10:47PM</td>
+<td width="75">10:50PM</td>
+<td width="75">10:53PM</td>
+<td width="75">10:58PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">11:13PM</td>
+<td width="75">--</td>
+<td width="75">11:17PM</td>
+<td width="75">11:20PM</td>
+<td width="75">11:23PM</td>
+<td width="75">11:28PM</td>
+</tr><tr class="bg2"><td width="75">11:43PM</td>
+<td width="75">--</td>
+<td width="75">11:47PM</td>
+<td width="75">11:50PM</td>
+<td width="75">11:53PM</td>
+<td width="75">11:58PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">12:13AM</td>
+<td width="75">--</td>
+<td width="75">12:17AM</td>
+<td width="75">12:20AM</td>
+<td width="75">12:23AM</td>
+<td width="75">12:28AM</td>
+</tr><tr class="bg2"><td width="75">12:43AM</td>
+<td width="75">--</td>
+<td width="75">12:47AM</td>
+<td width="75">12:50AM</td>
+<td width="75">12:53AM</td>
+<td width="75">12:58AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">1:13AM</td>
+<td width="75">--</td>
+<td width="75">1:17AM</td>
+<td width="75">1:20AM</td>
+<td width="75">1:23AM</td>
+<td width="75">1:28AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Saturday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+<td>Hudson @ Grandview</td>
+<td>IC - Roy Park School</td>
+<td>IC - The Towers @ Ithaca College</td>
+</tr>
+<tr align="center" class="tableSub"><td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">--</td>
+<td width="75">7:00AM</td>
+<td width="75">7:05AM</td>
+<td width="75">7:09AM</td>
+<td width="75">7:13AM</td>
+</tr><tr class="bg2"><td width="75">7:21AM</td>
+<td width="75">7:30AM</td>
+<td width="75">7:35AM</td>
+<td width="75">7:39AM</td>
+<td width="75">7:43AM</td>
+</tr><tr class="bg1"><td width="75">7:51AM</td>
+<td width="75">8:00AM</td>
+<td width="75">8:05AM</td>
+<td width="75">8:09AM</td>
+<td width="75">8:13AM</td>
+</tr><tr class="bg2"><td width="75">8:21AM</td>
+<td width="75">8:30AM</td>
+<td width="75">8:35AM</td>
+<td width="75">8:39AM</td>
+<td width="75">8:43AM</td>
+</tr><tr class="bg1"><td width="75">8:51AM</td>
+<td width="75">9:00AM</td>
+<td width="75">9:05AM</td>
+<td width="75">9:09AM</td>
+<td width="75">9:13AM</td>
+</tr><tr class="bg2"><td width="75">9:21AM</td>
+<td width="75">9:30AM</td>
+<td width="75">9:35AM</td>
+<td width="75">9:39AM</td>
+<td width="75">9:43AM</td>
+</tr><tr class="bg1"><td width="75">9:51AM</td>
+<td width="75">10:00AM</td>
+<td width="75">10:05AM</td>
+<td width="75">10:09AM</td>
+<td width="75">10:13AM</td>
+</tr><tr class="bg2"><td width="75">10:21AM</td>
+<td width="75">10:30AM</td>
+<td width="75">10:35AM</td>
+<td width="75">10:39AM</td>
+<td width="75">10:43AM</td>
+</tr><tr class="bg1"><td width="75">10:51AM</td>
+<td width="75">11:00AM</td>
+<td width="75">11:05AM</td>
+<td width="75">11:09AM</td>
+<td width="75">11:13AM</td>
+</tr><tr class="bg2"><td width="75">11:21AM</td>
+<td width="75">11:30AM</td>
+<td width="75">11:35AM</td>
+<td width="75">11:39AM</td>
+<td width="75">11:43AM</td>
+</tr><tr class="bg1"><td width="75">11:51AM</td>
+<td width="75">12:00PM</td>
+<td width="75">12:05PM</td>
+<td width="75">12:09PM</td>
+<td width="75">12:13PM</td>
+</tr><tr class="bg2"><td width="75">12:21PM</td>
+<td width="75">12:30PM</td>
+<td width="75">12:35PM</td>
+<td width="75">12:39PM</td>
+<td width="75">12:43PM</td>
+</tr><tr class="bg1"><td width="75">12:51PM</td>
+<td width="75">1:00PM</td>
+<td width="75">1:05PM</td>
+<td width="75">1:09PM</td>
+<td width="75">1:13PM</td>
+</tr><tr class="bg2"><td width="75">1:21PM</td>
+<td width="75">1:30PM</td>
+<td width="75">1:35PM</td>
+<td width="75">1:39PM</td>
+<td width="75">1:43PM</td>
+</tr><tr class="bg1"><td width="75">1:51PM</td>
+<td width="75">2:00PM</td>
+<td width="75">2:05PM</td>
+<td width="75">2:09PM</td>
+<td width="75">2:13PM</td>
+</tr><tr class="bg2"><td width="75">2:21PM</td>
+<td width="75">2:30PM</td>
+<td width="75">2:35PM</td>
+<td width="75">2:39PM</td>
+<td width="75">2:43PM</td>
+</tr><tr class="bg1"><td width="75">2:51PM</td>
+<td width="75">3:00PM</td>
+<td width="75">3:05PM</td>
+<td width="75">3:09PM</td>
+<td width="75">3:13PM</td>
+</tr><tr class="bg2"><td width="75">3:21PM</td>
+<td width="75">3:30PM</td>
+<td width="75">3:35PM</td>
+<td width="75">3:39PM</td>
+<td width="75">3:43PM</td>
+</tr><tr class="bg1"><td width="75">3:51PM</td>
+<td width="75">4:00PM</td>
+<td width="75">4:05PM</td>
+<td width="75">4:09PM</td>
+<td width="75">4:13PM</td>
+</tr><tr class="bg2"><td width="75">4:21PM</td>
+<td width="75">4:30PM</td>
+<td width="75">4:35PM</td>
+<td width="75">4:39PM</td>
+<td width="75">4:43PM</td>
+</tr><tr class="bg1"><td width="75">4:51PM</td>
+<td width="75">5:00PM</td>
+<td width="75">5:05PM</td>
+<td width="75">5:09PM</td>
+<td width="75">5:13PM</td>
+</tr><tr class="bg2"><td width="75">5:21PM</td>
+<td width="75">5:30PM</td>
+<td width="75">5:35PM</td>
+<td width="75">5:39PM</td>
+<td width="75">5:43PM</td>
+</tr><tr class="bg1"><td width="75">5:51PM</td>
+<td width="75">6:00PM</td>
+<td width="75">6:05PM</td>
+<td width="75">6:09PM</td>
+<td width="75">6:13PM</td>
+</tr><tr class="bg2"><td width="75">6:21PM</td>
+<td width="75">6:30PM</td>
+<td width="75">6:35PM</td>
+<td width="75">6:39PM</td>
+<td width="75">6:43PM</td>
+</tr><tr class="bg1"><td width="75">6:51PM</td>
+<td width="75">7:00PM</td>
+<td width="75">7:05PM</td>
+<td width="75">7:09PM</td>
+<td width="75">7:13PM</td>
+</tr><tr class="bg2"><td width="75">7:21PM</td>
+<td width="75">7:30PM</td>
+<td width="75">7:35PM</td>
+<td width="75">7:39PM</td>
+<td width="75">7:43PM</td>
+</tr><tr class="bg1"><td width="75">7:51PM</td>
+<td width="75">8:00PM</td>
+<td width="75">8:05PM</td>
+<td width="75">8:09PM</td>
+<td width="75">8:13PM</td>
+</tr><tr class="bg2"><td width="75">8:21PM</td>
+<td width="75">8:30PM</td>
+<td width="75">8:35PM</td>
+<td width="75">8:39PM</td>
+<td width="75">8:43PM</td>
+</tr><tr class="bg1"><td width="75">8:51PM</td>
+<td width="75">9:00PM</td>
+<td width="75">9:05PM</td>
+<td width="75">9:09PM</td>
+<td width="75">9:13PM</td>
+</tr><tr class="bg2"><td width="75">9:21PM</td>
+<td width="75">9:30PM</td>
+<td width="75">9:35PM</td>
+<td width="75">9:39PM</td>
+<td width="75">9:43PM</td>
+</tr><tr class="bg1"><td width="75">9:51PM</td>
+<td width="75">10:00PM</td>
+<td width="75">10:05PM</td>
+<td width="75">10:09PM</td>
+<td width="75">10:13PM</td>
+</tr><tr class="bg2"><td width="75">10:21PM</td>
+<td width="75">10:30PM</td>
+<td width="75">10:35PM</td>
+<td width="75">10:39PM</td>
+<td width="75">10:43PM</td>
+</tr><tr class="bg1"><td width="75">10:51PM</td>
+<td width="75">11:00PM</td>
+<td width="75">11:05PM</td>
+<td width="75">11:09PM</td>
+<td width="75">11:13PM</td>
+</tr><tr class="bg2"><td width="75">11:21PM</td>
+<td width="75">11:30PM</td>
+<td width="75">11:35PM</td>
+<td width="75">11:39PM</td>
+<td width="75">11:43PM</td>
+</tr><tr class="bg1"><td width="75">11:54PM</td>
+<td width="75">12:00AM</td>
+<td width="75">12:05AM</td>
+<td width="75">12:09AM</td>
+<td width="75">12:13AM</td>
+</tr><tr class="bg2"><td width="75">12:24AM</td>
+<td width="75">12:30AM</td>
+<td width="75">12:35AM</td>
+<td width="75">12:39AM</td>
+<td width="75">12:43AM</td>
+</tr><tr class="bg1"><td width="75">12:54PM</td>
+<td width="75">1:00AM</td>
+<td width="75">1:05AM</td>
+<td width="75">1:09AM</td>
+<td width="75">1:13AM</td>
+</tr><tr class="bg2"><td width="75">1:24AM</td>
+<td width="75">1:30AM</td>
+<td width="75">1:35AM</td>
+<td width="75">1:39AM</td>
+<td width="75">1:43AM</td>
+</tr><tr class="bg1"><td width="75">1:54AM</td>
+<td width="75">2:00AM</td>
+<td width="75">2:05AM</td>
+<td width="75">2:09AM</td>
+<td width="75">2:13AM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Saturday</h5><tr class="tableSub"><td>IC - Roy Park School</td>
+<td>Hudson @ Pearsall</td>
+<td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>E</td>
+<td>G</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">7:17AM</td>
+<td width="75">7:20AM</td>
+<td width="75">7:23AM</td>
+<td width="75">7:27AM</td>
+</tr><tr class="bg2"><td width="75">7:47AM</td>
+<td width="75">7:50AM</td>
+<td width="75">7:53AM</td>
+<td width="75">7:57AM</td>
+</tr><tr class="bg1"><td width="75">8:17AM</td>
+<td width="75">8:20AM</td>
+<td width="75">8:23AM</td>
+<td width="75">8:27AM</td>
+</tr><tr class="bg2"><td width="75">8:47AM</td>
+<td width="75">8:50AM</td>
+<td width="75">8:53AM</td>
+<td width="75">8:57AM</td>
+</tr><tr class="bg1"><td width="75">9:17AM</td>
+<td width="75">9:20AM</td>
+<td width="75">9:23AM</td>
+<td width="75">9:27AM</td>
+</tr><tr class="bg2"><td width="75">9:47AM</td>
+<td width="75">9:50AM</td>
+<td width="75">9:53AM</td>
+<td width="75">9:57AM</td>
+</tr><tr class="bg1"><td width="75">10:17AM</td>
+<td width="75">10:20AM</td>
+<td width="75">10:23AM</td>
+<td width="75">10:27AM</td>
+</tr><tr class="bg2"><td width="75">10:47AM</td>
+<td width="75">10:50AM</td>
+<td width="75">10:53AM</td>
+<td width="75">10:57AM</td>
+</tr><tr class="bg1"><td width="75">11:17AM</td>
+<td width="75">11:20AM</td>
+<td width="75">11:23AM</td>
+<td width="75">11:27AM</td>
+</tr><tr class="bg2"><td width="75">11:47AM</td>
+<td width="75">11:50AM</td>
+<td width="75">11:53AM</td>
+<td width="75">11:57AM</td>
+</tr><tr class="bg1"><td width="75">12:17PM</td>
+<td width="75">12:20PM</td>
+<td width="75">12:23PM</td>
+<td width="75">12:27PM</td>
+</tr><tr class="bg2"><td width="75">12:47PM</td>
+<td width="75">12:50PM</td>
+<td width="75">12:53PM</td>
+<td width="75">12:57PM</td>
+</tr><tr class="bg1"><td width="75">1:17PM</td>
+<td width="75">1:20PM</td>
+<td width="75">1:23PM</td>
+<td width="75">1:27PM</td>
+</tr><tr class="bg2"><td width="75">1:47PM</td>
+<td width="75">1:50PM</td>
+<td width="75">1:53PM</td>
+<td width="75">1:57PM</td>
+</tr><tr class="bg1"><td width="75">2:17PM</td>
+<td width="75">2:20PM</td>
+<td width="75">2:23PM</td>
+<td width="75">2:27PM</td>
+</tr><tr class="bg2"><td width="75">2:47PM</td>
+<td width="75">2:50PM</td>
+<td width="75">2:53PM</td>
+<td width="75">2:57PM</td>
+</tr><tr class="bg1"><td width="75">3:17PM</td>
+<td width="75">3:20PM</td>
+<td width="75">3:23PM</td>
+<td width="75">3:27PM</td>
+</tr><tr class="bg2"><td width="75">3:47PM</td>
+<td width="75">3:50PM</td>
+<td width="75">3:53PM</td>
+<td width="75">3:57PM</td>
+</tr><tr class="bg1"><td width="75">4:17PM</td>
+<td width="75">4:20PM</td>
+<td width="75">4:23PM</td>
+<td width="75">4:27PM</td>
+</tr><tr class="bg2"><td width="75">4:47PM</td>
+<td width="75">4:50PM</td>
+<td width="75">4:53PM</td>
+<td width="75">4:57PM</td>
+</tr><tr class="bg1"><td width="75">5:17PM</td>
+<td width="75">5:20PM</td>
+<td width="75">5:23PM</td>
+<td width="75">5:27PM</td>
+</tr><tr class="bg2"><td width="75">5:47PM</td>
+<td width="75">5:50PM</td>
+<td width="75">5:53PM</td>
+<td width="75">5:57PM</td>
+</tr><tr class="bg1"><td width="75">6:17PM</td>
+<td width="75">6:20PM</td>
+<td width="75">6:23PM</td>
+<td width="75">6:27PM</td>
+</tr><tr class="bg2"><td width="75">6:47PM</td>
+<td width="75">6:50PM</td>
+<td width="75">6:53PM</td>
+<td width="75">6:57PM</td>
+</tr><tr class="bg1"><td width="75">7:17PM</td>
+<td width="75">7:20PM</td>
+<td width="75">7:23PM</td>
+<td width="75">7:27PM</td>
+</tr><tr class="bg2"><td width="75">7:47PM</td>
+<td width="75">7:50PM</td>
+<td width="75">7:53PM</td>
+<td width="75">7:57PM</td>
+</tr><tr class="bg1"><td width="75">8:17PM</td>
+<td width="75">8:20PM</td>
+<td width="75">8:23PM</td>
+<td width="75">8:27PM</td>
+</tr><tr class="bg2"><td width="75">8:47PM</td>
+<td width="75">8:50PM</td>
+<td width="75">8:53PM</td>
+<td width="75">8:57PM</td>
+</tr><tr class="bg1"><td width="75">9:17PM</td>
+<td width="75">9:20PM</td>
+<td width="75">9:23PM</td>
+<td width="75">9:27PM</td>
+</tr><tr class="bg2"><td width="75">9:47PM</td>
+<td width="75">9:50PM</td>
+<td width="75">9:53PM</td>
+<td width="75">9:57PM</td>
+</tr><tr class="bg1"><td width="75">10:17PM</td>
+<td width="75">10:20PM</td>
+<td width="75">10:23PM</td>
+<td width="75">10:27PM</td>
+</tr><tr class="bg2"><td width="75">10:47PM</td>
+<td width="75">10:50PM</td>
+<td width="75">10:53PM</td>
+<td width="75">10:57PM</td>
+</tr><tr class="bg1"><td width="75">11:17PM</td>
+<td width="75">11:20PM</td>
+<td width="75">11:23PM</td>
+<td width="75">11:27PM</td>
+</tr><tr class="bg2"><td width="75">11:47PM</td>
+<td width="75">11:50PM</td>
+<td width="75">11:53PM</td>
+<td width="75">11:57PM</td>
+</tr><tr class="bg1"><td width="75">12:17AM</td>
+<td width="75">12:20AM</td>
+<td width="75">12:23AM</td>
+<td width="75">12:27AM</td>
+</tr><tr class="bg2"><td width="75">12:47AM</td>
+<td width="75">12:50AM</td>
+<td width="75">12:53AM</td>
+<td width="75">12:57AM</td>
+</tr><tr class="bg1"><td width="75">1:17AM</td>
+<td width="75">1:20AM</td>
+<td width="75">1:23AM</td>
+<td width="75">1:27AM</td>
+</tr><tr class="bg2"><td width="75">1:47AM</td>
+<td width="75">1:50AM</td>
+<td width="75">1:53AM</td>
+<td width="75">1:57AM</td>
+</tr><tr class="bg1"><td width="75">2:17AM</td>
+<td width="75">2:20AM</td>
+<td width="75">2:23AM</td>
+<td width="75">--</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Sunday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+<td>Hudson @ Grandview</td>
+<td>IC - Roy Park School</td>
+<td>IC - The Towers @ Ithaca College</td>
+</tr>
+<tr align="center" class="tableSub"><td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">--</td>
+<td width="75">9:00AM</td>
+<td width="75">9:05AM</td>
+<td width="75">9:09AM</td>
+<td width="75">9:13AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">9:30AM</td>
+<td width="75">9:35AM</td>
+<td width="75">9:39AM</td>
+<td width="75">9:43AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">10:00AM</td>
+<td width="75">10:05AM</td>
+<td width="75">10:09AM</td>
+<td width="75">10:13AM</td>
+</tr><tr class="bg2"><td width="75">10:21AM</td>
+<td width="75">10:30AM</td>
+<td width="75">10:35AM</td>
+<td width="75">10:39AM</td>
+<td width="75">10:43AM</td>
+</tr><tr class="bg1"><td width="75">10:51AM</td>
+<td width="75">11:00AM</td>
+<td width="75">11:05AM</td>
+<td width="75">11:09AM</td>
+<td width="75">11:13AM</td>
+</tr><tr class="bg2"><td width="75">11:21AM</td>
+<td width="75">11:30AM</td>
+<td width="75">11:35AM</td>
+<td width="75">11:39AM</td>
+<td width="75">11:43AM</td>
+</tr><tr class="bg1"><td width="75">11:51AM</td>
+<td width="75">12:00PM</td>
+<td width="75">12:05PM</td>
+<td width="75">12:09PM</td>
+<td width="75">12:13PM</td>
+</tr><tr class="bg2"><td width="75">12:21PM</td>
+<td width="75">12:30PM</td>
+<td width="75">12:35PM</td>
+<td width="75">12:39PM</td>
+<td width="75">12:43PM</td>
+</tr><tr class="bg1"><td width="75">12:51PM</td>
+<td width="75">1:00PM</td>
+<td width="75">1:05PM</td>
+<td width="75">1:09PM</td>
+<td width="75">1:13PM</td>
+</tr><tr class="bg2"><td width="75">1:21PM</td>
+<td width="75">1:30PM</td>
+<td width="75">1:35PM</td>
+<td width="75">1:39PM</td>
+<td width="75">1:43PM</td>
+</tr><tr class="bg1"><td width="75">1:51PM</td>
+<td width="75">2:00PM</td>
+<td width="75">2:05PM</td>
+<td width="75">2:09PM</td>
+<td width="75">2:13PM</td>
+</tr><tr class="bg2"><td width="75">2:21PM</td>
+<td width="75">2:30PM</td>
+<td width="75">2:35PM</td>
+<td width="75">2:39PM</td>
+<td width="75">2:43PM</td>
+</tr><tr class="bg1"><td width="75">2:51PM</td>
+<td width="75">3:00PM</td>
+<td width="75">3:05PM</td>
+<td width="75">3:09PM</td>
+<td width="75">3:13PM</td>
+</tr><tr class="bg2"><td width="75">3:21PM</td>
+<td width="75">3:30PM</td>
+<td width="75">3:35PM</td>
+<td width="75">3:39PM</td>
+<td width="75">3:43PM</td>
+</tr><tr class="bg1"><td width="75">3:51PM</td>
+<td width="75">4:00PM</td>
+<td width="75">4:05PM</td>
+<td width="75">4:09PM</td>
+<td width="75">4:13PM</td>
+</tr><tr class="bg2"><td width="75">4:21PM</td>
+<td width="75">4:30PM</td>
+<td width="75">4:35PM</td>
+<td width="75">4:39PM</td>
+<td width="75">4:43PM</td>
+</tr><tr class="bg1"><td width="75">4:51PM</td>
+<td width="75">5:00PM</td>
+<td width="75">5:05PM</td>
+<td width="75">5:09PM</td>
+<td width="75">5:13PM</td>
+</tr><tr class="bg2"><td width="75">5:21PM</td>
+<td width="75">5:30PM</td>
+<td width="75">5:35PM</td>
+<td width="75">5:39PM</td>
+<td width="75">5:43PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 11 Sunday</h5><tr class="tableSub"><td>IC - Roy Park School</td>
+<td>Hudson @ Pearsall</td>
+<td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>E</td>
+<td>G</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">9:17AM</td>
+<td width="75">9:20AM</td>
+<td width="75">9:23AM</td>
+<td width="75">9:27AM</td>
+</tr><tr class="bg2"><td width="75">9:47AM</td>
+<td width="75">9:50AM</td>
+<td width="75">9:53AM</td>
+<td width="75">9:57AM</td>
+</tr><tr class="bg1"><td width="75">10:17AM</td>
+<td width="75">10:20AM</td>
+<td width="75">10:23AM</td>
+<td width="75">10:27AM</td>
+</tr><tr class="bg2"><td width="75">10:47AM</td>
+<td width="75">10:50AM</td>
+<td width="75">10:53AM</td>
+<td width="75">10:57AM</td>
+</tr><tr class="bg1"><td width="75">11:17AM</td>
+<td width="75">11:20AM</td>
+<td width="75">11:23AM</td>
+<td width="75">11:27AM</td>
+</tr><tr class="bg2"><td width="75">11:47AM</td>
+<td width="75">11:50AM</td>
+<td width="75">11:53AM</td>
+<td width="75">11:57AM</td>
+</tr><tr class="bg1"><td width="75">12:17PM</td>
+<td width="75">12:20PM</td>
+<td width="75">12:23PM</td>
+<td width="75">12:27PM</td>
+</tr><tr class="bg2"><td width="75">12:47PM</td>
+<td width="75">12:50PM</td>
+<td width="75">12:53PM</td>
+<td width="75">12:57PM</td>
+</tr><tr class="bg1"><td width="75">1:17PM</td>
+<td width="75">1:20PM</td>
+<td width="75">1:23PM</td>
+<td width="75">1:27PM</td>
+</tr><tr class="bg2"><td width="75">1:47PM</td>
+<td width="75">1:50PM</td>
+<td width="75">1:53PM</td>
+<td width="75">1:57PM</td>
+</tr><tr class="bg1"><td width="75">2:17PM</td>
+<td width="75">2:20PM</td>
+<td width="75">2:23PM</td>
+<td width="75">2:27PM</td>
+</tr><tr class="bg2"><td width="75">2:47PM</td>
+<td width="75">2:50PM</td>
+<td width="75">2:53PM</td>
+<td width="75">2:57PM</td>
+</tr><tr class="bg1"><td width="75">3:17PM</td>
+<td width="75">3:20PM</td>
+<td width="75">3:23PM</td>
+<td width="75">3:27PM</td>
+</tr><tr class="bg2"><td width="75">3:47PM</td>
+<td width="75">3:50PM</td>
+<td width="75">3:53PM</td>
+<td width="75">3:57PM</td>
+</tr><tr class="bg1"><td width="75">4:17PM</td>
+<td width="75">4:20PM</td>
+<td width="75">4:23PM</td>
+<td width="75">4:27PM</td>
+</tr><tr class="bg2"><td width="75">4:47PM</td>
+<td width="75">4:50PM</td>
+<td width="75">4:53PM</td>
+<td width="75">4:57PM</td>
+</tr><tr class="bg1"><td width="75">5:17PM</td>
+<td width="75">5:20PM</td>
+<td width="75">5:23PM</td>
+<td width="75">5:27PM</td>
+</tr><tr class="bg2"><td width="75">5:47PM</td>
+<td width="75">5:50PM</td>
+<td width="75">5:53PM</td>
+<td width="75">5:57PM</td>
+</tr></table></td></tr></table></span>	  <a name="bigpic"><img border=0 src="/mrnpics/11_Jan.jpg"></a><br>
+	  route 11 map</div>		<div class="clearFloats"></div>
+		<div class="buttons">
+		<a href="http://tcat.nextinsight.com/"><img src="/images/tripplanner.jpg" alt="Trip Planner" width="285" height="153" border="0" /></a>&nbsp;<a href="http://www.tcatbus.com/pages/system"><img src="/images/downloadtcatmaps.jpg" alt="Download TCAT Maps" width="285" height="153" border="0" /></a>&nbsp;<a href="http://www.tcatbus.com/buy.php"><img src="/images/tcat_card.jpg" alt="Buy A Pass" width="285" height="153" border="0" /></a>
+		</div>
+
+<!-- FOOTER INCLUDE FILE STARTS HERE  //-->
+<div id="footer"><p class="footerLinks"><a href="http://www.tcatbus.com">Home</a> | <a href="http://tcat.nextinsight.com/">Ride</a> | <a href="http://www.tcatbus.com/adaparatransit.php">Learn</a> | <a href="http://www.tcatbus.com/about.php">TCAT</a> | <a href="http://www.tcatbus.com/transportation.php">Resources</a> | <a href="http://www.tcatbus.com/news.php">Projects &amp; News</a> | <a href="http://www.tcatbus.com/contact.php">Contact</a> | <a href="http://www.tcatbus.com/alerts.php">Alerts</a> | <a href="http://www.tcatbus.com/system.php">System Map</a> | <a href="http://www.tcatbus.com/careers.php">Careers</a> | <a href="http://www.tcatbus.com/sitemap.php">Site Map</a></p>
+
+<p class="footerCredit">Site by <a href="http://www.ancientwisdompro.com" target="_blank">AWP</a></p>
+<br clear="all" /><p class="footerInfo">Contact TCAT by <a href="http://www.tcatbus.com/contact.php">email</a> or Snail Mail: 737 Willow Ave. Ithaca, NY 14850 or call: (607) 277-RIDE (That's 277-7433).  TCAT TDD: (607) 277-9766.  To schedule an ADA Paratransit ride: (607) 273-1878<br />
+  TCAT, Inc. is a not-for-profit corporation providing public transportation services for <a href="http://www.cornell.edu" target="_blank">Cornell University</a>, the <a href="http://www.ci.ithaca.ny.us/" target="_blank">City of Ithaca</a>, and <a href="http://www.co.tompkins.ny.us/" target="_blank">Tompkins County</a>.<br />
+
+  Copyright &copy; 2014 TCAT, All Rights Reserved.<br />
+  Trip Planner &copy; 2014 <a href="http://www.nextinsight.com" target="_blank">Next Insight</a></p>
+</div>
+
+<!-- FOOTER INCLUDE FILE ENDS HERE //-->
+</div>
+
+<script type="text/javascript">
+//Start Tab Content script for UL with id="maintab" Separate multiple ids each with a comma.
+if ($('maintab')) {
+    initializetabcontent("maintab")
+}
+if ($('maintab2')) {
+    initializetabcontent("maintab2")
+}
+</script>
+
+<script type="text/javascript">
+if ($('alert1')) {
+details('alert1');
+}
+</script>
+</body>
+</html>
