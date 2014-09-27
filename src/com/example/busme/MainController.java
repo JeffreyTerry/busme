@@ -244,21 +244,17 @@ public class MainController extends BroadcastReceiver implements
 			x1 = event.getX();
 			swipeDismisserListView.onTouch(v, event);
 		case MotionEvent.ACTION_UP:
-			if (event.getX() > x1) {
-				System.out.println("CHECK");
-				swipeDismisserListView.onTouch(v, event);
-			}
+			swipeDismisserListView.onTouch(v, event);
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (event.getX() > x1) {
-				System.out.println("CHECK");
 				swipeDismisserListView.onTouch(v, event);
 			}
-			System.out.println("Intercepted");
 			break;
 		case MotionEvent.ACTION_CANCEL:
-			System.out.println("CHECK");
-			swipeDismisserListView.onTouch(v, event);
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
 			break;
 		}
 		return false;

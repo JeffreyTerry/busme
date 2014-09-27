@@ -68,7 +68,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/list_background"
             android:divider="@android:color/transparent"
-            android:dividerHeight="12sp" >
+            android:dividerHeight="12sp">
         </ListView>
     </RelativeLayout>
 
