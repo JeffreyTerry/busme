@@ -34,7 +34,7 @@ module.exports = function(app, config){
 
   // get user suggested routes
   app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
-    busRouteController.fromCurrent(req.params.uid, req.params.lat, req.params.lng, res);
+    busRouteController.default(req.params.uid, req.params.lat, req.params.lng, res);
   });
 
   app.post('/api/newdevice', function(req, res){
