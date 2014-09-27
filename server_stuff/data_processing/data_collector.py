@@ -204,6 +204,7 @@ route_data['SAT'] = SAT
 route_data['SUN'] = SUN
 
 print route_data
+open('data/route_data.txt', 'w').write(str(route_data))
 
 
 

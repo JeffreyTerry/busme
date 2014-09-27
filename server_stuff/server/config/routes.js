@@ -25,11 +25,18 @@ module.exports = function(app, config){
     res.json({'msg': 'hey'});
   });
 
-  app.get('/api/routes/:uid/:start_lat/:start_lng/:dest_lat/:dest_lng', function(req, res){
+  // get fastest routes from current location to destination
+  app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
     res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
   });
 
-  app.get('/api/default_routes/:uid/:curr_lat/:curr_lng', function(req, res){
+  // get fastest routes from start to destination
+  app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
+    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+  });
+
+  // get user suggested routes
+  app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
     res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
   });
 
