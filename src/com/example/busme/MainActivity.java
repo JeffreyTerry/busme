@@ -41,6 +41,8 @@ public class MainActivity extends FragmentActivity {
 		return mainController;
 	}
 
+<<<<<<< HEAD
+=======
 	private void initializePages() {
 		// TODO Auto-generated method stub
 		List<Fragment> fragments = new Vector<Fragment>();
@@ -67,13 +69,20 @@ public class MainActivity extends FragmentActivity {
 		this.etDestination = etDestination;
 		this.mainEtDivider = mainEtDivider;
 	}
+>>>>>>> 2bd017cb2cade0631993baeba22a173f3331ae57
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mainController.resetLocationUpdateCount();
 	}
+<<<<<<< HEAD
+
+
+
+=======
 	
+>>>>>>> 2bd017cb2cade0631993baeba22a173f3331ae57
 	public void showEtStart(View v) {
 		shadowRetracted.setVisibility(View.INVISIBLE);
 		shadowExpanded.setVisibility(View.VISIBLE);

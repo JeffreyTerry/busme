@@ -1,15 +1,16 @@
+
 package com.example.busme;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
@@ -76,7 +77,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 
 			// well set up the ViewHolder
 			viewHolder = new ViewHolderItem();
-
+			
 			viewHolder.tvTime = (TextView) convertView
 					.findViewById(R.id.tvTime);
 			viewHolder.tvRouteNumber = (TextView) convertView
@@ -85,6 +86,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 					.findViewById(R.id.tvRouteStart);
 			viewHolder.tvRouteDestination = (TextView) convertView
 					.findViewById(R.id.tvRouteDestination);
+			viewHolder.linearlayoutCond = (LinearLayout) convertView.findViewById(R.id.linearlayoutCond); 			
 
 			// store the holder with the view.
 			convertView.setTag(viewHolder);
@@ -109,15 +111,13 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			viewHolder.tvRouteStart.setText(item.getRouteStart());
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
 			if (item.getTime() < 11) {
-				viewHolder.tvTime.setTextColor(Color
-						.rgb(0, 200, 20));
-			} else if (item.getTime() < 21) {
-				viewHolder.tvTime.setTextColor(Color.BLACK);
+				viewHolder.tvTime.setTextColor(Color.rgb(55, 197, 112));
 			} else if (item.getTime() < 31) {
-				viewHolder.tvTime.setTextColor(Color.rgb(240, 110,
-						20));
+				viewHolder.tvTime.setTextColor(Color.rgb(244, 191,65));
+				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item1);
 			} else {
-				viewHolder.tvTime.setTextColor(Color.RED);
+				viewHolder.tvTime.setTextColor(Color.rgb(219,68,61));
+				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item2);
 			}
 		}
 
@@ -129,6 +129,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 		public TextView tvRouteNumber;
 		public TextView tvRouteStart;
 		public TextView tvRouteDestination;
+		public LinearLayout linearlayoutCond;
 	}
 
 	public void setLoading(boolean loading) {
