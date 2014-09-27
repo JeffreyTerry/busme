@@ -113,6 +113,29 @@ public class MainController extends BroadcastReceiver implements
 		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
 	}
 
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			x1 = event.getX();
+			swipeDismisserListView.onTouch(v, event);
+		case MotionEvent.ACTION_UP:
+			swipeDismisserListView.onTouch(v, event);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		case MotionEvent.ACTION_CANCEL:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		}
+		return false;
+	}
+	
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
 		MainListViewItem itemDismissed;
@@ -241,28 +264,5 @@ public class MainController extends BroadcastReceiver implements
 			mainListViewAdapter.addAll(result);
 			super.onPostExecute(result);
 		}
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			x1 = event.getX();
-			swipeDismisserListView.onTouch(v, event);
-		case MotionEvent.ACTION_UP:
-			swipeDismisserListView.onTouch(v, event);
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (event.getX() > x1) {
-				swipeDismisserListView.onTouch(v, event);
-			}
-			break;
-		case MotionEvent.ACTION_CANCEL:
-			if (event.getX() > x1) {
-				swipeDismisserListView.onTouch(v, event);
-			}
-			break;
-		}
-		return false;
 	}
 }

@@ -11,17 +11,14 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 
 	private List<Fragment> fragments;
 	FragmentTransaction fragmentTransaction;
-
 	public MainFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
 		super(fm);
 		this.fragments = fragments;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		// TODO Auto-generated method stub
-
 		return fragments.get(position);
 	}
 
