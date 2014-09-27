@@ -199,8 +199,5 @@ server_code/server/ehthumbs.db
 server_code/server/Thumbs.db
 
 # api key file
-<<<<<<< HEAD
 res/values/api_key.xml
-=======
-res/values/api_key.xml
->>>>>>> d3bd30f4ab70d448ce8d35bd5c1d69c64e643299
+
