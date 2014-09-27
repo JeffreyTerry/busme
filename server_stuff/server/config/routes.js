@@ -1,5 +1,6 @@
 var _ = require('underscore'),
-    deviceController = require('../app/controllers/device_controller');
+    deviceController = require('../app/controllers/device_controller'),
+    busRouteController = require('../app/controllers/bus_route_controller');
 
 // Stores a dictionary with route paths as keys and their corresponding static html files as values.
 var URLToFileMap = {
@@ -21,16 +22,19 @@ module.exports = function(app, config){
     app.get(key, renderStaticPage);
   });
 
-  app.get('/api/test', function(req, res){
-    res.json({'msg': 'hey'});
+  // get fastest routes from current location to destination
+  app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
+    busRouteController.fromCurrent(req.params.lat, req.params.lng, req.params.destination, res);
   });
 
-  app.get('/api/routes/:uid/:start_lat/:start_lng/:dest_lat/:dest_lng', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+  // get fastest routes from start to destination
+  app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
+    busRouteController.fromCustom(req.params.start, req.params.destination, res);
   });
 
-  app.get('/api/default_routes/:uid/:curr_lat/:curr_lng', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+  // get user suggested routes
+  app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
+    busRouteController.default(req.params.uid, req.params.lat, req.params.lng, res);
   });
 
   app.post('/api/newdevice', function(req, res){

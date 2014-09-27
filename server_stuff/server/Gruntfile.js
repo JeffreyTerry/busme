@@ -43,7 +43,8 @@ module.exports = function (grunt) {
         files: [
           'index.js',
           'app/**/*.js',
-          'config/*.js'
+          'config/*.js',
+          'assets/data/*.txt'
         ],
         tasks: ['develop', 'delayed-livereload']
       },
@@ -147,14 +148,20 @@ module.exports = function (grunt) {
       main: {
         expand: true,
         cwd: 'assets/',
-        src: ['js/**', 'imgs/**', 'fonts/**', 'styles/fonts.css', 'styles/external_libs/**'],
+        src: ['js/**', 'imgs/**', 'fonts/**', 'data/**', 'styles/fonts.css', 'styles/external_libs/**'],
         dest: 'public/',
       },
       js: {
         expand: true,
         cwd: 'assets/js',
         src: '**',
-        dest: 'public/js',
+        dest: 'public/js'
+      },
+      data: {
+        expand: true,
+        cwd: 'assets/data',
+        src: '**',
+        dest: 'public/data'
       },
       css: {
         expand: true,
@@ -247,5 +254,5 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['shell:mongo', 'develop', 'clean', 'copy:main', 'sass', 'open:delayed', 'watch']);
-  grunt.registerTask('build', ['clean', 'uglify', 'sass', 'cssmin', 'svgmin', 'imagemin', 'copy:pdfs', 'copy:ico', 'copy:css', 'copy:fonts', 'copy:external_css', 'copy:external_js']);
+  grunt.registerTask('build', ['clean', 'uglify', 'sass', 'cssmin', 'svgmin', 'imagemin', 'copy:pdfs', 'copy:ico', 'copy:css', 'copy:fonts', 'copy:external_css', 'copy:external_js', 'copy:data']);
 };

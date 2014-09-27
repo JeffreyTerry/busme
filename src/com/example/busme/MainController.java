@@ -40,7 +40,7 @@ public class MainController extends BroadcastReceiver implements
 	private float x1, x2;
 
 	public MainController(Context c) {
-		model = new MainModel();
+		model = new MainModel(c);
 		context = c;
 		createMainListViewAdapter();
 
