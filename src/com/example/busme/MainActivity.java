@@ -20,11 +20,11 @@ public class MainActivity extends FragmentActivity {
 	private EditText etDestination, etStart;
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
 	private MainController mainController;
-	
-	private ViewPager mViewPager; 
+
+	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
 	public static FragmentManager fragmentManager;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,15 +32,15 @@ public class MainActivity extends FragmentActivity {
 		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		mainController = new MainController(this);
-		
+
 		setContentView(R.layout.viewpager_main);
-		initializePages();	
+		initializePages();
 	}
-	
+
 	public MainController getMainController() {
 		return mainController;
 	}
-	
+
 	private void initializePages() {
 		// TODO Auto-generated method stub
 		List<Fragment> fragments = new Vector<Fragment>();
@@ -55,15 +55,17 @@ public class MainActivity extends FragmentActivity {
         fragmentManager = this.getSupportFragmentManager();
         
 	}
+	
+	public void setShadows(View shadowExpanded, View shadowRetracted) {
+		this.shadowExpanded = shadowExpanded;
+		this.shadowRetracted = shadowRetracted;
+	}
 
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the options menu from XML
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
-
-		return true;
+	public void setMainEts(EditText etStart, EditText etDestination,
+			View mainEtDivider) {
+		this.etStart = etStart;
+		this.etDestination = etDestination;
+		this.mainEtDivider = mainEtDivider;
 	}
 
 	@Override
@@ -71,19 +73,7 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		mainController.resetLocationUpdateCount();
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	public void showEtStart(View v) {
 		shadowRetracted.setVisibility(View.INVISIBLE);
 		shadowExpanded.setVisibility(View.VISIBLE);
