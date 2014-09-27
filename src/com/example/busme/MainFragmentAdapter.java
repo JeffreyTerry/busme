@@ -19,14 +19,13 @@ public class MainFragmentAdapter extends FragmentPagerAdapter{
 	@Override
 	public Fragment getItem(int position) {
 		// TODO Auto-generated method stub
-		
-		return this.fragments.get(position);
+		return fragments.get(position);
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return this.fragments.size();
+		return fragments.size();
 	}
 	
 

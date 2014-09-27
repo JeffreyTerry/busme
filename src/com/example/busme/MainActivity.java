@@ -8,21 +8,36 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity {
+	private ListView mainListView;
+	private EditText etDestination, etStart;
+	private View shadowExpanded, shadowRetracted, mainEtDivider;
+	private MainController mainController;
 	
-	ViewPager mViewPager; 
-	MainFragmentAdapter mFragmentAdapter;
+	private ViewPager mViewPager; 
+	private MainFragmentAdapter mFragmentAdapter;
 	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.viewpager_main);
-        initializePages();
-
-    }
-    
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		mainController = new MainController(this);
+		
+		setContentView(R.layout.viewpager_main);
+		initializePages();	
+	}
+	
+	public MainController getMainController() {
+		return mainController;
+	}
+	
 	private void initializePages() {
 		// TODO Auto-generated method stub
 		List<Fragment> fragments = new Vector<Fragment>();
@@ -34,22 +49,39 @@ public class MainActivity extends FragmentActivity {
         mViewPager.setAdapter(mFragmentAdapter);
 	}
 
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the options menu from XML
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+
+		return true;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mainController.resetLocationUpdateCount();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void showEtStart(View v) {
+		shadowRetracted.setVisibility(View.INVISIBLE);
+		shadowExpanded.setVisibility(View.VISIBLE);
+		etStart.setVisibility(View.VISIBLE);
+		mainEtDivider.setVisibility(View.VISIBLE);
+		etDestination.setCursorVisible(true);
+	}
 }
