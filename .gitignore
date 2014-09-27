@@ -1,0 +1,101 @@
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+<<<<<<< HEAD
+# api key file
+res/values/api_key.xml
+
+# DADT
+.DS_Store
+
+######## server stuff ##########
+# Compiled source #
+###################
+server_code/server/*.com
+server_code/server/*.class
+server_code/server/*.dll
+server_code/server/*.exe
+server_code/server/*.o
+server_code/server/*.so
+server_code/server/*.sge.o
+server_code/server/*.sge.pe
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+server_code/server/*.7z
+server_code/server/*.dmg
+server_code/server/*.gz
+server_code/server/*.iso
+server_code/server/*.jar
+server_code/server/*.rar
+server_code/server/*.tar
+server_code/server/*.zip
+server_code/server/.sass-cache
+server_code/server/node_modules
+server_code/server/bower_components
+server_code/server/public
+server_code/server/db
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+server_code/server/.DS_Store
+server_code/server/.DS_Store?
+server_code/server/._*
+server_code/server/.Spotlight-V100
+server_code/server/.Trashes
+server_code/server/ehthumbs.db
+server_code/server/Thumbs.db
+
+# api key file
+res/values/api_key.xml
