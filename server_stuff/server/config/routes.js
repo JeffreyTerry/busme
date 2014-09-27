@@ -1,5 +1,6 @@
 var _ = require('underscore'),
-    deviceController = require('../app/controllers/device_controller');
+    deviceController = require('../app/controllers/device_controller'),
+    busRouteController = require('../app/controllers/bus_route_controller');
 
 // Stores a dictionary with route paths as keys and their corresponding static html files as values.
 var URLToFileMap = {
