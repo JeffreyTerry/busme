@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="80dp"
     android:orientation="horizontal" >
-   
-        
+               
+            
 	<LinearLayout
+	    android:id="@+id/linearlayoutCond"
 	    android:layout_width="225dp"
-	    android:layout_height="70dp"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" 
 	    android:background="@drawable/main_list_item"
-	    android:orientation="vertical">
+	    >
 	    
 	    <TextView
+	        android:layout_weight="1"
 	        android:id="@+id/tvRouteStart"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="Sage Hall"
-	        android:paddingTop="5dp"
-	        android:paddingBottom="10dp"
-	        android:paddingLeft="10dp"
 	        android:textSize="18dp"
-	        android:textStyle="bold"/>
+	        android:textStyle="bold"
+	        android:textColor="@color/gunmetal"
+	        android:padding="3dp"/>
 	    <TextView
+	        android:layout_weight="1"
 	        android:id="@+id/tvRouteDestination"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="Seneca Commons"
-	        android:gravity="right"
-	        android:paddingTop="10dp"
-	        android:paddingBottom="5dp"
-	        android:paddingRight="10dp"
 	        android:textSize="18dp"
-	        android:textStyle="bold"/>
+	        android:gravity="right|bottom"
+	        android:textStyle="bold"
+	        android:textColor="@color/gunmetal"
+	        android:padding="3dp"
+/>
+	    </LinearLayout>
 	    
-	</LinearLayout>
+	 
+	
 
 	
+		<ImageView
+		    android:layout_width="5dp"
+		    android:layout_height="match_parent"
+		    android:src="@drawable/divider_list_item"
+		    android:scaleType="fitXY"
+		    />
+	
+
+	
+	
+
 	<LinearLayout
 	    android:layout_width="fill_parent"
-	    android:layout_height="70dp"
+	    android:layout_height="match_parent"
 	    android:orientation="vertical"
 	    android:weightSum="6"
 	    android:background="@drawable/list_item_end">
 	    
 	    <View
 	        android:layout_width="match_parent"
-	        android:layout_weight ="1"
-			android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="0dp"
 	        />
 	    
 	    <TextView
@@ -58,25 +74,24 @@
 	        android:textSize="18dp"
 	        android:paddingBottom="5dp"
 	        android:textStyle="bold"
-	        android:textColor="#ffffff"
+	        android:textColor="@color/white"
 	        android:gravity="center"/>
 	    
 	    <TextView
 	        android:id="@+id/tvTime"
 	        android:layout_width="match_parent"
-	        			android:layout_weight="2"
-	        			android:layout_height="0dp"
+	        android:layout_weight="2"
+	        android:layout_height="0dp"
 			android:text="15mins"
 	        android:textSize="21dp"
 	        android:textStyle="bold"
-	        android:textColor="#37c570"
+	        android:textColor="@color/marshgreen"
 	        android:gravity="center"/>
 	    
 	    
 	    
 	    </LinearLayout>
-	
 	    
 
-
 </LinearLayout>
+	    
