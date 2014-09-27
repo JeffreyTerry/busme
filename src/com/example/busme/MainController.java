@@ -233,7 +233,7 @@ public class MainController extends BroadcastReceiver implements
 			super.onPostExecute(result);
 		}
 	}
-
+	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 	    switch (event.getAction()) {
