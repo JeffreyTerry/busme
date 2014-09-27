@@ -107,12 +107,12 @@ public class MainController extends BroadcastReceiver implements
 		QueryTask q = new QueryTask();
 		q.execute(start, dest);
 	}
-	
+
 	@Override
 	public boolean canDismiss(int position) {
 		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
 	}
-	
+
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
 		MainListViewItem itemDismissed;
@@ -215,12 +215,14 @@ public class MainController extends BroadcastReceiver implements
 					return model.getCardsForQuery(args[0], args[1]);
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-					result.add(new MainListViewItem(-1, -1, "invalid params", "invalid params"));
+					result.add(new MainListViewItem(-1, -1, "invalid params",
+							"invalid params"));
 					return result;
 				}
 			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-				result.add(new MainListViewItem(-1, -1, "network error", "network error"));
+				result.add(new MainListViewItem(-1, -1, "network error",
+						"network error"));
 				return result;
 			}
 		}
@@ -233,33 +235,27 @@ public class MainController extends BroadcastReceiver implements
 			super.onPostExecute(result);
 		}
 	}
-	
+
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-	    switch (event.getAction()) {
-	    case MotionEvent.ACTION_DOWN:
-	    	x1 = event.getX();
-	    	swipeDismisserListView.onTouch(v, event);
-	    case MotionEvent.ACTION_UP:
-	    	if (event.getX() > x1){
-	    		System.out.println("CHECK");
-	    		swipeDismisserListView.onTouch(v, event);
-	    	}
-	    	break;
-	    case MotionEvent.ACTION_MOVE:
-	    	if (event.getX() > x1){
-	    		System.out.println("CHECK");
-	    		swipeDismisserListView.onTouch(v, event);
-	    	}
-	        System.out.println("Intercepted");
-	        break;
-	    case MotionEvent.ACTION_CANCEL:
-	    	if (event.getX() > x1){
-	    		System.out.println("CHECK");
-	    		swipeDismisserListView.onTouch(v, event);
-	    	}
-	        break;
-	    }
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			x1 = event.getX();
+			swipeDismisserListView.onTouch(v, event);
+		case MotionEvent.ACTION_UP:
+			swipeDismisserListView.onTouch(v, event);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		case MotionEvent.ACTION_CANCEL:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		}
 		return false;
 	}
 }

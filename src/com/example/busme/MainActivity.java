@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		mainController.resetLocationUpdateCount();
 	}
-	
+
 	public void showEtStart(View v) {
 		shadowRetracted.setVisibility(View.INVISIBLE);
 		shadowExpanded.setVisibility(View.VISIBLE);
