@@ -53,7 +53,7 @@ module.exports = function(app, config){
     routeDataController.getAllStops(req, res);
   });
 
-  app.post('/api/newdevice', function(req, res){
+  app.get('/api/newdevice', function(req, res){
     deviceController.createNewDevice(req, res);
   });
 
