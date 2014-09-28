@@ -2,26 +2,109 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <fragment
         android:id="@+id/fgmap"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="4"  />
+        android:layout_weight="5"  />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="5"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
-        android:layout_weight="6">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Some more information about buses here" />
-    </LinearLayout>
+        android:weightSum="7">
+        
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="2"
+			android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:background="@drawable/map_activity_top">
+            
+            <TextView
+                android:id="@+id/busNum"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="BUS#10"
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+            
+             <TextView
+                android:id="@+id/arrivalTime"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Arrives in 10min"
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+            
+        </LinearLayout>
+        
+                <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="3"
+			android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+            
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="BUS#10"
+                android:gravity="center"/>
+            
+             <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Arrives in 10min"
+                android:gravity="center"/>
+             
+              <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="BUS#10"
+                android:gravity="center"/>
+            
+        </LinearLayout>
+        
+        
+          <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="2"
+			android:layout_height="0dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+            
+            <TextView
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:text="BUS#10"
+                android:gravity="center"/>
+            
+             <TextView
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:text="Arrives in 10min"
+                android:gravity="center"/>
+            
+            
+        </LinearLayout>
+        
+</LinearLayout>
 
 </LinearLayout>

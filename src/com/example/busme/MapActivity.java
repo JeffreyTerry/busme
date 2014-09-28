@@ -1,11 +1,13 @@
 package com.example.busme;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +25,25 @@ public class MapActivity extends Activity implements LocationListener {
 		this.setContentView(R.layout.map_activity);
 
 		initializeMapFragment();
+		initializeFonts();
+	}
+	
+	private void initializeFonts(){
+        String bebas = "BebasNeue.otf";
+        String exo = "Exo-Regular.otf";
+        String ubuntu = "Ubuntu-Title.ttf";
+        
+        Typeface Bebas = Typeface.createFromAsset(getAssets(), bebas);
+        Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
+        Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
+        
+        TextView busNum = (TextView) findViewById(R.id.busNum);
+        TextView arrivalTime = (TextView) findViewById(R.id.arrivalTime);
+        
+        busNum.setTypeface(Bebas);
+        arrivalTime.setTypeface(Exo);
+        
+        
 	}
 
 	private void initializeMapFragment() {
