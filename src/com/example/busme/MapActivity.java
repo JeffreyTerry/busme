@@ -22,19 +22,24 @@ import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
+import android.util.Log;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -56,6 +61,40 @@ public class MapActivity extends Activity implements LocationListener {
 		initializeMapFragment();
 
 		markerPoints = new ArrayList<LatLng>();
+		initializeFonts();
+	}
+	
+	private void initializeFonts(){
+        String bebas = "BebasNeue.otf";
+        String exo = "Exo-Regular.otf";
+        String ubuntu = "Ubuntu-Title.ttf";
+        
+        Typeface Bebas = Typeface.createFromAsset(getAssets(), bebas);
+        Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
+        Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
+        
+        TextView busNum = (TextView) findViewById(R.id.busNum);
+        TextView arrivalTime = (TextView) findViewById(R.id.arrivalTime);
+        TextView bd1 = (TextView) findViewById(R.id.board1);
+        TextView bd2 = (TextView) findViewById(R.id.board2);
+        TextView trv1 = (TextView) findViewById(R.id.travel1);
+        TextView trv2 = (TextView) findViewById(R.id.travel2);
+        TextView dest1 = (TextView) findViewById(R.id.destination1);
+        TextView dest2 = (TextView) findViewById(R.id.destination2);
+        TextView percentage = (TextView) findViewById(R.id.percent);
+        
+        busNum.setTypeface(Bebas);
+        bd1.setTypeface(Exo);
+        bd2.setTypeface(Exo);
+        trv1.setTypeface(Exo);
+        trv2.setTypeface(Exo);
+        dest1.setTypeface(Exo);
+        dest2.setTypeface(Exo);
+        arrivalTime.setTypeface(Exo);
+        percentage.setTypeface(Ubuntu);
+        
+        
+        
 	}
 
 	private void initializeMapFragment() {
@@ -76,7 +115,7 @@ public class MapActivity extends Activity implements LocationListener {
 			onLocationChanged(location);
 		}
 		locationManager.requestLocationUpdates(provider, 20000, 0, this);
-
+		
 		LatLng startLatLng = new LatLng(extras.getDouble("startLat"),
 				extras.getDouble("startLng"));
 		LatLng destLatLng = new LatLng(extras.getDouble("destLat"),
@@ -86,12 +125,12 @@ public class MapActivity extends Activity implements LocationListener {
 		MarkerOptions startOptions = new MarkerOptions().position(startLatLng);
 		MarkerOptions endOptions = new MarkerOptions().position(destLatLng);
 
-		startOptions.title(extras.getString("destination"));
+		startOptions.title(extras.getString("start"));
 		startOptions.icon(BitmapDescriptorFactory
 				.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 		startOptions.snippet("Start Location");
 
-		endOptions.title(extras.getString("start"));
+		endOptions.title(extras.getString("destination"));
 		endOptions.icon(BitmapDescriptorFactory
 				.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 		endOptions.snippet("Destination");
@@ -126,13 +165,16 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-
-		LatLng average = new LatLng(
-				(extras.getDouble("startLat") + extras.getDouble("destLat")) / 2,
-				(extras.getDouble("startLng") + extras.getDouble("destLng")) / 2);
-
-		gmap.moveCamera(CameraUpdateFactory.newLatLng(average));
-		gmap.animateCamera(CameraUpdateFactory.zoomTo(17));
+		
+		LatLngBounds.Builder b = new LatLngBounds.Builder();
+		b.include(new LatLng(location.getLatitude(), location.getLongitude()));
+		b.include(new LatLng(extras.getDouble("startLat"), extras.getDouble("startLng")));
+		b.include(new LatLng(extras.getDouble("destLat"), extras.getDouble("destLng")));
+		LatLngBounds bounds = b.build();
+		
+		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25,25,5);
+		gmap.moveCamera(cu);
+		gmap.animateCamera(cu);
 
 	}
 

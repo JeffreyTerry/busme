@@ -2,26 +2,214 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <fragment
         android:id="@+id/fgmap"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="4"  />
+        android:layout_weight="6"  />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="4"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
-        android:layout_weight="6">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Some more information about buses here" />
-    </LinearLayout>
+        android:weightSum="7">
+        
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="2"
+			android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:background="@drawable/map_activity_top">
+            
+            <TextView
+                android:id="@+id/busNum"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="BUS#10"
+                android:textSize="46dp"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+            
+             <TextView
+                android:id="@+id/arrivalTime"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="ARRIVES IN 10MIN"
+                android:textSize="28dp"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+            
+        </LinearLayout>
+        
+                <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="3"
+			android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:background="@color/darkchalk">
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+            <TextView
+                android:id="@+id/board1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Boarding Time:"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/board2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="4:20"
+                android:textSize="18dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@drawable/arrival_time"/>
+            
+            
+            </LinearLayout>
+            
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/divider_map"/>
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+            <TextView
+                android:id="@+id/travel1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Travel Time:"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/travel2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="69min"
+                                android:textSize="18dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@drawable/travel_time"/>
+            
+            
+            </LinearLayout>
+            
+                        <ImageView
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/divider_map"/>
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+            <TextView
+                android:id="@+id/destination1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Time of Arrival:"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/destination2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="5:29"
+                                android:textSize="18dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@drawable/destination_time"/>
+            
+            
+            </LinearLayout>
+            
+       
+            
+        </LinearLayout>
+        
+        
+          <LinearLayout 
+            android:layout_width="match_parent"
+			android:layout_weight="2"
+			android:layout_height="0dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+            
+            <TextView
+                android:id="@+id/prob"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:text="Probability that our prediction is correct:"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:background="@color/aquablast"/>
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="10">
+             <TextView
+                android:id="@+id/percent"
+                android:layout_weight="7"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:text="69%"
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:gravity="right|center_vertical"
+                android:padding="5dp"
+                android:background="@color/marshgreen"/>
+             
+             <View 
+                 android:layout_weight="3"
+                 android:layout_height="match_parent"
+                 android:layout_width="0dp"
+                 android:background="@color/white"/>
+             </LinearLayout>
+             
+            
+            
+        </LinearLayout>
+        
+</LinearLayout>
 
 </LinearLayout>
