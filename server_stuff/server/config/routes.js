@@ -45,6 +45,11 @@ module.exports = function(app, config){
     routeDataController.getRouteLatLngs('route' + req.params.route_num, res);
   });
 
+  // get a list of [lat, lng] pairs that trace out a given route
+  app.get('/api/data/allstops', function(req, res){
+    routeDataController.getAllStops(req, res);
+  });
+
   app.post('/api/newdevice', function(req, res){
     deviceController.createNewDevice(req, res);
   });
