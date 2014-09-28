@@ -31,10 +31,10 @@ public class MainController extends BroadcastReceiver implements
 			/ LOCATION_UPDATE_FREQUENCY;
 	public static final int ALARM_REQUEST_CODE = 984375;
 	public static final double BUS_SPEED_THRESHOLD = 5.0;
+	public EditText etStart, etDestination;
 	private MainListViewAdapter mainListViewAdapter;
 	private Context context;
 	private MainModel model;
-	private EditText etStart, etDestination;
 	private int numberOfLocationUpdates;
 	private SwipeDismisserListView swipeDismisserListView;
 	private float x1, x2;
@@ -103,7 +103,7 @@ public class MainController extends BroadcastReceiver implements
 				MainModel.LOCATION_UNSPECIFIED);
 	}
 
-	private void fetchNewCards(String start, String dest) {
+	public void fetchNewCards(String start, String dest) {
 		QueryTask q = new QueryTask();
 		q.execute(start, dest);
 	}
@@ -153,6 +153,7 @@ public class MainController extends BroadcastReceiver implements
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
+		
 		 MainListViewItem item = mainListViewAdapter.getItem(position + 1);
 		 Intent i = new Intent(context, MapActivity.class);
 		 i.putExtra("time", item.getTime());

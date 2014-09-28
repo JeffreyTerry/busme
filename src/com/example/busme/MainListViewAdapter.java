@@ -136,7 +136,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 		if(loading){
 			items.clear();
 			addPaddingItems();
-			items.add(new MainListViewItem(-1, -1, "loading", "loading", -1, -1, -1, -1, "N/A"));
+			items.add(new MainListViewItem(-1, -1, "loading", "loading", -1, -1,-1,-1, "N/A"));
 		}
 		this.loading = loading;
 	}

@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,7 +29,9 @@ public class MainActivity extends FragmentActivity {
 	private Stack<Integer> pageHist;
 	private boolean saveToHistory;
 	private int currentPage;
-
+	
+	private SwipeRefreshLayout swipeLayout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +49,6 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initializePages() {
-		// TODO Auto-generated method stub
 		List<Fragment> fragments = new Vector<Fragment>();
 		fragments.add(Fragment.instantiate(this, MainViewListFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, MainViewMapFragment.class.getName()));
@@ -54,7 +57,11 @@ public class MainActivity extends FragmentActivity {
         mFragmentAdapter = new MainFragmentAdapter(this.getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mFragmentAdapter);
         
-        //map fragment
+        // TODO
+        //swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+		//swipeLayout.setOnRefreshListener(this);
+		
+        //Map fragment
         fragmentManager = this.getSupportFragmentManager();
         
         //Page changer
@@ -92,7 +99,9 @@ public class MainActivity extends FragmentActivity {
 	
 	public void onBackPressed(){
 		if (pageHist.size()%2 == 0){
-			super.onBackPressed();
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			startActivity(intent);
 		}
 		else {
 			saveToHistory = false;
@@ -114,4 +123,11 @@ public class MainActivity extends FragmentActivity {
 		mainEtDivider.setVisibility(View.VISIBLE);
 		etDestination.setCursorVisible(true);
 	}
+	
+	/*@Override
+	public void onRefresh() {
+        mainController.fetchNewCards(etStart.getText().toString(), 
+        		etDestination.getText().toString());
+        swipeLayout.setRefreshing(false);
+    }*/
 }
