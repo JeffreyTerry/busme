@@ -186,9 +186,14 @@ module.exports = {
             } else {
                 dest_lat = response.lat;
                 dest_lng = response.lng;
-                closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 80);
-                console.log(closest_stops);
-                possible_buses = findBestPossibleBusRoutes(closest_stops);
+                closest_stops = [];
+                possible_buses = [];
+                var max_num_of_stops = 5;
+                while(possible_buses.length == 0 && max_num_of_stops <= 25) {
+                    closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
+                    max_num_of_stops += 10;
+                    possible_buses = findBestPossibleBusRoutes(closest_stops);
+                }
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
                 } else {
