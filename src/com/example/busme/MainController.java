@@ -113,6 +113,29 @@ public class MainController extends BroadcastReceiver implements
 		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
 	}
 
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			x1 = event.getX();
+			swipeDismisserListView.onTouch(v, event);
+		case MotionEvent.ACTION_UP:
+			swipeDismisserListView.onTouch(v, event);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		case MotionEvent.ACTION_CANCEL:
+			if (event.getX() > x1) {
+				swipeDismisserListView.onTouch(v, event);
+			}
+			break;
+		}
+		return false;
+	}
+	
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
 		MainListViewItem itemDismissed;
@@ -136,6 +159,12 @@ public class MainController extends BroadcastReceiver implements
 		 i.putExtra("time", item.getTime());
 		 i.putExtra("start", item.getRouteStart());
 		 i.putExtra("destination", item.getRouteDestination());
+		 i.putExtra("routeNumber", item.getRouteNumber());
+		 i.putExtra("startLat", item.getStartLat());
+		 i.putExtra("startLng", item.getStartLng());
+		 i.putExtra("destLat", item.getDestLat());
+		 i.putExtra("destLng", item.getDestLng());
+		 i.putExtra("travelTime", item.getTravelTime());
 		 context.startActivity(i);
 	}
 
@@ -217,13 +246,13 @@ public class MainController extends BroadcastReceiver implements
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 					result.add(new MainListViewItem(-1, -1, "invalid params",
-							"invalid params"));
+							"invalid params", -1, -1, -1, -1, "N/A"));
 					return result;
 				}
 			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 				result.add(new MainListViewItem(-1, -1, "network error",
-						"network error"));
+						"network error", -1, -1, -1, -1, "N/A"));
 				return result;
 			}
 		}
@@ -235,28 +264,5 @@ public class MainController extends BroadcastReceiver implements
 			mainListViewAdapter.addAll(result);
 			super.onPostExecute(result);
 		}
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			x1 = event.getX();
-			swipeDismisserListView.onTouch(v, event);
-		case MotionEvent.ACTION_UP:
-			swipeDismisserListView.onTouch(v, event);
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (event.getX() > x1) {
-				swipeDismisserListView.onTouch(v, event);
-			}
-			break;
-		case MotionEvent.ACTION_CANCEL:
-			if (event.getX() > x1) {
-				swipeDismisserListView.onTouch(v, event);
-			}
-			break;
-		}
-		return false;
 	}
 }
