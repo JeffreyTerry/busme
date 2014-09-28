@@ -194,13 +194,14 @@ loadData();
 // }, 2000);
 module.exports = {
     fromCurrent: function(start_lat, start_lng, destination, res) {
-        getAddressLatLng(destination, function(err, response){
+        getAddressLatLng(destination + ' ithaca', function(err, response){
             if(err) {
                 res.json({'err': 'destination_address_not_found_error'});
             } else {
                 dest_lat = response.lat;
                 dest_lng = response.lng;
                 closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 80);
+                console.log(closest_stops);
                 possible_buses = findBestPossibleBusRoutes(closest_stops);
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
@@ -210,14 +211,25 @@ module.exports = {
             }
         });
     }, fromCustom: function(start, destination, res) {
-        getAddressLatLng(destination, function(err, response){
-            if(err) {
-                res.json({'err': 'destination_address_not_found_error'});
-            } else {
-                dest_lat = response.lat;
-                dest_lng = response.lng;
-                res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
-            }
+        getAddressLatLng(start + ' ithaca', function(err, response1){
+            getAddressLatLng(destination + ' ithaca', function(err, response){
+                if(err) {
+                    res.json({'err': 'destination_address_not_found_error'});
+                } else {
+                    start_lat = response1.lat;
+                    start_lng = response1.lng;
+                    dest_lat = response.lat;
+                    dest_lng = response.lng;
+                    closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 80);
+                    console.log(closest_stops);
+                    possible_buses = findBestPossibleBusRoutes(closest_stops);
+                    if(possible_buses.length > 0){
+                        res.json(possible_buses);
+                    } else {
+                        res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': dest_lat, 'destination': dest_lng, 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': dest_lat, 'dest_lng': dest_lng}]);
+                    }
+                }
+            });
         });
     }, fromDefault: function(uid, lat, lng, res) {
         res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
