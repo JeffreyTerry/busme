@@ -2,13 +2,10 @@ package com.example.busme;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -17,7 +14,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.app.Activity;
@@ -29,8 +25,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -42,7 +37,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapActivity extends Activity implements LocationListener {
@@ -63,36 +57,54 @@ public class MapActivity extends Activity implements LocationListener {
 		markerPoints = new ArrayList<LatLng>();
 		initializeFonts();
 	}
-	
-	private void initializeFonts(){
-        String bebas = "BebasNeue.otf";
-        String exo = "Exo-Regular.otf";
-        String ubuntu = "Ubuntu-Title.ttf";
-        
-        Typeface Bebas = Typeface.createFromAsset(getAssets(), bebas);
-        Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
-        Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
-        
 
-        TextView bd1 = (TextView) findViewById(R.id.board1);
-        TextView bd2 = (TextView) findViewById(R.id.board2);
-        TextView trv1 = (TextView) findViewById(R.id.travel1);
-        TextView trv2 = (TextView) findViewById(R.id.travel2);
-        TextView dest1 = (TextView) findViewById(R.id.destination1);
-        TextView dest2 = (TextView) findViewById(R.id.destination2);
-        TextView percentage = (TextView) findViewById(R.id.percent);
-        
+	private void initializeFonts() {
+		String bebas = "BebasNeue.otf";
+		String exo = "Exo-Regular.otf";
+		String ubuntu = "Ubuntu-Title.ttf";
 
-        bd1.setTypeface(Exo);
-        bd2.setTypeface(Exo);
-        trv1.setTypeface(Exo);
-        trv2.setTypeface(Exo);
-        dest1.setTypeface(Exo);
-        dest2.setTypeface(Exo);
-        percentage.setTypeface(Ubuntu);
-        
-        
-        
+		Typeface Bebas = Typeface.createFromAsset(getAssets(), bebas);
+		Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
+		Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
+
+		TextView bd1 = (TextView) findViewById(R.id.board1);
+		TextView bd2 = (TextView) findViewById(R.id.board2);
+		TextView trv1 = (TextView) findViewById(R.id.travel1);
+		TextView trv2 = (TextView) findViewById(R.id.travel2);
+		TextView dest1 = (TextView) findViewById(R.id.destination1);
+		TextView dest2 = (TextView) findViewById(R.id.destination2);
+		TextView percentage = (TextView) findViewById(R.id.percent);
+
+		bd1.setTypeface(Exo);
+		bd2.setTypeface(Exo);
+		trv1.setTypeface(Exo);
+		trv2.setTypeface(Exo);
+		dest1.setTypeface(Exo);
+		dest2.setTypeface(Exo);
+		percentage.setTypeface(Ubuntu);
+
+		// UPDATING THE DATA
+
+		// boarding time
+		Date date = new Date();
+		int time = extras.getInt("time");
+		time = time * 60 * 1000;
+		long boardingTime = (date.getTime() + time);
+		date.setTime(boardingTime);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
+		bd2.setText(dateFormat.format(date));
+
+		// travel time
+		int travelTime = Integer.parseInt(extras.getString("travelTime"));
+		trv2.setText(extras.getString("travelTime") + " min");
+
+		// time of arrival
+		Date date2 = new Date();
+		travelTime = travelTime * 60 * 1000;
+		date2.setTime(boardingTime + travelTime);
+		dateFormat.format(date2);
+		dest2.setText(dateFormat.format(date2));
+
 	}
 
 	private void initializeMapFragment() {
@@ -109,11 +121,9 @@ public class MapActivity extends Activity implements LocationListener {
 		String provider = locationManager.getBestProvider(criteria, true);
 		Location location = locationManager.getLastKnownLocation(provider);
 
-		if (location != null) {
-			onLocationChanged(location);
-		}
 		locationManager.requestLocationUpdates(provider, 20000, 0, this);
 		
+		LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
 		LatLng startLatLng = new LatLng(extras.getDouble("startLat"),
 				extras.getDouble("startLng"));
 		LatLng destLatLng = new LatLng(extras.getDouble("destLat"),
@@ -139,6 +149,17 @@ public class MapActivity extends Activity implements LocationListener {
 
 		// requests route data from server
 		new QueryTask().execute();
+		
+		LatLngBounds.Builder b = new LatLngBounds.Builder();
+		b.include(current);
+		b.include(startLatLng);
+		b.include(destLatLng);
+		LatLngBounds bounds = b.build();
+
+		CameraUpdate cu = CameraUpdateFactory
+				.newLatLngBounds(bounds, 20, 20, 5);
+		gmap.moveCamera(cu);
+		gmap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
 	}
 
@@ -163,16 +184,8 @@ public class MapActivity extends Activity implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
+
 		
-		LatLngBounds.Builder b = new LatLngBounds.Builder();
-		b.include(new LatLng(location.getLatitude(), location.getLongitude()));
-		b.include(new LatLng(extras.getDouble("startLat"), extras.getDouble("startLng")));
-		b.include(new LatLng(extras.getDouble("destLat"), extras.getDouble("destLng")));
-		LatLngBounds bounds = b.build();
-		
-		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25,25,5);
-		gmap.moveCamera(cu);
-		gmap.animateCamera(cu);
 
 	}
 
@@ -227,7 +240,6 @@ public class MapActivity extends Activity implements LocationListener {
 		return null;
 	}
 
-
 	private class QueryTask extends AsyncTask<String, Void, ArrayList<LatLng>> {
 		@Override
 		protected void onPreExecute() {
@@ -238,7 +250,8 @@ public class MapActivity extends Activity implements LocationListener {
 		protected ArrayList<LatLng> doInBackground(String... args) {
 			try {
 				int routeNumber = extras.getInt("routeNumber");
-				routeCoordinates = getJSONArrayForURL("/data/route/" + routeNumber);
+				routeCoordinates = getJSONArrayForURL("/data/route/"
+						+ routeNumber);
 				System.out.println("This is the routeNumber" + routeNumber);
 				return parseJSONArray(routeCoordinates);
 			} catch (Exception e) {
@@ -249,9 +262,8 @@ public class MapActivity extends Activity implements LocationListener {
 		@Override
 		protected void onPostExecute(ArrayList<LatLng> result) {
 			super.onPostExecute(result);
-			PolylineOptions plOptions = new PolylineOptions()
-			.width(15)
-			.color(Color.CYAN);
+			PolylineOptions plOptions = new PolylineOptions().width(15).color(
+					Color.CYAN);
 
 			for (int i = 0; i < result.size(); i++) {
 				plOptions.add(result.get(i));
