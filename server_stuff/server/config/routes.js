@@ -31,6 +31,8 @@ module.exports = function(app, config){
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
+    req.params.start = req.params.start.replace('_', ' ');
+    req.params.start += ' Ithaca';
     req.params.destination = req.params.destination.replace('_', ' ');
     req.params.destination += ' Ithaca';
     busRouteController.fromCustom(req.params.start, req.params.destination, res);
