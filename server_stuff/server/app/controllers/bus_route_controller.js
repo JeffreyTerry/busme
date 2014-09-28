@@ -36,28 +36,28 @@ function deg2rad(deg) {
 }
 
 function getAddressLatLng(address, cb){
-    var address_found = true;
-    var stopName;
-    address = address.split(' ');
-    if(address.length > 0){
-        for(stop in stopData) {
-            for(i in address){
-                if(stop.toLowerCase().indexOf(address[i].toLowerCase()) != -1) {
-                    stopName = stop;
-                } else {
-                    address_found = false;
-                    break;
-                }
-            }
-        }
-    }
-    if (address_found) {
-        console.log(stopName);
-        result = {};
-        result.lat = stopData[stopName][0];
-        result.lng = stopData[stopName][1];
-        cb(undefined, result);
-    } else {
+    // var address_found = true;
+    // var stopName;
+    // address = address.split(' ');
+    // if(address.length > 0){
+    //     for(stop in stopData) {
+    //         for(i in address){
+    //             if(stop.toLowerCase().indexOf(address[i].toLowerCase()) != -1) {
+    //                 stopName = stop;
+    //             } else {
+    //                 address_found = false;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+    // if (address_found) {
+    //     console.log(stopName);
+    //     result = {};
+    //     result.lat = stopData[stopName][0];
+    //     result.lng = stopData[stopName][1];
+    //     cb(undefined, result);
+    // } else {
         gm.geocode(address, function(err, response){
             if(err) {
                 cb(err);
@@ -72,7 +72,7 @@ function getAddressLatLng(address, cb){
                 cb(undefined, result);
             }
         });
-    }
+    // }
 }
 
 function insert_stop_in_back(list, stop, distance) {
