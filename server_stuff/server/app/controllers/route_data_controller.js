@@ -7,7 +7,6 @@ module.exports = {
             fs.readFile(__dirname + '/../../public/data/routelatlngs/' + route_name + '.txt', function(err, data){
                 if(!err){
                     routeData = JSON.parse(data);
-                    console.log(routeData);
                     res.json(routeData);
                 } else {
                     res.json([{'error': 'data_parse_error'}])
