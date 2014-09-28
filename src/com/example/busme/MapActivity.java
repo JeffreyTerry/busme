@@ -27,7 +27,6 @@ public class MapActivity extends Activity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
 		initializeMapFragment();
-		initializeFonts();
 	}
 	
 	private void initializeFonts(){
