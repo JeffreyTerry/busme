@@ -5,8 +5,7 @@ var _ = require('underscore'),
 
 // Stores a dictionary with route paths as keys and their corresponding static html files as values.
 var URLToFileMap = {
-  '/': 'home/home',
-  '/fun': 'fun/fun'
+  '/': 'home/home'
 };
 
 // Renders the proper web page for all static pages by parsing the route from the req object.
@@ -32,6 +31,8 @@ module.exports = function(app, config){
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
+    req.params.destination = req.params.destination.replace('_', ' ');
+    req.params.destination += ' Ithaca';
     busRouteController.fromCustom(req.params.start, req.params.destination, res);
   });
 
