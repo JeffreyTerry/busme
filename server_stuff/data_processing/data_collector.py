@@ -12,8 +12,8 @@ def transform_coordinate_quartets(coordinate_list):
     return list((coordinate_list[i:i + 3][::-1] for i in xrange(0, len(coordinate_list), 4)))
 
 # these are the routes we will collect data for
-routes = [10, 11, 15, 17, 81, 82, 83, 92]
-# routes = []
+# routes = [10, 11, 15, 17, 81, 82, 83, 92]
+routes = []
 
 for route in routes:
     data = urllib2.urlopen('http://www.tcatbus.com/kml/route' + str(route) + '.kml').read();
@@ -48,7 +48,7 @@ for stop in stops:
     full_coordinate_list.extend(coordinate_list)
     # sleep so the server doesn't get suspicious and kick us out
     sleep(2)
-print full_coordinate_list
+# print full_coordinate_list
 coordinate_dictionary = {}
 for coordinates in full_coordinate_list:
     coordinate_dictionary[coordinates[2]] = coordinates[:2]
@@ -59,12 +59,14 @@ if len(full_coordinate_list) > 0:
 # the values are dictionaries where each entry is (e.g.) {"stop name": [times]}
 routes = {}
 # these are the numbers for each route to query on tcat's website
-# route_schedules = [428]
-route_schedules = []
+route_schedules = ['343', '415', '416', '428', '453', '313', '314', '315', '386', '482', '424', '389', '484', '391', '340', '393', '460', '329', '330', '401', '422', '478', '320', '325', '406', '407', '408', '398', '430', '410', '426', '427']
+# route_schedules = []
+if len(route_schedules) > 0:
+    open('schedule_test_data.txt', 'w').write('')
 for route_schedule in route_schedules:
-    # data = urllib2.urlopen('http://tcat.nextinsight.com/routes/' + route_schedule).read();
-    # open('schedule_test_data.txt', 'w').write(data)
-    data = open('schedule_test_data.txt').read()
+    data = urllib2.urlopen('http://tcat.nextinsight.com/routes/' + route_schedule).read()
+    open('schedule_test_data.txt', 'a').write(data)
+    # data = open('schedule_test_data.txt').read()
     data = data.replace('---', '--')
 
     # parse the data and put it into a pyquery object
@@ -145,10 +147,6 @@ for route_schedule in route_schedules:
         # print table_stops
         # print table_times
 
-        for stop_index, stop in enumerate(table_stops):
-            for time_index, time in enumerate(table_times):
-                pass
-
         new_route_values = []
         for stop_names, stop_times in zip(table_stops, table_times):
             new_route_value = {}
@@ -174,7 +172,8 @@ for route_schedule in route_schedules:
 
         new_route_values_len = len(new_route_values)
         for new_route_index, new_route_name in enumerate(new_route_names):
-            routes[new_route_name] = new_route_values[new_route_index / new_route_values_len]
+            routes[new_route_name] = new_route_values[new_route_index / len(route_days)]
+    sleep(0.5)
 
 
 MON = {}
@@ -210,7 +209,7 @@ route_data['FRI'] = FRI
 route_data['SAT'] = SAT
 route_data['SUN'] = SUN
 
-print route_data
+# print route_data
 if len(routes) > 0:
     route_data = str(route_data)
     route_data = route_data.replace("'", '"')
