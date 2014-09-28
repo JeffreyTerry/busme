@@ -120,8 +120,9 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
     // step 2: get info for all possible routes
     var best_routes = [];
     for(i in routes_possible){
-        var next_bus_time = 10000;
-        var travel_time = 10000;
+        var next_bus_time = 100000;
+        var travel_time = 100000;
+        var now_time = 10000;
         start_times = routeDataToday[routes_possible[i][0]][routes_possible[i][1]];
         for(j in start_times){
             // this puts the time into a single number
@@ -162,26 +163,11 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
             }
         }
         next_bus_hour = Math.floor(next_bus_time / 100);
-        next_bus_minute = next_bus_time % 100;
-        if(next_bus_minute < 10) {
-            next_bus_minute = '0' + next_bus_minute;
-        } else {
-            next_bus_minute = '' + next_bus_minute;
-        }
-        var next_bus_half;
-        if(next_bus_hour < 12) {
-            if(next_bus_hour == 0) {
-                next_bus_hour += 12;
-            }
-            next_bus_half = 'AM';
-        } else {
-            if(next_bus_hour > 12) {
-                next_bus_hour -= 12;
-            }
-            next_bus_half = 'PM';
-        }
-        next_bus_time_string = next_bus_hour + ':' + next_bus_minute + next_bus_half;
-        best_routes.push({'next_bus': next_bus_time_string, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
+        var next_bus_minutes = next_bus_time % 100 + next_bus_hour * 60;
+        now_time_hour = Math.floor(now_time / 100);
+        var now_time_minutes = now_time % 100 + now_time_hour * 60;
+        next_bus_time = next_bus_minutes - now_time_minutes;
+        best_routes.push({'next_bus': next_bus_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
     }
     return best_routes;
 }
