@@ -8,8 +8,8 @@
     <style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
                 <item name="android:icon">@drawable/logo_top</item>
                 <item name="android:displayOptions">showHome</item>
-                <item name="android:background">@color/silverado</item>
-                <item name="android:gravity">center</item>
+                <item name="android:background">#d8d8d8</item>
+                <item name="android:height">55dp</item>
                 
     </style>
 
