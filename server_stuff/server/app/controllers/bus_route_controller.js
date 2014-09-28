@@ -196,7 +196,7 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
         }
     }
     best_routes = best_routes.sort(function(route1, route2){
-        return (route2.travel_time + route2.start_time - route2.now_time) - (route1.travel_time + route1.start_time - route1.now_time);
+        return (route1.travel_time + route1.next_bus) - (route2.travel_time + route2.next_bus);
     });
     return best_routes;
 }
