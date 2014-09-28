@@ -182,7 +182,7 @@ module.exports = {
     fromCurrent: function(start_lat, start_lng, destination, res) {
         getAddressLatLng(destination, function(err, response){
             if(err) {
-                res.json({'err': 'destination_address_not_found'});
+                res.json([{'err': 'address_not_found'}]);
             } else {
                 dest_lat = response.lat;
                 dest_lng = response.lng;
@@ -205,7 +205,7 @@ module.exports = {
         getAddressLatLng(start, function(err, response1){
             getAddressLatLng(destination, function(err, response){
                 if(err) {
-                    res.json({'err': 'address_not_found'});
+                    res.json([{'err': 'address_not_found'}]);
                 } else {
                     start_lat = response1.lat;
                     start_lng = response1.lng;
