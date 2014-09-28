@@ -27,6 +27,7 @@ public class MapActivity extends Activity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
 		initializeMapFragment();
+		initializeFonts();
 	}
 	
 	private void initializeFonts(){
@@ -40,9 +41,24 @@ public class MapActivity extends Activity implements LocationListener {
         
         TextView busNum = (TextView) findViewById(R.id.busNum);
         TextView arrivalTime = (TextView) findViewById(R.id.arrivalTime);
+        TextView bd1 = (TextView) findViewById(R.id.board1);
+        TextView bd2 = (TextView) findViewById(R.id.board2);
+        TextView trv1 = (TextView) findViewById(R.id.travel1);
+        TextView trv2 = (TextView) findViewById(R.id.travel2);
+        TextView dest1 = (TextView) findViewById(R.id.destination1);
+        TextView dest2 = (TextView) findViewById(R.id.destination2);
+        TextView percentage = (TextView) findViewById(R.id.percent);
         
         busNum.setTypeface(Bebas);
+        bd1.setTypeface(Exo);
+        bd2.setTypeface(Exo);
+        trv1.setTypeface(Exo);
+        trv2.setTypeface(Exo);
+        dest1.setTypeface(Exo);
+        dest2.setTypeface(Exo);
         arrivalTime.setTypeface(Exo);
+        percentage.setTypeface(Ubuntu);
+        
         
         
 	}
