@@ -144,8 +144,6 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
     // step 2: get info for all possible routes
     var best_routes = [];
     for(i in routes_possible){
-        var start_time = 100000;
-        var travel_time = 100000;
         var now_time = now.getHours() * 60 + now.getMinutes();
         start_times = routeDataToday[routes_possible[i][0]][routes_possible[i][1]];
         for(j in start_times){
@@ -156,17 +154,15 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
             var index_of_colon = start_times[j].indexOf(':');
             hour = parseInt(start_times[j].substring(0, index_of_colon));
             minute = parseInt(start_times[j].substring(index_of_colon + 1, index_of_colon + 3));
-            half = start_times[j].substr(start_times.length - 2);
-            if(hour == 12 && half == 'AM'){
+            if(hour == 12 && start_times[j].indexOf('AM') != -1){
                 hour = 0;
             }
-            if(half == 'PM') {
+            if(start_times[j].indexOf('PM') != -1) {
                 if(hour != 12){
                     hour += 12;
                 }
             }
             start_time = hour * 60 + minute;
-            console.log(routes_possible[i][1], routes_possible[i][2], start_time, now_time);
             if(start_time > now_time) {
                 break;
             }
@@ -180,11 +176,11 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
             var index_of_colon = dest_times[j].indexOf(':');
             hour = parseInt(dest_times[j].substring(0, index_of_colon));
             minute = parseInt(dest_times[j].substring(index_of_colon + 1, index_of_colon + 3));
-            half = dest_times[j].substr(dest_times.length - 2);
-            if(hour == 12 && half == 'AM'){
+            half = dest_times[j].substr(dest_times.length - 3);
+            if(hour == 12 && dest_times[j].indexOf('AM') != -1){
                 hour = 0;
             }
-            if(half == 'PM') {
+            if(dest_times[j].indexOf('PM') != -1) {
                 if(hour != 12){
                     hour += 12;
                 }
@@ -195,10 +191,13 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
                 break;
             }
         }
-        if(routes_possible[i][1] != routes_possible[i][2] && travel_time < 1000) {
-            best_routes.push({'next_bus': start_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
+        if(routes_possible[i][1] != routes_possible[i][2] && start_time - now_time < 100 && start_time - now_time >= 0) {
+            best_routes.push({'next_bus': (start_time - now_time), 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
         }
     }
+    best_routes = best_routes.sort(function(route1, route2){
+        return (route1.travel_time + route1.start_time - route1.now_time) - (route2.travel_time + route2.start_time - route2.now_time);
+    });
     return best_routes;
 }
 
