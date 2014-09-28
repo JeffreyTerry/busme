@@ -180,7 +180,7 @@ loadData();
 // }, 2000);
 module.exports = {
     fromCurrent: function(start_lat, start_lng, destination, res) {
-        getAddressLatLng(destination + ' ithaca', function(err, response){
+        getAddressLatLng(destination, function(err, response){
             if(err) {
                 res.json({'err': 'destination_address_not_found'});
             } else {
@@ -202,8 +202,8 @@ module.exports = {
             }
         });
     }, fromCustom: function(start, destination, res) {
-        getAddressLatLng(start + ' ithaca', function(err, response1){
-            getAddressLatLng(destination + ' ithaca', function(err, response){
+        getAddressLatLng(start, function(err, response1){
+            getAddressLatLng(destination, function(err, response){
                 if(err) {
                     res.json({'err': 'address_not_found'});
                 } else {
