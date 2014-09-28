@@ -12,19 +12,22 @@ def transform_coordinate_quartets(coordinate_list):
     return list((coordinate_list[i:i + 3][::-1] for i in xrange(0, len(coordinate_list), 4)))
 
 # these are the routes we will collect data for
-# routes = [10, 11, 15, 17, 81, 82, 83, 92]
-routes = []
+routes = [10, 11, 13, 14, 15, 17, 20, 21, 30, 31, 32, 36, 37, 40, 41, 43, 51, 52, 53, 65, 67, 70, 72, 75, 77, 81, 82, 83, 90, 92, 93]
+# routes = []
 
 for route in routes:
     data = urllib2.urlopen('http://www.tcatbus.com/kml/route' + str(route) + '.kml').read();
     # data = open('data.txt').read()
-    root = parser.fromstring(data)
-    coordinate_data = str(root.Document.Placemark.LineString.coordinates).strip()
-    coordinate_data = re.compile('[,\s]').split(coordinate_data)
-    coordinate_list = transform_coordinate_triplets(coordinate_data)
-    coordinate_list = str(coordinate_list)
-    coordinate_list = coordinate_list.replace("'", '"')
-    open('data/route' + str(route) + '.txt', 'w').write(coordinate_list)
+    try:
+        root = parser.fromstring(data)
+        coordinate_data = str(root.Document.Placemark.LineString.coordinates).strip()
+        coordinate_data = re.compile('[,\s]').split(coordinate_data)
+        coordinate_list = transform_coordinate_triplets(coordinate_data)
+        coordinate_list = str(coordinate_list)
+        coordinate_list = coordinate_list.replace("'", '"')
+        open('data/route' + str(route) + '.txt', 'w').write(coordinate_list)
+    except:
+        print 'Failed to parse route ', route
     # print coordinate_list
     # sleep so the server doesn't get suspicious and kick us out
     sleep(0.5)
@@ -59,8 +62,8 @@ if len(full_coordinate_list) > 0:
 # the values are dictionaries where each entry is (e.g.) {"stop name": [times]}
 routes = {}
 # these are the numbers for each route to query on tcat's website
-route_schedules = ['343', '415', '416', '428', '453', '313', '314', '315', '386', '482', '424', '389', '484', '391', '340', '393', '460', '329', '330', '401', '422', '478', '320', '325', '406', '407', '408', '398', '430', '410', '426', '427']
-# route_schedules = []
+# route_schedules = ['343', '415', '416', '428', '453', '313', '314', '315', '386', '482', '424', '389', '484', '391', '340', '393', '460', '329', '330', '401', '422', '478', '320', '325', '406', '407', '408', '398', '430', '410', '426', '427']
+route_schedules = []
 if len(route_schedules) > 0:
     open('schedule_test_data.txt', 'w').write('')
 for route_schedule in route_schedules:
