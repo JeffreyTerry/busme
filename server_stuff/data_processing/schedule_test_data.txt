@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 <!---<link rel="alternate" type="application/rss+xml" title="ROR" href="ror.xml" />--->
-<title>TCAT - Route 11</title>
+<title>TCAT - Route 17</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <META NAME="ROBOTS" CONTENT="NONE">
 <META NAME="keywords" CONTENT="TCAT, Tompkins Consolidated Area Transit, bus, buses, Ithaca, Tompkins County, New York, Cornell University, public transportation, public transit, schedule, route, stop, trip planner, system map">
@@ -82,7 +82,7 @@
 <form method="get" action="temp.php">
 <label for="mrnid">
 <select onChange="submit(); return true" id="mrnid" name="mrnid" style="background-color: #EEEEEE; color:#000000; font-size: 7pt; font-weight:normal; font-family: Verdana; margin-top:3px" ><option value="">---TCAT Routes---</option>
-<option value="416">Route 10</option><option value="428" selected>Route 11</option><option value="453">Route 13</option><option value="313">Route 14</option><option value="415">Route 15</option><option value="343">Route 17</option><option value="314">Route 20</option><option value="315">Route 21</option><option value="386">Route 30</option><option value="482">Route 31</option><option value="424">Route 32</option><option value="389">Route 36</option><option value="484">Route 37</option><option value="391">Route 40</option><option value="340">Route 41</option><option value="393">Route 43</option><option value="460">Route 51</option><option value="329">Route 52</option><option value="330">Route 53</option><option value="401">Route 65</option><option value="422">Route 67</option><option value="478">Route 70</option><option value="320">Route 72</option><option value="325">Route 74_Starts Saturday 10/4</option><option value="464">Route 74_through Sunday 9/28</option><option value="406">Route 75</option><option value="407">Route 77</option><option value="408">Route 81</option><option value="398">Route 82</option><option value="430">Route 83</option><option value="410">Route 90</option><option value="426">Route 92</option><option value="427">Route 93</option></select>
+<option value="416">Route 10</option><option value="428">Route 11</option><option value="453">Route 13</option><option value="313">Route 14</option><option value="415">Route 15</option><option value="343" selected>Route 17</option><option value="314">Route 20</option><option value="315">Route 21</option><option value="386">Route 30</option><option value="482">Route 31</option><option value="424">Route 32</option><option value="389">Route 36</option><option value="484">Route 37</option><option value="391">Route 40</option><option value="340">Route 41</option><option value="393">Route 43</option><option value="460">Route 51</option><option value="329">Route 52</option><option value="330">Route 53</option><option value="401">Route 65</option><option value="422">Route 67</option><option value="478">Route 70</option><option value="320">Route 72</option><option value="325">Route 74_Starts Saturday 10/4</option><option value="464">Route 74_through Sunday 9/28</option><option value="406">Route 75</option><option value="407">Route 77</option><option value="408">Route 81</option><option value="398">Route 82</option><option value="430">Route 83</option><option value="410">Route 90</option><option value="426">Route 92</option><option value="427">Route 93</option></select>
 </label>
 </form></td>
 </tr>
@@ -221,1595 +221,559 @@
 	<div id="wideCol">
 		<div id="wideColPDF">
 		</div>
-		<h1>Route 11 Schedule and Map </h1>
-    	<p><a href="#bigpic"><img src="/mrnpics/800thumb.jpg" alt="routeThumb" border="0" align="left" class="map"/></a>
+		<h1>Route 17 Schedule and Map </h1>
+    	<p><a href="#bigpic"><img src="/mrnpics/863thumb.jpg" alt="routeThumb" border="0" align="left" class="map"/></a>
 	    <h4><a href="#bigpic">Route Map Only (JPG)</a></h4>
 
-		<h4><h4><a href="/pdfpics/11_fall.pdf">Click here to download PDF of schedule (PDF)</a></h4></h4>
+		<h4><h4><a href="/pdfpics/17_fall.pdf">Click here to download PDF of schedule (PDF)</a></h4></h4>
 		<h4><a href="http://www.tcatbus.com/pages/system">System Map</a></h4></p>
 
 		<br clear="all" />
-      <p class="mapLink"><a href="#" map>Ithaca College - Commons</a></p>
+      <p class="mapLink"><a href="#" map>TCAT - Fall Creek - Commons</a></p>
 	    <table width="890" border="0" cellspacing="3">
         <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 11 Monday - Wednesday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-<td>Hudson @ Grandview</td>
-<td>IC - Roy Park School</td>
-<td>IC - The Towers @ Ithaca College</td>
-<td>IC - Roy Park School</td>
-<td>South Hill Business Park</td>
-</tr>
-<tr align="center" class="tableSub"><td>A</td>
-<td>B</td>
-<td>C</td>
-<td>D</td>
-<td>E</td>
-<td>D</td>
-<td>F</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">6:51AM</td>
-<td width="75">7:00AM</td>
-<td width="75">7:05AM</td>
-<td width="75">7:09AM</td>
-<td width="75">7:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">7:21AM</td>
-<td width="75">7:30AM</td>
-<td width="75">7:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">7:39AM</td>
-<td width="75">7:43AM</td>
-</tr><tr class="bg1"><td width="75">7:51AM</td>
-<td width="75">8:00AM</td>
-<td width="75">8:05AM</td>
-<td width="75">8:09AM</td>
-<td width="75">8:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">8:21AM</td>
-<td width="75">8:30AM</td>
-<td width="75">8:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">8:39AM</td>
-<td width="75">8:43AM</td>
-</tr><tr class="bg1"><td width="75">8:51AM</td>
-<td width="75">9:00AM</td>
-<td width="75">9:05AM</td>
-<td width="75">9:09AM</td>
-<td width="75">9:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">9:21AM</td>
-<td width="75">9:30AM</td>
-<td width="75">9:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">9:39AM</td>
-<td width="75">9:43AM</td>
-</tr><tr class="bg1"><td width="75">9:51AM</td>
-<td width="75">10:00AM</td>
-<td width="75">10:05AM</td>
-<td width="75">10:09AM</td>
-<td width="75">10:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">10:21AM</td>
-<td width="75">10:30AM</td>
-<td width="75">10:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">10:39AM</td>
-<td width="75">10:43AM</td>
-</tr><tr class="bg1"><td width="75">10:51AM</td>
-<td width="75">11:00AM</td>
-<td width="75">11:05AM</td>
-<td width="75">11:09AM</td>
-<td width="75">11:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">11:21AM</td>
-<td width="75">11:30AM</td>
-<td width="75">11:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">11:39AM</td>
-<td width="75">11:43AM</td>
-</tr><tr class="bg1"><td width="75">11:51AM</td>
-<td width="75">12:00PM</td>
-<td width="75">12:05PM</td>
-<td width="75">12:09PM</td>
-<td width="75">12:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">12:21PM</td>
-<td width="75">12:30PM</td>
-<td width="75">12:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">12:39PM</td>
-<td width="75">12:43PM</td>
-</tr><tr class="bg1"><td width="75">12:51PM</td>
-<td width="75">1:00PM</td>
-<td width="75">1:05PM</td>
-<td width="75">1:09PM</td>
-<td width="75">1:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">1:21PM</td>
-<td width="75">1:30PM</td>
-<td width="75">1:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">1:39PM</td>
-<td width="75">1:43PM</td>
-</tr><tr class="bg1"><td width="75">1:51PM</td>
-<td width="75">2:00PM</td>
-<td width="75">2:05PM</td>
-<td width="75">2:09PM</td>
-<td width="75">2:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">2:21PM</td>
-<td width="75">2:30PM</td>
-<td width="75">2:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">2:39PM</td>
-<td width="75">2:43PM</td>
-</tr><tr class="bg1"><td width="75">2:51PM</td>
-<td width="75">3:00PM</td>
-<td width="75">3:05PM</td>
-<td width="75">3:09PM</td>
-<td width="75">3:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">3:21PM</td>
-<td width="75">3:30PM</td>
-<td width="75">3:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">3:39PM</td>
-<td width="75">3:43PM</td>
-</tr><tr class="bg1"><td width="75">3:51PM</td>
-<td width="75">4:00PM</td>
-<td width="75">4:05PM</td>
-<td width="75">4:09PM</td>
-<td width="75">4:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">4:21PM</td>
-<td width="75">4:30PM</td>
-<td width="75">4:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">4:39PM</td>
-<td width="75">4:43PM</td>
-</tr><tr class="bg1"><td width="75">4:51PM</td>
-<td width="75">5:00PM</td>
-<td width="75">5:05PM</td>
-<td width="75">5:09PM</td>
-<td width="75">5:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">5:21PM</td>
-<td width="75">5:30PM</td>
-<td width="75">5:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">5:39PM</td>
-<td width="75">5:43PM</td>
-</tr><tr class="bg1"><td width="75">5:51PM</td>
-<td width="75">6:00PM</td>
-<td width="75">6:05PM</td>
-<td width="75">6:09PM</td>
-<td width="75">6:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">6:21PM</td>
-<td width="75">6:30PM</td>
-<td width="75">6:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">6:39PM</td>
-<td width="75">6:43PM</td>
-</tr><tr class="bg1"><td width="75">6:51PM</td>
-<td width="75">7:00PM</td>
-<td width="75">7:05PM</td>
-<td width="75">7:09PM</td>
-<td width="75">7:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">7:21PM</td>
-<td width="75">7:30PM</td>
-<td width="75">7:35PM</td>
-<td width="75">7:39PM</td>
-<td width="75">7:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">7:51PM</td>
-<td width="75">8:00PM</td>
-<td width="75">8:05PM</td>
-<td width="75">8:09PM</td>
-<td width="75">8:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">8:21PM</td>
-<td width="75">8:30PM</td>
-<td width="75">8:35PM</td>
-<td width="75">8:39PM</td>
-<td width="75">8:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">9:21PM</td>
-<td width="75">9:30PM</td>
-<td width="75">9:35PM</td>
-<td width="75">9:39PM</td>
-<td width="75">9:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">10:21PM</td>
-<td width="75">10:30PM</td>
-<td width="75">10:35PM</td>
-<td width="75">10:39PM</td>
-<td width="75">10:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">11:21PM</td>
-<td width="75">11:30PM</td>
-<td width="75">11:35PM</td>
-<td width="75">11:39PM</td>
-<td width="75">11:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">12:21AM</td>
-<td width="75">12:30AM</td>
-<td width="75">12:35AM</td>
-<td width="75">12:39AM</td>
-<td width="75">12:43AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">--</td>
-<td width="75">--</td>
-<td width="75">1:43AM</td>
-<td width="75">--</td>
-<td width="75">1:47AM</td>
-<td width="75">1:50AM</td>
-<td width="75">1:53AM</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
           <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
         </tr>
-        <br><h5>Route 11 Monday - Wednesday</h5><tr class="tableSub"><td>IC - The Towers @ Ithaca College</td>
-<td>South Hill Business Park</td>
-<td>IC - Roy Park School</td>
-<td>Hudson @ Pearsall</td>
+        <br><h5>Route 17 Weekdays</h5><tr class="tableSub"><td>TCAT Offices</td>
+<td>Green @ Commons</td>
 <td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
 </tr>
-<tr align="center" class="tableSub"><td>E</td>
-<td>F</td>
-<td>D</td>
-<td>G</td>
-<td>A</td>
-<td>B</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">7:13AM</td>
-<td width="75">--</td>
-<td width="75">7:17AM</td>
-<td width="75">7:20AM</td>
-<td width="75">7:23AM</td>
-<td width="75">7:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">7:43AM</td>
-<td width="75">7:47AM</td>
-<td width="75">7:50AM</td>
-<td width="75">7:53AM</td>
-<td width="75">7:58AM</td>
-</tr><tr class="bg1"><td width="75">8:13AM</td>
-<td width="75">--</td>
-<td width="75">8:17AM</td>
-<td width="75">8:20AM</td>
-<td width="75">8:23AM</td>
-<td width="75">8:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">8:43AM</td>
-<td width="75">8:47AM</td>
-<td width="75">8:50AM</td>
-<td width="75">8:53AM</td>
-<td width="75">8:58AM</td>
-</tr><tr class="bg1"><td width="75">9:13AM</td>
-<td width="75">--</td>
-<td width="75">9:17AM</td>
-<td width="75">9:20AM</td>
-<td width="75">9:23AM</td>
-<td width="75">9:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">9:43AM</td>
-<td width="75">9:47AM</td>
-<td width="75">9:50AM</td>
-<td width="75">9:53AM</td>
-<td width="75">9:58AM</td>
-</tr><tr class="bg1"><td width="75">10:13AM</td>
-<td width="75">--</td>
-<td width="75">10:17AM</td>
-<td width="75">10:20AM</td>
-<td width="75">10:23AM</td>
-<td width="75">10:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">10:43AM</td>
-<td width="75">10:47AM</td>
-<td width="75">10:50AM</td>
-<td width="75">10:53AM</td>
-<td width="75">10:58AM</td>
-</tr><tr class="bg1"><td width="75">11:13AM</td>
-<td width="75">--</td>
-<td width="75">11:17AM</td>
-<td width="75">11:20AM</td>
-<td width="75">11:23AM</td>
-<td width="75">11:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">11:43AM</td>
-<td width="75">11:47AM</td>
-<td width="75">11:50AM</td>
-<td width="75">11:53AM</td>
-<td width="75">11:58AM</td>
-</tr><tr class="bg1"><td width="75">12:13PM</td>
-<td width="75">--</td>
-<td width="75">12:17PM</td>
-<td width="75">12:20PM</td>
-<td width="75">12:23PM</td>
-<td width="75">12:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">12:43PM</td>
-<td width="75">12:47PM</td>
-<td width="75">12:50PM</td>
-<td width="75">12:53PM</td>
-<td width="75">12:58PM</td>
-</tr><tr class="bg1"><td width="75">1:13PM</td>
-<td width="75">--</td>
-<td width="75">1:17PM</td>
-<td width="75">1:20PM</td>
-<td width="75">1:23PM</td>
-<td width="75">1:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">1:43PM</td>
-<td width="75">1:47PM</td>
-<td width="75">1:50PM</td>
-<td width="75">1:53PM</td>
-<td width="75">1:58PM</td>
-</tr><tr class="bg1"><td width="75">2:13PM</td>
-<td width="75">--</td>
-<td width="75">2:17PM</td>
-<td width="75">2:20PM</td>
-<td width="75">2:23PM</td>
-<td width="75">2:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">2:43PM</td>
-<td width="75">2:47PM</td>
-<td width="75">2:50PM</td>
-<td width="75">2:53PM</td>
-<td width="75">2:58PM</td>
-</tr><tr class="bg1"><td width="75">3:13PM</td>
-<td width="75">--</td>
-<td width="75">3:17PM</td>
-<td width="75">3:20PM</td>
-<td width="75">3:23PM</td>
-<td width="75">3:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">3:43PM</td>
-<td width="75">3:47PM</td>
-<td width="75">3:50PM</td>
-<td width="75">3:53PM</td>
-<td width="75">3:58PM</td>
-</tr><tr class="bg1"><td width="75">4:13PM</td>
-<td width="75">--</td>
-<td width="75">4:17PM</td>
-<td width="75">4:20PM</td>
-<td width="75">4:23PM</td>
-<td width="75">4:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">4:43PM</td>
-<td width="75">4:47PM</td>
-<td width="75">4:50PM</td>
-<td width="75">4:53PM</td>
-<td width="75">4:58PM</td>
-</tr><tr class="bg1"><td width="75">5:13PM</td>
-<td width="75">--</td>
-<td width="75">5:17PM</td>
-<td width="75">5:20PM</td>
-<td width="75">5:23PM</td>
-<td width="75">5:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">5:43PM</td>
-<td width="75">5:47PM</td>
-<td width="75">5:50PM</td>
-<td width="75">5:53PM</td>
-<td width="75">5:58PM</td>
-</tr><tr class="bg1"><td width="75">6:13PM</td>
-<td width="75">--</td>
-<td width="75">6:17PM</td>
-<td width="75">6:20PM</td>
-<td width="75">6:23PM</td>
-<td width="75">6:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">6:43PM</td>
-<td width="75">6:47PM</td>
-<td width="75">6:50PM</td>
-<td width="75">6:53PM</td>
-<td width="75">6:58PM</td>
-</tr><tr class="bg1"><td width="75">7:13PM</td>
-<td width="75">--</td>
-<td width="75">7:17PM</td>
-<td width="75">7:20PM</td>
-<td width="75">7:23PM</td>
-<td width="75">7:28PM</td>
-</tr><tr class="bg2"><td width="75">7:43PM</td>
-<td width="75">--</td>
-<td width="75">7:47PM</td>
-<td width="75">7:50PM</td>
-<td width="75">7:53PM</td>
-<td width="75">7:58PM</td>
-</tr><tr class="bg1"><td width="75">8:13PM</td>
-<td width="75">--</td>
-<td width="75">8:17PM</td>
-<td width="75">8:20PM</td>
-<td width="75">8:23PM</td>
-<td width="75">8:28PM</td>
-</tr><tr class="bg2"><td width="75">8:43PM</td>
-<td width="75">--</td>
-<td width="75">8:47PM</td>
-<td width="75">8:50PM</td>
-<td width="75">8:53PM</td>
-<td width="75">8:58PM</td>
-</tr><tr class="bg1"><td width="75">9:43PM</td>
-<td width="75">--</td>
-<td width="75">9:47PM</td>
-<td width="75">9:50PM</td>
-<td width="75">9:53PM</td>
-<td width="75">9:58PM</td>
-</tr><tr class="bg2"><td width="75">10:43PM</td>
-<td width="75">--</td>
-<td width="75">10:47PM</td>
-<td width="75">10:50PM</td>
-<td width="75">10:53PM</td>
-<td width="75">10:58PM</td>
-</tr><tr class="bg1"><td width="75">11:43PM</td>
-<td width="75">--</td>
-<td width="75">11:47PM</td>
-<td width="75">11:50PM</td>
-<td width="75">11:53PM</td>
-<td width="75">11:58PM</td>
-</tr><tr class="bg2"><td width="75">12:43AM</td>
-<td width="75">--</td>
-<td width="75">12:47AM</td>
-<td width="75">12:50AM</td>
-<td width="75">12:53AM</td>
-<td width="75">12:58AM</td>
-</tr><tr class="bg1"><td width="75">1:21AM</td>
-<td width="75">1:30AM</td>
-<td width="75">1:35AM</td>
-<td width="75">1:39AM</td>
-<td width="75">1:43AM</td>
-</tr><tr class="bg2"><td width="75">9:30PM</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 11 Thursday-Friday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-<td>Hudson @ Grandview</td>
-<td>IC - Roy Park School</td>
-<td>IC - The Towers @ Ithaca College</td>
-<td>IC - Roy Park School</td>
-<td>South Hill Business Park</td>
-</tr>
-<tr align="center" class="tableSub"><td>A</td>
-<td>B</td>
+<tr align="center" class="tableSub"><td>B</td>
 <td>C</td>
-<td>D</td>
-<td>E</td>
-<td>D</td>
-<td>F</td>
+<td>A</td>
 </tr>
 <tr></tr>
-<tr class="bg1"><td width="75">6:51AM</td>
+<tr class="bg1"><td width="75">5:18AM</td>
+<td width="75">5:28AM</td>
+<td width="75">5:30AM</td>
+</tr><tr class="bg2"><td width="75">5:28AM</td>
+<td width="75">5:38AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">5:43AM</td>
+<td width="75">5:53AM</td>
+<td width="75">5:55AM</td>
+</tr><tr class="bg2"><td width="75">5:50AM</td>
+<td width="75">6:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">5:50AM</td>
+<td width="75">6:00AM</td>
+<td width="75">6:02AM</td>
+</tr><tr class="bg2"><td width="75">5:55AM</td>
+<td width="75">6:05AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:05AM</td>
+<td width="75">6:15AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:06AM</td>
+<td width="75">6:16AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:08AM</td>
+<td width="75">6:18AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:13AM</td>
+<td width="75">6:23AM</td>
+<td width="75">6:25AM</td>
+</tr><tr class="bg1"><td width="75">6:20AM</td>
+<td width="75">6:30AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:20AM</td>
+<td width="75">6:30AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:25AM</td>
+<td width="75">6:35AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:25AM</td>
+<td width="75">6:35AM</td>
+<td width="75">6:37AM</td>
+</tr><tr class="bg1"><td width="75">6:26AM</td>
+<td width="75">6:36AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:28AM</td>
+<td width="75">6:38AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:30AM</td>
+<td width="75">6:40AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:35AM</td>
+<td width="75">6:45AM</td>
+<td width="75">6:47AM</td>
+</tr><tr class="bg1"><td width="75">6:43AM</td>
+<td width="75">6:53AM</td>
+<td width="75">6:55AM</td>
+</tr><tr class="bg2"><td width="75">6:45AM</td>
+<td width="75">6:55AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:50AM</td>
 <td width="75">7:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:54AM</td>
+<td width="75">7:04AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:55AM</td>
 <td width="75">7:05AM</td>
-<td width="75">7:09AM</td>
-<td width="75">7:13AM</td>
+<td width="75">7:07AM</td>
+</tr><tr class="bg2"><td width="75">6:57AM</td>
+<td width="75">7:07AM</td>
 <td width="75">--</td>
+</tr><tr class="bg1"><td width="75">7:00AM</td>
+<td width="75">7:10AM</td>
 <td width="75">--</td>
-</tr><tr class="bg2"><td width="75">7:21AM</td>
-<td width="75">7:30AM</td>
-<td width="75">7:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">7:39AM</td>
-<td width="75">7:43AM</td>
-</tr><tr class="bg1"><td width="75">7:51AM</td>
-<td width="75">8:00AM</td>
-<td width="75">8:05AM</td>
-<td width="75">8:09AM</td>
-<td width="75">8:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">8:21AM</td>
-<td width="75">8:30AM</td>
-<td width="75">8:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">8:39AM</td>
-<td width="75">8:43AM</td>
-</tr><tr class="bg1"><td width="75">8:51AM</td>
-<td width="75">9:00AM</td>
-<td width="75">9:05AM</td>
-<td width="75">9:09AM</td>
-<td width="75">9:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">9:21AM</td>
-<td width="75">9:30AM</td>
-<td width="75">9:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">9:39AM</td>
-<td width="75">9:43AM</td>
-</tr><tr class="bg1"><td width="75">9:51AM</td>
-<td width="75">10:00AM</td>
-<td width="75">10:05AM</td>
-<td width="75">10:09AM</td>
-<td width="75">10:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">10:21AM</td>
-<td width="75">10:30AM</td>
-<td width="75">10:35AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">10:39AM</td>
-<td width="75">10:43AM</td>
-</tr><tr class="bg1"><td width="75">10:51AM</td>
-<td width="75">11:00AM</td>
-<td width="75">11:05AM</td>
-<td width="75">11:09AM</td>
-<td width="75">11:13AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">11:21AM</td>
-<td width="75">11:30AM</td>
+</tr><tr class="bg2"><td width="75">7:00AM</td>
+<td width="75">7:10AM</td>
+<td width="75">7:12AM</td>
+</tr><tr class="bg1"><td width="75">7:07AM</td>
+<td width="75">7:17AM</td>
+<td width="75">7:19AM</td>
+</tr><tr class="bg2"><td width="75">7:28AM</td>
+<td width="75">7:38AM</td>
+<td width="75">7:40AM</td>
+</tr><tr class="bg1"><td width="75">11:25AM</td>
 <td width="75">11:35AM</td>
 <td width="75">--</td>
-<td width="75">--</td>
-<td width="75">11:39AM</td>
-<td width="75">11:43AM</td>
-</tr><tr class="bg1"><td width="75">11:51AM</td>
+</tr><tr class="bg2"><td width="75">11:50AM</td>
 <td width="75">12:00PM</td>
-<td width="75">12:05PM</td>
-<td width="75">12:09PM</td>
-<td width="75">12:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">12:21PM</td>
-<td width="75">12:30PM</td>
-<td width="75">12:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">12:39PM</td>
-<td width="75">12:43PM</td>
-</tr><tr class="bg1"><td width="75">12:51PM</td>
-<td width="75">1:00PM</td>
-<td width="75">1:05PM</td>
-<td width="75">1:09PM</td>
-<td width="75">1:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">1:21PM</td>
-<td width="75">1:30PM</td>
+<td width="75">12:02PM</td>
+</tr><tr class="bg1"><td width="75">1:25PM</td>
 <td width="75">1:35PM</td>
 <td width="75">--</td>
-<td width="75">--</td>
-<td width="75">1:39PM</td>
-<td width="75">1:43PM</td>
-</tr><tr class="bg1"><td width="75">1:51PM</td>
-<td width="75">2:00PM</td>
+</tr><tr class="bg2"><td width="75">1:55PM</td>
 <td width="75">2:05PM</td>
-<td width="75">2:09PM</td>
-<td width="75">2:13PM</td>
 <td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">2:21PM</td>
+</tr><tr class="bg1"><td width="75">2:20PM</td>
 <td width="75">2:30PM</td>
-<td width="75">2:35PM</td>
 <td width="75">--</td>
+</tr><tr class="bg2"><td width="75">2:40PM</td>
+<td width="75">2:50PM</td>
 <td width="75">--</td>
-<td width="75">2:39PM</td>
-<td width="75">2:43PM</td>
-</tr><tr class="bg1"><td width="75">2:51PM</td>
+</tr><tr class="bg1"><td width="75">2:50PM</td>
 <td width="75">3:00PM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">2:55PM</td>
 <td width="75">3:05PM</td>
-<td width="75">3:09PM</td>
-<td width="75">3:13PM</td>
 <td width="75">--</td>
+</tr><tr class="bg1"><td width="75">3:10PM</td>
+<td width="75">3:20PM</td>
 <td width="75">--</td>
-</tr><tr class="bg2"><td width="75">3:21PM</td>
-<td width="75">3:30PM</td>
-<td width="75">3:35PM</td>
+</tr><tr class="bg2"><td width="75">4:15PM</td>
+<td width="75">4:25PM</td>
 <td width="75">--</td>
-<td width="75">--</td>
-<td width="75">3:39PM</td>
-<td width="75">3:43PM</td>
-</tr><tr class="bg1"><td width="75">3:51PM</td>
-<td width="75">4:00PM</td>
-<td width="75">4:05PM</td>
-<td width="75">4:09PM</td>
-<td width="75">4:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">4:21PM</td>
+</tr><tr class="bg1"><td width="75">4:20PM</td>
 <td width="75">4:30PM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">4:20PM</td>
+<td width="75">4:30PM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">4:20PM</td>
+<td width="75">4:30PM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">4:25PM</td>
 <td width="75">4:35PM</td>
 <td width="75">--</td>
+</tr><tr class="bg1"><td width="75">4:25PM</td>
+<td width="75">4:35PM</td>
 <td width="75">--</td>
-<td width="75">4:39PM</td>
-<td width="75">4:43PM</td>
-</tr><tr class="bg1"><td width="75">4:51PM</td>
-<td width="75">5:00PM</td>
-<td width="75">5:05PM</td>
-<td width="75">5:09PM</td>
-<td width="75">5:13PM</td>
+</tr><tr class="bg2"><td width="75">4:30PM</td>
+<td width="75">4:40PM</td>
 <td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">5:21PM</td>
-<td width="75">5:30PM</td>
-<td width="75">5:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">5:39PM</td>
-<td width="75">5:43PM</td>
-</tr><tr class="bg1"><td width="75">5:51PM</td>
-<td width="75">6:00PM</td>
-<td width="75">6:05PM</td>
-<td width="75">6:09PM</td>
-<td width="75">6:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">6:21PM</td>
-<td width="75">6:30PM</td>
-<td width="75">6:35PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">6:39PM</td>
-<td width="75">6:43PM</td>
-</tr><tr class="bg1"><td width="75">6:51PM</td>
-<td width="75">7:00PM</td>
-<td width="75">7:05PM</td>
-<td width="75">7:09PM</td>
-<td width="75">7:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">7:21PM</td>
-<td width="75">7:30PM</td>
-<td width="75">7:35PM</td>
-<td width="75">7:39PM</td>
-<td width="75">7:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">7:51PM</td>
-<td width="75">8:00PM</td>
-<td width="75">8:05PM</td>
-<td width="75">8:09PM</td>
-<td width="75">8:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg2"><td width="75">8:21PM</td>
-<td width="75">8:30PM</td>
-<td width="75">8:35PM</td>
-<td width="75">8:39PM</td>
-<td width="75">8:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">8:51PM</td>
-<td width="75">9:00PM</td>
-<td width="75">9:05PM</td>
-<td width="75">9:09PM</td>
-</tr><tr class="bg2"><td width="75">9:21PM</td>
-<td width="75">9:30PM</td>
-<td width="75">9:35PM</td>
-<td width="75">9:39PM</td>
-<td width="75">9:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">9:51PM</td>
-<td width="75">10:00PM</td>
-<td width="75">10:05PM</td>
-<td width="75">10:09PM</td>
-<td width="75">10:13PM</td>
-</tr><tr class="bg2"><td width="75">10:21PM</td>
-<td width="75">10:30PM</td>
-<td width="75">10:35PM</td>
-<td width="75">10:39PM</td>
-<td width="75">10:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">10:51PM</td>
-<td width="75">11:00PM</td>
-<td width="75">11:05PM</td>
-<td width="75">11:09PM</td>
-<td width="75">11:13PM</td>
-</tr><tr class="bg2"><td width="75">11:21PM</td>
-<td width="75">11:30PM</td>
-<td width="75">11:35PM</td>
-<td width="75">11:39PM</td>
-<td width="75">11:43PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">11:51PM</td>
-<td width="75">12:00AM</td>
-<td width="75">12:05AM</td>
-<td width="75">12:09AM</td>
-<td width="75">12:13AM</td>
-</tr><tr class="bg2"><td width="75">12:21AM</td>
-<td width="75">12:30AM</td>
-<td width="75">12:35AM</td>
-<td width="75">12:39AM</td>
-<td width="75">12:43AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-</tr><tr class="bg1"><td width="75">12:51AM</td>
-<td width="75">1:00AM</td>
-<td width="75">1:05AM</td>
-<td width="75">1:09AM</td>
-<td width="75">1:13AM</td>
-</tr><tr class="bg2"><td width="75">1:21AM</td>
-<td width="75">1:30AM</td>
-<td width="75">1:35AM</td>
-<td width="75">1:39AM</td>
-<td width="75">1:43AM</td>
-</tr><tr class="bg1"><td width="75">1:51AM</td>
-<td width="75">2:00AM</td>
-<td width="75">2:05AM</td>
-<td width="75">2:09AM</td>
-<td width="75">2:13AM</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 11 Thursday-Friday</h5><tr class="tableSub"><td>IC - The Towers @ Ithaca College</td>
-<td>South Hill Business Park</td>
-<td>IC - Roy Park School</td>
-<td>Hudson @ Pearsall</td>
-<td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-</tr>
-<tr align="center" class="tableSub"><td>E</td>
-<td>F</td>
-<td>D</td>
-<td>G</td>
-<td>A</td>
-<td>B</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">7:13AM</td>
-<td width="75">--</td>
-<td width="75">7:17AM</td>
-<td width="75">7:20AM</td>
-<td width="75">7:23AM</td>
-<td width="75">7:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">7:43AM</td>
-<td width="75">7:47AM</td>
-<td width="75">7:50AM</td>
-<td width="75">7:53AM</td>
-<td width="75">7:58AM</td>
-</tr><tr class="bg1"><td width="75">8:13AM</td>
-<td width="75">--</td>
-<td width="75">8:17AM</td>
-<td width="75">8:20AM</td>
-<td width="75">8:23AM</td>
-<td width="75">8:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">8:43AM</td>
-<td width="75">8:47AM</td>
-<td width="75">8:50AM</td>
-<td width="75">8:53AM</td>
-<td width="75">8:58AM</td>
-</tr><tr class="bg1"><td width="75">9:13AM</td>
-<td width="75">--</td>
-<td width="75">9:17AM</td>
-<td width="75">9:20AM</td>
-<td width="75">9:23AM</td>
-<td width="75">9:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">9:43AM</td>
-<td width="75">9:47AM</td>
-<td width="75">9:50AM</td>
-<td width="75">9:53AM</td>
-<td width="75">9:58AM</td>
-</tr><tr class="bg1"><td width="75">10:13AM</td>
-<td width="75">--</td>
-<td width="75">10:17AM</td>
-<td width="75">10:20AM</td>
-<td width="75">10:23AM</td>
-<td width="75">10:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">10:43AM</td>
-<td width="75">10:47AM</td>
-<td width="75">10:50AM</td>
-<td width="75">10:53AM</td>
-<td width="75">10:58AM</td>
-</tr><tr class="bg1"><td width="75">11:13AM</td>
-<td width="75">--</td>
-<td width="75">11:17AM</td>
-<td width="75">11:20AM</td>
-<td width="75">11:23AM</td>
-<td width="75">11:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">11:43AM</td>
-<td width="75">11:47AM</td>
-<td width="75">11:50AM</td>
-<td width="75">11:53AM</td>
-<td width="75">11:58AM</td>
-</tr><tr class="bg1"><td width="75">12:13PM</td>
-<td width="75">--</td>
-<td width="75">12:17PM</td>
-<td width="75">12:20PM</td>
-<td width="75">12:23PM</td>
-<td width="75">12:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">12:43PM</td>
-<td width="75">12:47PM</td>
-<td width="75">12:50PM</td>
-<td width="75">12:53PM</td>
-<td width="75">12:58PM</td>
-</tr><tr class="bg1"><td width="75">1:13PM</td>
-<td width="75">--</td>
-<td width="75">1:17PM</td>
-<td width="75">1:20PM</td>
-<td width="75">1:23PM</td>
-<td width="75">1:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">1:43PM</td>
-<td width="75">1:47PM</td>
-<td width="75">1:50PM</td>
-<td width="75">1:53PM</td>
-<td width="75">1:58PM</td>
-</tr><tr class="bg1"><td width="75">2:13PM</td>
-<td width="75">--</td>
-<td width="75">2:17PM</td>
-<td width="75">2:20PM</td>
-<td width="75">2:23PM</td>
-<td width="75">2:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">2:43PM</td>
-<td width="75">2:47PM</td>
-<td width="75">2:50PM</td>
-<td width="75">2:53PM</td>
-<td width="75">2:58PM</td>
-</tr><tr class="bg1"><td width="75">3:13PM</td>
-<td width="75">--</td>
-<td width="75">3:17PM</td>
-<td width="75">3:20PM</td>
-<td width="75">3:23PM</td>
-<td width="75">3:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">3:43PM</td>
-<td width="75">3:47PM</td>
-<td width="75">3:50PM</td>
-<td width="75">3:53PM</td>
-<td width="75">3:58PM</td>
-</tr><tr class="bg1"><td width="75">4:13PM</td>
-<td width="75">--</td>
-<td width="75">4:17PM</td>
-<td width="75">4:20PM</td>
-<td width="75">4:23PM</td>
-<td width="75">4:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">4:43PM</td>
+</tr><tr class="bg1"><td width="75">4:37PM</td>
 <td width="75">4:47PM</td>
+<td width="75">4:49PM</td>
+</tr><tr class="bg2"><td width="75">4:38PM</td>
+<td width="75">4:48PM</td>
 <td width="75">4:50PM</td>
-<td width="75">4:53PM</td>
-<td width="75">4:58PM</td>
-</tr><tr class="bg1"><td width="75">5:13PM</td>
+</tr><tr class="bg1"><td width="75">4:55PM</td>
+<td width="75">5:05PM</td>
 <td width="75">--</td>
-<td width="75">5:17PM</td>
-<td width="75">5:20PM</td>
-<td width="75">5:23PM</td>
-<td width="75">5:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">5:43PM</td>
-<td width="75">5:47PM</td>
-<td width="75">5:50PM</td>
-<td width="75">5:53PM</td>
-<td width="75">5:58PM</td>
-</tr><tr class="bg1"><td width="75">6:13PM</td>
-<td width="75">--</td>
-<td width="75">6:17PM</td>
-<td width="75">6:20PM</td>
-<td width="75">6:23PM</td>
-<td width="75">6:28PM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">6:43PM</td>
-<td width="75">6:47PM</td>
-<td width="75">6:50PM</td>
-<td width="75">6:53PM</td>
-<td width="75">6:58PM</td>
-</tr><tr class="bg1"><td width="75">7:13PM</td>
-<td width="75">--</td>
-<td width="75">7:17PM</td>
-<td width="75">7:20PM</td>
-<td width="75">7:23PM</td>
-<td width="75">7:28PM</td>
-</tr><tr class="bg2"><td width="75">7:43PM</td>
-<td width="75">--</td>
-<td width="75">7:47PM</td>
-<td width="75">7:50PM</td>
-<td width="75">7:53PM</td>
-<td width="75">7:58PM</td>
-</tr><tr class="bg1"><td width="75">8:13PM</td>
-<td width="75">--</td>
-<td width="75">8:17PM</td>
-<td width="75">8:20PM</td>
-<td width="75">8:23PM</td>
-<td width="75">8:28PM</td>
-</tr><tr class="bg2"><td width="75">8:43PM</td>
-<td width="75">--</td>
-<td width="75">8:47PM</td>
-<td width="75">8:50PM</td>
-<td width="75">8:53PM</td>
-<td width="75">8:58PM</td>
-</tr><tr class="bg1"><td width="75">9:13PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">9:13PM</td>
-<td width="75">--</td>
-<td width="75">9:17PM</td>
-<td width="75">9:20PM</td>
-<td width="75">9:23PM</td>
-<td width="75">9:28PM</td>
-</tr><tr class="bg2"><td width="75">9:43PM</td>
-<td width="75">--</td>
-<td width="75">9:47PM</td>
-<td width="75">9:50PM</td>
-<td width="75">9:53PM</td>
-<td width="75">9:58PM</td>
-</tr><tr class="bg1"><td width="75">--</td>
-<td width="75">--</td>
-<td width="75">10:13PM</td>
-<td width="75">--</td>
-<td width="75">10:17PM</td>
-<td width="75">10:20PM</td>
-<td width="75">10:23PM</td>
-<td width="75">10:28PM</td>
-</tr><tr class="bg2"><td width="75">10:43PM</td>
-<td width="75">--</td>
-<td width="75">10:47PM</td>
-<td width="75">10:50PM</td>
-<td width="75">10:53PM</td>
-<td width="75">10:58PM</td>
-</tr><tr class="bg1"><td width="75">--</td>
-<td width="75">--</td>
-<td width="75">11:13PM</td>
-<td width="75">--</td>
-<td width="75">11:17PM</td>
-<td width="75">11:20PM</td>
-<td width="75">11:23PM</td>
-<td width="75">11:28PM</td>
-</tr><tr class="bg2"><td width="75">11:43PM</td>
-<td width="75">--</td>
-<td width="75">11:47PM</td>
-<td width="75">11:50PM</td>
-<td width="75">11:53PM</td>
-<td width="75">11:58PM</td>
-</tr><tr class="bg1"><td width="75">--</td>
-<td width="75">--</td>
-<td width="75">12:13AM</td>
-<td width="75">--</td>
-<td width="75">12:17AM</td>
-<td width="75">12:20AM</td>
-<td width="75">12:23AM</td>
-<td width="75">12:28AM</td>
-</tr><tr class="bg2"><td width="75">12:43AM</td>
-<td width="75">--</td>
-<td width="75">12:47AM</td>
-<td width="75">12:50AM</td>
-<td width="75">12:53AM</td>
-<td width="75">12:58AM</td>
-</tr><tr class="bg1"><td width="75">--</td>
-<td width="75">--</td>
-<td width="75">1:13AM</td>
-<td width="75">--</td>
-<td width="75">1:17AM</td>
-<td width="75">1:20AM</td>
-<td width="75">1:23AM</td>
-<td width="75">1:28AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
 </tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
         <tr>
           <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
         </tr>
-        <br><h5>Route 11 Saturday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
+        <br><h5>Route 17 Weekdays</h5><tr class="tableSub"><td>Sage Hall</td>
 <td>Green @ Commons</td>
-<td>Hudson @ Grandview</td>
-<td>IC - Roy Park School</td>
-<td>IC - The Towers @ Ithaca College</td>
+<td>Seneca @ Commons</td>
+<td>TCAT Offices</td>
 </tr>
-<tr align="center" class="tableSub"><td>A</td>
-<td>B</td>
+<tr align="center" class="tableSub"><td></td>
 <td>C</td>
-<td>D</td>
-<td>E</td>
+<td>A</td>
+<td>B</td>
 </tr>
 <tr></tr>
 <tr class="bg1"><td width="75">--</td>
-<td width="75">7:00AM</td>
-<td width="75">7:05AM</td>
-<td width="75">7:09AM</td>
-<td width="75">7:13AM</td>
-</tr><tr class="bg2"><td width="75">7:21AM</td>
-<td width="75">7:30AM</td>
-<td width="75">7:35AM</td>
-<td width="75">7:39AM</td>
-<td width="75">7:43AM</td>
-</tr><tr class="bg1"><td width="75">7:51AM</td>
-<td width="75">8:00AM</td>
-<td width="75">8:05AM</td>
-<td width="75">8:09AM</td>
-<td width="75">8:13AM</td>
-</tr><tr class="bg2"><td width="75">8:21AM</td>
-<td width="75">8:30AM</td>
-<td width="75">8:35AM</td>
-<td width="75">8:39AM</td>
-<td width="75">8:43AM</td>
-</tr><tr class="bg1"><td width="75">8:51AM</td>
+<td width="75">--</td>
+<td width="75">8:55AM</td>
+<td width="75">9:07AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">8:58AM</td>
 <td width="75">9:00AM</td>
-<td width="75">9:05AM</td>
-<td width="75">9:09AM</td>
-<td width="75">9:13AM</td>
-</tr><tr class="bg2"><td width="75">9:21AM</td>
-<td width="75">9:30AM</td>
-<td width="75">9:35AM</td>
-<td width="75">9:39AM</td>
-<td width="75">9:43AM</td>
-</tr><tr class="bg1"><td width="75">9:51AM</td>
+<td width="75">9:12AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:17AM</td>
+<td width="75">9:29AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:48AM</td>
 <td width="75">10:00AM</td>
-<td width="75">10:05AM</td>
-<td width="75">10:09AM</td>
-<td width="75">10:13AM</td>
-</tr><tr class="bg2"><td width="75">10:21AM</td>
-<td width="75">10:30AM</td>
-<td width="75">10:35AM</td>
-<td width="75">10:39AM</td>
-<td width="75">10:43AM</td>
-</tr><tr class="bg1"><td width="75">10:51AM</td>
-<td width="75">11:00AM</td>
-<td width="75">11:05AM</td>
-<td width="75">11:09AM</td>
-<td width="75">11:13AM</td>
-</tr><tr class="bg2"><td width="75">11:21AM</td>
-<td width="75">11:30AM</td>
-<td width="75">11:35AM</td>
-<td width="75">11:39AM</td>
-<td width="75">11:43AM</td>
-</tr><tr class="bg1"><td width="75">11:51AM</td>
-<td width="75">12:00PM</td>
-<td width="75">12:05PM</td>
-<td width="75">12:09PM</td>
-<td width="75">12:13PM</td>
-</tr><tr class="bg2"><td width="75">12:21PM</td>
-<td width="75">12:30PM</td>
-<td width="75">12:35PM</td>
-<td width="75">12:39PM</td>
-<td width="75">12:43PM</td>
-</tr><tr class="bg1"><td width="75">12:51PM</td>
-<td width="75">1:00PM</td>
-<td width="75">1:05PM</td>
-<td width="75">1:09PM</td>
-<td width="75">1:13PM</td>
-</tr><tr class="bg2"><td width="75">1:21PM</td>
-<td width="75">1:30PM</td>
-<td width="75">1:35PM</td>
-<td width="75">1:39PM</td>
-<td width="75">1:43PM</td>
-</tr><tr class="bg1"><td width="75">1:51PM</td>
-<td width="75">2:00PM</td>
-<td width="75">2:05PM</td>
-<td width="75">2:09PM</td>
-<td width="75">2:13PM</td>
-</tr><tr class="bg2"><td width="75">2:21PM</td>
-<td width="75">2:30PM</td>
-<td width="75">2:35PM</td>
-<td width="75">2:39PM</td>
-<td width="75">2:43PM</td>
-</tr><tr class="bg1"><td width="75">2:51PM</td>
-<td width="75">3:00PM</td>
-<td width="75">3:05PM</td>
-<td width="75">3:09PM</td>
-<td width="75">3:13PM</td>
-</tr><tr class="bg2"><td width="75">3:21PM</td>
-<td width="75">3:30PM</td>
-<td width="75">3:35PM</td>
-<td width="75">3:39PM</td>
-<td width="75">3:43PM</td>
-</tr><tr class="bg1"><td width="75">3:51PM</td>
-<td width="75">4:00PM</td>
-<td width="75">4:05PM</td>
-<td width="75">4:09PM</td>
-<td width="75">4:13PM</td>
-</tr><tr class="bg2"><td width="75">4:21PM</td>
-<td width="75">4:30PM</td>
-<td width="75">4:35PM</td>
-<td width="75">4:39PM</td>
-<td width="75">4:43PM</td>
-</tr><tr class="bg1"><td width="75">4:51PM</td>
-<td width="75">5:00PM</td>
-<td width="75">5:05PM</td>
-<td width="75">5:09PM</td>
-<td width="75">5:13PM</td>
-</tr><tr class="bg2"><td width="75">5:21PM</td>
-<td width="75">5:30PM</td>
-<td width="75">5:35PM</td>
-<td width="75">5:39PM</td>
-<td width="75">5:43PM</td>
-</tr><tr class="bg1"><td width="75">5:51PM</td>
-<td width="75">6:00PM</td>
-<td width="75">6:05PM</td>
-<td width="75">6:09PM</td>
-<td width="75">6:13PM</td>
-</tr><tr class="bg2"><td width="75">6:21PM</td>
-<td width="75">6:30PM</td>
-<td width="75">6:35PM</td>
-<td width="75">6:39PM</td>
-<td width="75">6:43PM</td>
-</tr><tr class="bg1"><td width="75">6:51PM</td>
-<td width="75">7:00PM</td>
-<td width="75">7:05PM</td>
-<td width="75">7:09PM</td>
-<td width="75">7:13PM</td>
-</tr><tr class="bg2"><td width="75">7:21PM</td>
-<td width="75">7:30PM</td>
-<td width="75">7:35PM</td>
-<td width="75">7:39PM</td>
-<td width="75">7:43PM</td>
-</tr><tr class="bg1"><td width="75">7:51PM</td>
-<td width="75">8:00PM</td>
-<td width="75">8:05PM</td>
-<td width="75">8:09PM</td>
-<td width="75">8:13PM</td>
-</tr><tr class="bg2"><td width="75">8:21PM</td>
-<td width="75">8:30PM</td>
-<td width="75">8:35PM</td>
-<td width="75">8:39PM</td>
-<td width="75">8:43PM</td>
-</tr><tr class="bg1"><td width="75">8:51PM</td>
-<td width="75">9:00PM</td>
-<td width="75">9:05PM</td>
-<td width="75">9:09PM</td>
-<td width="75">9:13PM</td>
-</tr><tr class="bg2"><td width="75">9:21PM</td>
-<td width="75">9:30PM</td>
-<td width="75">9:35PM</td>
-<td width="75">9:39PM</td>
-<td width="75">9:43PM</td>
-</tr><tr class="bg1"><td width="75">9:51PM</td>
-<td width="75">10:00PM</td>
-<td width="75">10:05PM</td>
-<td width="75">10:09PM</td>
-<td width="75">10:13PM</td>
-</tr><tr class="bg2"><td width="75">10:21PM</td>
-<td width="75">10:30PM</td>
-<td width="75">10:35PM</td>
-<td width="75">10:39PM</td>
-<td width="75">10:43PM</td>
-</tr><tr class="bg1"><td width="75">10:51PM</td>
-<td width="75">11:00PM</td>
-<td width="75">11:05PM</td>
-<td width="75">11:09PM</td>
-<td width="75">11:13PM</td>
-</tr><tr class="bg2"><td width="75">11:21PM</td>
-<td width="75">11:30PM</td>
-<td width="75">11:35PM</td>
-<td width="75">11:39PM</td>
-<td width="75">11:43PM</td>
-</tr><tr class="bg1"><td width="75">11:54PM</td>
-<td width="75">12:00AM</td>
-<td width="75">12:05AM</td>
-<td width="75">12:09AM</td>
-<td width="75">12:13AM</td>
-</tr><tr class="bg2"><td width="75">12:24AM</td>
-<td width="75">12:30AM</td>
-<td width="75">12:35AM</td>
-<td width="75">12:39AM</td>
-<td width="75">12:43AM</td>
-</tr><tr class="bg1"><td width="75">12:54PM</td>
-<td width="75">1:00AM</td>
-<td width="75">1:05AM</td>
-<td width="75">1:09AM</td>
-<td width="75">1:13AM</td>
-</tr><tr class="bg2"><td width="75">1:24AM</td>
-<td width="75">1:30AM</td>
-<td width="75">1:35AM</td>
-<td width="75">1:39AM</td>
-<td width="75">1:43AM</td>
-</tr><tr class="bg1"><td width="75">1:54AM</td>
-<td width="75">2:00AM</td>
-<td width="75">2:05AM</td>
-<td width="75">2:09AM</td>
-<td width="75">2:13AM</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 11 Saturday</h5><tr class="tableSub"><td>IC - Roy Park School</td>
-<td>Hudson @ Pearsall</td>
-<td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-</tr>
-<tr align="center" class="tableSub"><td>E</td>
-<td>G</td>
-<td>A</td>
-<td>B</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">7:17AM</td>
-<td width="75">7:20AM</td>
-<td width="75">7:23AM</td>
-<td width="75">7:27AM</td>
-</tr><tr class="bg2"><td width="75">7:47AM</td>
-<td width="75">7:50AM</td>
-<td width="75">7:53AM</td>
-<td width="75">7:57AM</td>
-</tr><tr class="bg1"><td width="75">8:17AM</td>
-<td width="75">8:20AM</td>
-<td width="75">8:23AM</td>
-<td width="75">8:27AM</td>
-</tr><tr class="bg2"><td width="75">8:47AM</td>
-<td width="75">8:50AM</td>
-<td width="75">8:53AM</td>
-<td width="75">8:57AM</td>
-</tr><tr class="bg1"><td width="75">9:17AM</td>
-<td width="75">9:20AM</td>
-<td width="75">9:23AM</td>
-<td width="75">9:27AM</td>
-</tr><tr class="bg2"><td width="75">9:47AM</td>
-<td width="75">9:50AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:51AM</td>
+<td width="75">10:03AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
 <td width="75">9:53AM</td>
-<td width="75">9:57AM</td>
-</tr><tr class="bg1"><td width="75">10:17AM</td>
-<td width="75">10:20AM</td>
-<td width="75">10:23AM</td>
-<td width="75">10:27AM</td>
-</tr><tr class="bg2"><td width="75">10:47AM</td>
-<td width="75">10:50AM</td>
-<td width="75">10:53AM</td>
-<td width="75">10:57AM</td>
-</tr><tr class="bg1"><td width="75">11:17AM</td>
-<td width="75">11:20AM</td>
-<td width="75">11:23AM</td>
-<td width="75">11:27AM</td>
-</tr><tr class="bg2"><td width="75">11:47AM</td>
-<td width="75">11:50AM</td>
-<td width="75">11:53AM</td>
-<td width="75">11:57AM</td>
-</tr><tr class="bg1"><td width="75">12:17PM</td>
-<td width="75">12:20PM</td>
-<td width="75">12:23PM</td>
-<td width="75">12:27PM</td>
-</tr><tr class="bg2"><td width="75">12:47PM</td>
-<td width="75">12:50PM</td>
-<td width="75">12:53PM</td>
-<td width="75">12:57PM</td>
-</tr><tr class="bg1"><td width="75">1:17PM</td>
-<td width="75">1:20PM</td>
-<td width="75">1:23PM</td>
-<td width="75">1:27PM</td>
-</tr><tr class="bg2"><td width="75">1:47PM</td>
-<td width="75">1:50PM</td>
-<td width="75">1:53PM</td>
-<td width="75">1:57PM</td>
-</tr><tr class="bg1"><td width="75">2:17PM</td>
-<td width="75">2:20PM</td>
-<td width="75">2:23PM</td>
-<td width="75">2:27PM</td>
-</tr><tr class="bg2"><td width="75">2:47PM</td>
-<td width="75">2:50PM</td>
-<td width="75">2:53PM</td>
-<td width="75">2:57PM</td>
-</tr><tr class="bg1"><td width="75">3:17PM</td>
-<td width="75">3:20PM</td>
-<td width="75">3:23PM</td>
-<td width="75">3:27PM</td>
-</tr><tr class="bg2"><td width="75">3:47PM</td>
+<td width="75">9:55AM</td>
+<td width="75">10:07AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">9:58AM</td>
+<td width="75">10:00AM</td>
+<td width="75">10:12AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">10:03AM</td>
+<td width="75">10:15AM</td>
+</tr><tr class="bg1"><td width="75">10:21AM</td>
+<td width="75">--</td>
+<td width="75">10:25AM</td>
+<td width="75">10:37AM</td>
+</tr><tr class="bg2"><td width="75">10:51AM</td>
+<td width="75">--</td>
+<td width="75">10:55AM</td>
+<td width="75">11:07AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">11:58AM</td>
+<td width="75">12:00PM</td>
+<td width="75">12:12PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">12:39PM</td>
+<td width="75">12:51PM</td>
+</tr><tr class="bg1"><td width="75">1:01PM</td>
+<td width="75">--</td>
+<td width="75">1:05PM</td>
+<td width="75">1:17PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">1:30PM</td>
+<td width="75">1:32PM</td>
+<td width="75">1:44PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">1:48AM</td>
+<td width="75">2:00PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">2:09PM</td>
+<td width="75">2:21PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">2:13PM</td>
+<td width="75">2:25PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">3:48PM</td>
 <td width="75">3:50PM</td>
-<td width="75">3:53PM</td>
-<td width="75">3:57PM</td>
-</tr><tr class="bg1"><td width="75">4:17PM</td>
-<td width="75">4:20PM</td>
-<td width="75">4:23PM</td>
-<td width="75">4:27PM</td>
-</tr><tr class="bg2"><td width="75">4:47PM</td>
-<td width="75">4:50PM</td>
-<td width="75">4:53PM</td>
-<td width="75">4:57PM</td>
-</tr><tr class="bg1"><td width="75">5:17PM</td>
-<td width="75">5:20PM</td>
-<td width="75">5:23PM</td>
-<td width="75">5:27PM</td>
-</tr><tr class="bg2"><td width="75">5:47PM</td>
-<td width="75">5:50PM</td>
-<td width="75">5:53PM</td>
+<td width="75">4:02PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">4:48PM</td>
+<td width="75">5:00PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">5:54PM</td>
+<td width="75">6:06PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
 <td width="75">5:57PM</td>
-</tr><tr class="bg1"><td width="75">6:17PM</td>
-<td width="75">6:20PM</td>
+<td width="75">5:59PM</td>
+<td width="75">6:11PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">6:13PM</td>
+<td width="75">6:25PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
 <td width="75">6:23PM</td>
+<td width="75">6:35PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">6:29PM</td>
+<td width="75">6:41PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
 <td width="75">6:27PM</td>
-</tr><tr class="bg2"><td width="75">6:47PM</td>
-<td width="75">6:50PM</td>
-<td width="75">6:53PM</td>
-<td width="75">6:57PM</td>
-</tr><tr class="bg1"><td width="75">7:17PM</td>
-<td width="75">7:20PM</td>
-<td width="75">7:23PM</td>
-<td width="75">7:27PM</td>
-</tr><tr class="bg2"><td width="75">7:47PM</td>
-<td width="75">7:50PM</td>
-<td width="75">7:53PM</td>
-<td width="75">7:57PM</td>
-</tr><tr class="bg1"><td width="75">8:17PM</td>
-<td width="75">8:20PM</td>
-<td width="75">8:23PM</td>
-<td width="75">8:27PM</td>
-</tr><tr class="bg2"><td width="75">8:47PM</td>
-<td width="75">8:50PM</td>
-<td width="75">8:53PM</td>
-<td width="75">8:57PM</td>
-</tr><tr class="bg1"><td width="75">9:17PM</td>
-<td width="75">9:20PM</td>
-<td width="75">9:23PM</td>
-<td width="75">9:27PM</td>
-</tr><tr class="bg2"><td width="75">9:47PM</td>
-<td width="75">9:50PM</td>
-<td width="75">9:53PM</td>
-<td width="75">9:57PM</td>
-</tr><tr class="bg1"><td width="75">10:17PM</td>
-<td width="75">10:20PM</td>
-<td width="75">10:23PM</td>
-<td width="75">10:27PM</td>
-</tr><tr class="bg2"><td width="75">10:47PM</td>
-<td width="75">10:50PM</td>
-<td width="75">10:53PM</td>
-<td width="75">10:57PM</td>
-</tr><tr class="bg1"><td width="75">11:17PM</td>
-<td width="75">11:20PM</td>
-<td width="75">11:23PM</td>
-<td width="75">11:27PM</td>
-</tr><tr class="bg2"><td width="75">11:47PM</td>
-<td width="75">11:50PM</td>
-<td width="75">11:53PM</td>
-<td width="75">11:57PM</td>
-</tr><tr class="bg1"><td width="75">12:17AM</td>
-<td width="75">12:20AM</td>
-<td width="75">12:23AM</td>
-<td width="75">12:27AM</td>
-</tr><tr class="bg2"><td width="75">12:47AM</td>
-<td width="75">12:50AM</td>
-<td width="75">12:53AM</td>
-<td width="75">12:57AM</td>
-</tr><tr class="bg1"><td width="75">1:17AM</td>
-<td width="75">1:20AM</td>
-<td width="75">1:23AM</td>
-<td width="75">1:27AM</td>
-</tr><tr class="bg2"><td width="75">1:47AM</td>
-<td width="75">1:50AM</td>
-<td width="75">1:53AM</td>
-<td width="75">1:57AM</td>
-</tr><tr class="bg1"><td width="75">2:17AM</td>
-<td width="75">2:20AM</td>
-<td width="75">2:23AM</td>
+<td width="75">6:29PM</td>
+<td width="75">6:41PM</td>
+</tr><tr class="bg2"><td width="75">6:31PM</td>
 <td width="75">--</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 11 Sunday</h5><tr class="tableSub"><td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-<td>Hudson @ Grandview</td>
-<td>IC - Roy Park School</td>
-<td>IC - The Towers @ Ithaca College</td>
-</tr>
-<tr align="center" class="tableSub"><td>A</td>
-<td>B</td>
-<td>C</td>
-<td>D</td>
-<td>E</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">--</td>
-<td width="75">9:00AM</td>
-<td width="75">9:05AM</td>
-<td width="75">9:09AM</td>
-<td width="75">9:13AM</td>
-</tr><tr class="bg2"><td width="75">--</td>
-<td width="75">9:30AM</td>
-<td width="75">9:35AM</td>
-<td width="75">9:39AM</td>
-<td width="75">9:43AM</td>
+<td width="75">6:35PM</td>
+<td width="75">6:47PM</td>
 </tr><tr class="bg1"><td width="75">--</td>
-<td width="75">10:00AM</td>
-<td width="75">10:05AM</td>
-<td width="75">10:09AM</td>
-<td width="75">10:13AM</td>
-</tr><tr class="bg2"><td width="75">10:21AM</td>
-<td width="75">10:30AM</td>
-<td width="75">10:35AM</td>
-<td width="75">10:39AM</td>
-<td width="75">10:43AM</td>
-</tr><tr class="bg1"><td width="75">10:51AM</td>
-<td width="75">11:00AM</td>
-<td width="75">11:05AM</td>
-<td width="75">11:09AM</td>
-<td width="75">11:13AM</td>
-</tr><tr class="bg2"><td width="75">11:21AM</td>
-<td width="75">11:30AM</td>
-<td width="75">11:35AM</td>
-<td width="75">11:39AM</td>
-<td width="75">11:43AM</td>
-</tr><tr class="bg1"><td width="75">11:51AM</td>
-<td width="75">12:00PM</td>
-<td width="75">12:05PM</td>
-<td width="75">12:09PM</td>
-<td width="75">12:13PM</td>
-</tr><tr class="bg2"><td width="75">12:21PM</td>
-<td width="75">12:30PM</td>
-<td width="75">12:35PM</td>
-<td width="75">12:39PM</td>
-<td width="75">12:43PM</td>
-</tr><tr class="bg1"><td width="75">12:51PM</td>
-<td width="75">1:00PM</td>
-<td width="75">1:05PM</td>
-<td width="75">1:09PM</td>
-<td width="75">1:13PM</td>
-</tr><tr class="bg2"><td width="75">1:21PM</td>
-<td width="75">1:30PM</td>
-<td width="75">1:35PM</td>
-<td width="75">1:39PM</td>
-<td width="75">1:43PM</td>
-</tr><tr class="bg1"><td width="75">1:51PM</td>
-<td width="75">2:00PM</td>
-<td width="75">2:05PM</td>
-<td width="75">2:09PM</td>
-<td width="75">2:13PM</td>
-</tr><tr class="bg2"><td width="75">2:21PM</td>
-<td width="75">2:30PM</td>
-<td width="75">2:35PM</td>
-<td width="75">2:39PM</td>
-<td width="75">2:43PM</td>
-</tr><tr class="bg1"><td width="75">2:51PM</td>
-<td width="75">3:00PM</td>
-<td width="75">3:05PM</td>
-<td width="75">3:09PM</td>
-<td width="75">3:13PM</td>
-</tr><tr class="bg2"><td width="75">3:21PM</td>
-<td width="75">3:30PM</td>
-<td width="75">3:35PM</td>
-<td width="75">3:39PM</td>
-<td width="75">3:43PM</td>
-</tr><tr class="bg1"><td width="75">3:51PM</td>
-<td width="75">4:00PM</td>
-<td width="75">4:05PM</td>
-<td width="75">4:09PM</td>
-<td width="75">4:13PM</td>
-</tr><tr class="bg2"><td width="75">4:21PM</td>
-<td width="75">4:30PM</td>
-<td width="75">4:35PM</td>
-<td width="75">4:39PM</td>
-<td width="75">4:43PM</td>
-</tr><tr class="bg1"><td width="75">4:51PM</td>
-<td width="75">5:00PM</td>
-<td width="75">5:05PM</td>
-<td width="75">5:09PM</td>
-<td width="75">5:13PM</td>
-</tr><tr class="bg2"><td width="75">5:21PM</td>
-<td width="75">5:30PM</td>
-<td width="75">5:35PM</td>
-<td width="75">5:39PM</td>
-<td width="75">5:43PM</td>
+<td width="75">--</td>
+<td width="75">6:38PM</td>
+<td width="75">6:50PM</td>
+</tr><tr class="bg2"><td width="75">6:41PM</td>
+<td width="75">--</td>
+<td width="75">6:45PM</td>
+<td width="75">6:57PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">6:50PM</td>
+<td width="75">6:52PM</td>
+<td width="75">7:04PM</td>
+</tr><tr class="bg2"><td width="75">6:51PM</td>
+<td width="75">--</td>
+<td width="75">6:55PM</td>
+<td width="75">7:07PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">6:56PM</td>
+<td width="75">7:08PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:59PM</td>
+<td width="75">7:01PM</td>
+<td width="75">7:13PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:26PM</td>
+<td width="75">7:38PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:28PM</td>
+<td width="75">7:40PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">7:29PM</td>
+<td width="75">7:31PM</td>
+<td width="75">7:43PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:31PM</td>
+<td width="75">7:43PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:36PM</td>
+<td width="75">7:48PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:19PM</td>
+<td width="75">9:31PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">9:51PM</td>
+<td width="75">10:03PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">9:53PM</td>
+<td width="75">9:55PM</td>
+<td width="75">10:07PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">--</td>
+<td width="75">2:24AM</td>
+<td width="75">2:36AM</td>
 </tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
         <tr>
           <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
         </tr>
-        <br><h5>Route 11 Sunday</h5><tr class="tableSub"><td>IC - Roy Park School</td>
-<td>Hudson @ Pearsall</td>
-<td>Seneca @ Commons</td>
+        <br><h5>Route 17 Saturday</h5><tr class="tableSub"><td>TCAT Offices</td>
 <td>Green @ Commons</td>
+<td>Seneca @ Commons</td>
 </tr>
-<tr align="center" class="tableSub"><td>E</td>
-<td>G</td>
+<tr align="center" class="tableSub"><td>B</td>
+<td>C</td>
+<td>A</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">6:25AM</td>
+<td width="75">6:35AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:42AM</td>
+<td width="75">6:52AM</td>
+<td width="75">6:54AM</td>
+</tr><tr class="bg1"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+<td width="75">7:02AM</td>
+</tr><tr class="bg2"><td width="75">6:52AM</td>
+<td width="75">7:02AM</td>
+<td width="75">7:04AM</td>
+</tr><tr class="bg1"><td width="75">7:35AM</td>
+<td width="75">7:45AM</td>
+<td width="75">7:47AM</td>
+</tr><tr class="bg2"><td width="75">7:50AM</td>
+<td width="75">8:00AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">8:07AM</td>
+<td width="75">8:17AM</td>
+<td width="75">8:19AM</td>
+</tr><tr class="bg2"><td width="75">9:25AM</td>
+<td width="75">9:35AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">10:50AM</td>
+<td width="75">11:00AM</td>
+<td width="75">11:02AM</td>
+</tr><tr class="bg2"><td width="75">11:05AM</td>
+<td width="75">11:15AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">11:18AM</td>
+<td width="75">11:28AM</td>
+<td width="75">11:30AM</td>
+</tr><tr class="bg2"><td width="75">11:25AM</td>
+<td width="75">11:35AM</td>
+<td width="75">--</td>
+</tr><tr class="bg1"><td width="75">1:00PM</td>
+<td width="75">1:10PM</td>
+<td width="75">1:12PM</td>
+</tr><tr class="bg2"><td width="75">5:10PM</td>
+<td width="75">5:20PM</td>
+<td width="75">5:22PM</td>
+</tr><tr class="bg1"><td width="75">5:18PM</td>
+<td width="75">5:28PM</td>
+<td width="75">--</td>
+</tr><tr class="bg2"><td width="75">5:20PM</td>
+<td width="75">5:30PM</td>
+<td width="75">5:32PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 17 Saturday</h5><tr class="tableSub"><td>Green @ Commons</td>
+<td>Seneca @ Commons</td>
+<td>TCAT Offices</td>
+</tr>
+<tr align="center" class="tableSub"><td>C</td>
 <td>A</td>
 <td>B</td>
 </tr>
 <tr></tr>
-<tr class="bg1"><td width="75">9:17AM</td>
-<td width="75">9:20AM</td>
-<td width="75">9:23AM</td>
-<td width="75">9:27AM</td>
-</tr><tr class="bg2"><td width="75">9:47AM</td>
-<td width="75">9:50AM</td>
-<td width="75">9:53AM</td>
-<td width="75">9:57AM</td>
-</tr><tr class="bg1"><td width="75">10:17AM</td>
-<td width="75">10:20AM</td>
-<td width="75">10:23AM</td>
-<td width="75">10:27AM</td>
-</tr><tr class="bg2"><td width="75">10:47AM</td>
-<td width="75">10:50AM</td>
-<td width="75">10:53AM</td>
-<td width="75">10:57AM</td>
-</tr><tr class="bg1"><td width="75">11:17AM</td>
-<td width="75">11:20AM</td>
-<td width="75">11:23AM</td>
-<td width="75">11:27AM</td>
-</tr><tr class="bg2"><td width="75">11:47AM</td>
-<td width="75">11:50AM</td>
-<td width="75">11:53AM</td>
-<td width="75">11:57AM</td>
-</tr><tr class="bg1"><td width="75">12:17PM</td>
-<td width="75">12:20PM</td>
-<td width="75">12:23PM</td>
-<td width="75">12:27PM</td>
-</tr><tr class="bg2"><td width="75">12:47PM</td>
-<td width="75">12:50PM</td>
-<td width="75">12:53PM</td>
-<td width="75">12:57PM</td>
-</tr><tr class="bg1"><td width="75">1:17PM</td>
-<td width="75">1:20PM</td>
-<td width="75">1:23PM</td>
-<td width="75">1:27PM</td>
-</tr><tr class="bg2"><td width="75">1:47PM</td>
-<td width="75">1:50PM</td>
-<td width="75">1:53PM</td>
-<td width="75">1:57PM</td>
-</tr><tr class="bg1"><td width="75">2:17PM</td>
-<td width="75">2:20PM</td>
-<td width="75">2:23PM</td>
-<td width="75">2:27PM</td>
-</tr><tr class="bg2"><td width="75">2:47PM</td>
-<td width="75">2:50PM</td>
-<td width="75">2:53PM</td>
-<td width="75">2:57PM</td>
-</tr><tr class="bg1"><td width="75">3:17PM</td>
-<td width="75">3:20PM</td>
-<td width="75">3:23PM</td>
-<td width="75">3:27PM</td>
-</tr><tr class="bg2"><td width="75">3:47PM</td>
-<td width="75">3:50PM</td>
-<td width="75">3:53PM</td>
-<td width="75">3:57PM</td>
-</tr><tr class="bg1"><td width="75">4:17PM</td>
-<td width="75">4:20PM</td>
-<td width="75">4:23PM</td>
-<td width="75">4:27PM</td>
-</tr><tr class="bg2"><td width="75">4:47PM</td>
-<td width="75">4:50PM</td>
-<td width="75">4:53PM</td>
-<td width="75">4:57PM</td>
-</tr><tr class="bg1"><td width="75">5:17PM</td>
-<td width="75">5:20PM</td>
-<td width="75">5:23PM</td>
-<td width="75">5:27PM</td>
-</tr><tr class="bg2"><td width="75">5:47PM</td>
-<td width="75">5:50PM</td>
-<td width="75">5:53PM</td>
-<td width="75">5:57PM</td>
-</tr></table></td></tr></table></span>	  <a name="bigpic"><img border=0 src="/mrnpics/11_Jan.jpg"></a><br>
-	  route 11 map</div>		<div class="clearFloats"></div>
+<tr class="bg1"><td width="75">10:00AM</td>
+<td width="75">10:02AM</td>
+<td width="75">10:14AM</td>
+</tr><tr class="bg2"><td width="75">3:08PM</td>
+<td width="75">3:10PM</td>
+<td width="75">3:22PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">5:36PM</td>
+<td width="75">5:48PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:26PM</td>
+<td width="75">6:38PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">6:36PM</td>
+<td width="75">6:48PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">7:26PM</td>
+<td width="75">7:38PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">7:36PM</td>
+<td width="75">7:48PM</td>
+</tr><tr class="bg2"><td width="75">7:57PM</td>
+<td width="75">7:59PM</td>
+<td width="75">8:11PM</td>
+</tr><tr class="bg1"><td width="75">7:59PM</td>
+<td width="75">8:01PM</td>
+<td width="75">8:13PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">9:19PM</td>
+<td width="75">9:31PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">11:51PM</td>
+<td width="75">12:03AM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">2:23AM</td>
+<td width="75">2:35AM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">2:24AM</td>
+<td width="75">2:36AM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 17 Sunday</h5><tr class="tableSub"><td>TCAT Offices</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>B</td>
+<td>C</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">6:50AM</td>
+<td width="75">7:00AM</td>
+</tr><tr class="bg2"><td width="75">7:27AM</td>
+<td width="75">7:37AM</td>
+</tr><tr class="bg1"><td width="75">7:35AM</td>
+<td width="75">7:45AM</td>
+</tr><tr class="bg2"><td width="75">7:50AM</td>
+<td width="75">8:00AM</td>
+</tr><tr class="bg1"><td width="75">9:25AM</td>
+<td width="75">9:35AM</td>
+</tr><tr class="bg2"><td width="75">9:50AM</td>
+<td width="75">10:00AM</td>
+</tr><tr class="bg1"><td width="75">9:50AM</td>
+<td width="75">10:00AM</td>
+</tr><tr class="bg2"><td width="75">10:08AM</td>
+<td width="75">10:18AM</td>
+</tr><tr class="bg1"><td width="75">10:35AM</td>
+<td width="75">10:45AM</td>
+</tr><tr class="bg2"><td width="75">11:05AM</td>
+<td width="75">11:15AM</td>
+</tr><tr class="bg1"><td width="75">11:25AM</td>
+<td width="75">11:35AM</td>
+</tr><tr class="bg2"><td width="75">7:08PM</td>
+<td width="75">7:18PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 17 Sunday</h5><tr class="tableSub"><td>Green @ Commons</td>
+<td>Seneca @ Commons</td>
+<td>TCAT Offices</td>
+</tr>
+<tr align="center" class="tableSub"><td>C</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">1:00PM</td>
+<td width="75">1:02PM</td>
+<td width="75">1:14PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">5:36PM</td>
+<td width="75">5:48PM</td>
+</tr><tr class="bg1"><td width="75">5:57PM</td>
+<td width="75">5:59PM</td>
+<td width="75">6:11PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:06PM</td>
+<td width="75">6:18PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">6:21PM</td>
+<td width="75">6:33PM</td>
+</tr><tr class="bg2"><td width="75">6:26PM</td>
+<td width="75">6:28PM</td>
+<td width="75">6:40PM</td>
+</tr><tr class="bg1"><td width="75">6:49PM</td>
+<td width="75">6:51PM</td>
+<td width="75">7:03PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">6:51PM</td>
+<td width="75">7:03PM</td>
+</tr><tr class="bg1"><td width="75">6:57PM</td>
+<td width="75">6:59PM</td>
+<td width="75">7:11PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">7:26PM</td>
+<td width="75">7:38PM</td>
+</tr><tr class="bg1"><td width="75">--</td>
+<td width="75">9:56PM</td>
+<td width="75">10:08PM</td>
+</tr><tr class="bg2"><td width="75">--</td>
+<td width="75">1:26AM</td>
+<td width="75">1:38PM</td>
+</tr></table></td></tr></table></span>	  <a name="bigpic"><img border=0 src="/mrnpics/17_Aug2012.jpg"></a><br>
+	  Route 17 map</div>		<div class="clearFloats"></div>
 		<div class="buttons">
 		<a href="http://tcat.nextinsight.com/"><img src="/images/tripplanner.jpg" alt="Trip Planner" width="285" height="153" border="0" /></a>&nbsp;<a href="http://www.tcatbus.com/pages/system"><img src="/images/downloadtcatmaps.jpg" alt="Download TCAT Maps" width="285" height="153" border="0" /></a>&nbsp;<a href="http://www.tcatbus.com/buy.php"><img src="/images/tcat_card.jpg" alt="Buy A Pass" width="285" height="153" border="0" /></a>
 		</div>

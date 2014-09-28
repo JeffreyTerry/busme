@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class MainModel {
 	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
-	private static final String BASE_URL = "http://theseedok.com/api";
+	private static final String BASE_URL = "http://www.theseedok.com/api";
 	private Context c;
 
 	public MainModel(Context c) {
