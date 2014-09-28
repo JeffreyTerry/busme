@@ -19,7 +19,7 @@ public class MainViewListFragment extends Fragment {
 	private ListView mainListView;
 	private EditText etDestination, etStart;
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class MainViewListFragment extends Fragment {
 				container, false);
 		MainActivity mainActivity = (MainActivity) this.getActivity();
 		mainController = mainActivity.getMainController();
-
+		
 		etStart = (EditText) android.findViewById(R.id.etStart);
 		etDestination = (EditText) android.findViewById(R.id.etDestination);
 		shadowExpanded = android.findViewById(R.id.shadowExpanded);
