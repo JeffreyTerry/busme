@@ -253,6 +253,7 @@ public class MainController extends BroadcastReceiver implements
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 				result.add(new MainListViewItem(-1, -1, "network error",
 						"network error", -1, -1, -1, -1, "N/A"));
+				
 				return result;
 			}
 		}
