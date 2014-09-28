@@ -25,16 +25,16 @@ module.exports = function(app, config){
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
     req.params.destination = req.params.destination.replace('_', ' ');
-    req.params.destination += ' Ithaca';
+    // req.params.destination += ' Ithaca';
     busRouteController.fromCurrent(req.params.lat, req.params.lng, req.params.destination, res);
   });
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
     req.params.start = req.params.start.replace('_', ' ');
-    req.params.start += ' Ithaca';
+    // req.params.start += ' Ithaca';
     req.params.destination = req.params.destination.replace('_', ' ');
-    req.params.destination += ' Ithaca';
+    // req.params.destination += ' Ithaca';
     busRouteController.fromCustom(req.params.start, req.params.destination, res);
   });
 
