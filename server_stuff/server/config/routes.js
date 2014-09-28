@@ -57,4 +57,8 @@ module.exports = function(app, config){
     deviceController.createNewDevice(req, res);
   });
 
+  app.post('/api/buslocation', function(req, res){
+    deviceController.createNewDevice(req, res);
+  });
+
 };

@@ -77,7 +77,7 @@ public class MainModel {
 		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				&& routeEnd.contentEquals(LOCATION_UNSPECIFIED)) {
 			// This should query the database for the user's default suggestions
-			buses = getJSONArrayForURL("/routes/default/" + MainActivity.id + "/" + "5" + "/"
+			buses = getJSONArrayForURL("/routes/default/" + MainActivity.id + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
 					+ routeEnd.replace(" ","_"));
 		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
