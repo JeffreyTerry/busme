@@ -258,5 +258,7 @@ module.exports = {
         });
     }, fromDefault: function(uid, lat, lng, res) {
         res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+    }, makeLocation: function(req, res) {
+        console.log(req.body);
     }
 };
