@@ -200,7 +200,7 @@ module.exports = {
             } else {
                 dest_lat = response.lat;
                 dest_lng = response.lng;
-                closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 40);
+                closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 80);
                 possible_buses = findBestPossibleBusRoutes(closest_stops);
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
