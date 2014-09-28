@@ -191,12 +191,12 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
                 break;
             }
         }
-        if(routes_possible[i][1] != routes_possible[i][2] && start_time - now_time < 100) {
+        if(routes_possible[i][1] != routes_possible[i][2] && start_time - now_time < 100 && start_time - now_time >= 0) {
             best_routes.push({'next_bus': (start_time - now_time), 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
         }
     }
     best_routes = best_routes.sort(function(route1, route2){
-        return route1.travel_time - route2.travel_time;
+        return (route1.travel_time + route1.start_time - route1.now_time) - (route2.travel_time + route2.start_time - route2.now_time);
     });
     return best_routes;
 }
