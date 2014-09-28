@@ -144,55 +144,59 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
     // step 2: get info for all possible routes
     var best_routes = [];
     for(i in routes_possible){
-        var next_bus_time = 100000;
+        var start_time = 100000;
         var travel_time = 100000;
-        var now_time = 10000;
+        var now_time = now.getHours() * 60 + now.getMinutes();
         start_times = routeDataToday[routes_possible[i][0]][routes_possible[i][1]];
         for(j in start_times){
             // this puts the time into a single number
+            if(start_times[j] == 'D') {
+                break;
+            }
             var index_of_colon = start_times[j].indexOf(':');
             hour = parseInt(start_times[j].substring(0, index_of_colon));
             minute = parseInt(start_times[j].substring(index_of_colon + 1, index_of_colon + 3));
             half = start_times[j].substr(start_times.length - 2);
-            if(hour == 0 && half == 'PM'){
-                hour += 12;
-            } else if(half == 'PM') {
-                hour += 12;
+            if(hour == 12 && half == 'AM'){
+                hour = 0;
             }
-            start_time = hour * 100 + minute;
-            now_time = now.getHours() * 100 + now.getMinutes();
+            if(half == 'PM') {
+                if(hour != 12){
+                    hour += 12;
+                }
+            }
+            start_time = hour * 60 + minute;
+            console.log(routes_possible[i][1], routes_possible[i][2], start_time, now_time);
             if(start_time > now_time) {
-                next_bus_time = start_time;
                 break;
             }
         }
         dest_times = routeDataToday[routes_possible[i][0]][routes_possible[i][2]];
         for(j in dest_times){
             // this puts the time into a single number
+            if(dest_times[j] == 'D') {
+                break;
+            }
             var index_of_colon = dest_times[j].indexOf(':');
             hour = parseInt(dest_times[j].substring(0, index_of_colon));
             minute = parseInt(dest_times[j].substring(index_of_colon + 1, index_of_colon + 3));
             half = dest_times[j].substr(dest_times.length - 2);
-            if(hour == 0 && half == 'PM'){
-                hour += 12;
-            } else if(half == 'PM') {
-                hour += 12;
+            if(hour == 12 && half == 'AM'){
+                hour = 0;
             }
-            dest_time = hour * 100 + minute;
-            now_time = now.getHours() * 100 + now.getMinutes();
-            if(dest_time > next_bus_time) {
-                travel_time = dest_time - next_bus_time;
-                travel_time = travel_time % 100 + Math.floor(travel_time / 100) * 60;
+            if(half == 'PM') {
+                if(hour != 12){
+                    hour += 12;
+                }
+            }
+            dest_time = hour * 60 + minute;
+            if(dest_time > start_time) {
+                travel_time = dest_time - start_time;
                 break;
             }
         }
-        next_bus_hour = Math.floor(next_bus_time / 100);
-        var next_bus_minutes = next_bus_time % 100 + next_bus_hour * 60;
-        now_time_hour = Math.floor(now_time / 100);
-        var now_time_minutes = now_time % 100 + now_time_hour * 60 - 240; // blaze 240 cuz we in ithaca and server in oregon
-        next_bus_time = next_bus_minutes - now_time_minutes;
-        if(routes_possible[i][1] != routes_possible[i][2] && next_bus_time != 59671) {
-            best_routes.push({'next_bus': next_bus_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
+        if(routes_possible[i][1] != routes_possible[i][2] && travel_time < 1000) {
+            best_routes.push({'next_bus': start_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
         }
     }
     return best_routes;
