@@ -36,20 +36,43 @@ function deg2rad(deg) {
 }
 
 function getAddressLatLng(address, cb){
-    gm.geocode(address, function(err, response){
-        if(err) {
-            cb(err);
-        } else {
-            if(response.results.length == 0) {
-                cb('address_not_found');
-                return;
+    var address_found = true;
+    var stopName;
+    address = address.split(' ');
+    if(address.length > 0){
+        for(stop in stopData) {
+            for(i in address){
+                if(stop.toLowerCase().indexOf(address[i].toLowerCase()) != -1) {
+                    stopName = stop;
+                } else {
+                    address_found = false;
+                    break;
+                }
             }
-            result = {};
-            result.lat = response.results[0].geometry.location.lat;
-            result.lng = response.results[0].geometry.location.lng;
-            cb(undefined, result);
         }
-    });
+    }
+    if (address_found) {
+        console.log(stopName);
+        result = {};
+        result.lat = stopData[stopName][0];
+        result.lng = stopData[stopName][1];
+        cb(undefined, result);
+    } else {
+        gm.geocode(address, function(err, response){
+            if(err) {
+                cb(err);
+            } else {
+                if(response.results.length == 0) {
+                    cb('address_not_found');
+                    return;
+                }
+                result = {};
+                result.lat = response.results[0].geometry.location.lat;
+                result.lng = response.results[0].geometry.location.lng;
+                cb(undefined, result);
+            }
+        });
+    }
 }
 
 function insert_stop_in_back(list, stop, distance) {
@@ -211,9 +234,14 @@ module.exports = {
                     start_lng = response1.lng;
                     dest_lat = response.lat;
                     dest_lng = response.lng;
-                    closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 80);
-                    console.log(closest_stops);
-                    possible_buses = findBestPossibleBusRoutes(closest_stops);
+                    closest_stops = [];
+                    possible_buses = [];
+                    var max_num_of_stops = 5;
+                    while(possible_buses.length == 0 && max_num_of_stops <= 25) {
+                        closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
+                        max_num_of_stops += 10;
+                        possible_buses = findBestPossibleBusRoutes(closest_stops);
+                    }
                     if(possible_buses.length > 0){
                         res.json(possible_buses);
                     } else {
