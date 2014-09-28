@@ -77,18 +77,18 @@ public class MainModel {
 		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				&& routeEnd.contentEquals(LOCATION_UNSPECIFIED)) {
 			// This should query the database for the user's default suggestions
-			buses = getJSONArrayForURL("/routes/default/" + "5" + "/"
+			buses = getJSONArrayForURL("/routes/default/" + MainActivity.id + "/" + "5" + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
 					+ routeEnd.replace(" ","_"));
 		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				|| routeStart.contentEquals(CURRENT_LOCATION)) {
-			buses = getJSONArrayForURL("/routes/fromcurrent/"
+			buses = getJSONArrayForURL("/routes/fromcurrent/"  + MainActivity.id + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
 					+ routeEnd.replace(" ","_"));
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
-			buses = getJSONArrayForURL("/routes/fromcustom/"
+			buses = getJSONArrayForURL("/routes/fromcustom/"  + MainActivity.id + "/"
 					+ routeStart.replace(" ", "_") + "/" + routeEnd.replace(" ","_"));
 		}
 		
