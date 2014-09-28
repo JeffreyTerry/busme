@@ -182,7 +182,7 @@ module.exports = {
     fromCurrent: function(start_lat, start_lng, destination, res) {
         getAddressLatLng(destination + ' ithaca', function(err, response){
             if(err) {
-                res.json({'err': 'destination_address_not_found_error'});
+                res.json({'err': 'destination_address_not_found'});
             } else {
                 dest_lat = response.lat;
                 dest_lng = response.lng;
@@ -192,7 +192,7 @@ module.exports = {
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
                 } else {
-                    res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': dest_lat, 'destination': dest_lng, 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': dest_lat, 'dest_lng': dest_lng}]);
+                    res.json([{'err': 'no_routes_found'}]);
                 }
             }
         });
@@ -200,7 +200,7 @@ module.exports = {
         getAddressLatLng(start + ' ithaca', function(err, response1){
             getAddressLatLng(destination + ' ithaca', function(err, response){
                 if(err) {
-                    res.json({'err': 'destination_address_not_found_error'});
+                    res.json({'err': 'address_not_found'});
                 } else {
                     start_lat = response1.lat;
                     start_lng = response1.lng;
@@ -212,7 +212,7 @@ module.exports = {
                     if(possible_buses.length > 0){
                         res.json(possible_buses);
                     } else {
-                        res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': dest_lat, 'destination': dest_lng, 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': dest_lat, 'dest_lng': dest_lng}]);
+                        res.json([{'err': 'no_routes_found'}]);
                     }
                 }
             });

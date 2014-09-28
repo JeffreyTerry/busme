@@ -48,7 +48,7 @@ for stop in stops:
     full_coordinate_list.extend(coordinate_list)
     # sleep so the server doesn't get suspicious and kick us out
     sleep(2)
-print full_coordinate_list
+# print full_coordinate_list
 coordinate_dictionary = {}
 for coordinates in full_coordinate_list:
     coordinate_dictionary[coordinates[2]] = coordinates[:2]
@@ -59,11 +59,13 @@ if len(full_coordinate_list) > 0:
 # the values are dictionaries where each entry is (e.g.) {"stop name": [times]}
 routes = {}
 # these are the numbers for each route to query on tcat's website
-route_schedules = ['428', '343', '415', '416']
+route_schedules = ['343', '415', '416', '428', '453', '313', '314', '315', '386', '482', '424', '389', '484', '391', '340', '393', '460', '329', '330', '401', '422', '478', '320', '325', '406', '407', '408', '398', '430', '410', '426', '427']
 # route_schedules = []
+if len(route_schedules) > 0:
+    open('schedule_test_data.txt', 'w').write('')
 for route_schedule in route_schedules:
     data = urllib2.urlopen('http://tcat.nextinsight.com/routes/' + route_schedule).read()
-    open('schedule_test_data.txt', 'w').write(data)
+    open('schedule_test_data.txt', 'a').write(data)
     # data = open('schedule_test_data.txt').read()
     data = data.replace('---', '--')
 
@@ -168,11 +170,10 @@ for route_schedule in route_schedules:
                 routes[new_route_name] = {}
                 new_route_names.append(new_route_name)
 
-        print new_route_values
-        print new_route_names
         new_route_values_len = len(new_route_values)
         for new_route_index, new_route_name in enumerate(new_route_names):
-            routes[new_route_name] = new_route_values[new_route_index / new_route_values_len]
+            routes[new_route_name] = new_route_values[new_route_index / len(route_days)]
+    sleep(0.5)
 
 
 MON = {}
@@ -208,7 +209,7 @@ route_data['FRI'] = FRI
 route_data['SAT'] = SAT
 route_data['SUN'] = SUN
 
-print route_data
+# print route_data
 if len(routes) > 0:
     route_data = str(route_data)
     route_data = route_data.replace("'", '"')
