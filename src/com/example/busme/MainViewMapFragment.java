@@ -52,7 +52,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		View android = inflater
 				.inflate(R.layout.mainmap_frag, container, false);
 
-		//initializeMap();
+		initializeMap();
 
 		return android;
 	}
