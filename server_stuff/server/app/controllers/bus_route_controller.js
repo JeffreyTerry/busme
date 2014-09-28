@@ -165,7 +165,7 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
         next_bus_hour = Math.floor(next_bus_time / 100);
         var next_bus_minutes = next_bus_time % 100 + next_bus_hour * 60;
         now_time_hour = Math.floor(now_time / 100);
-        var now_time_minutes = now_time % 100 + now_time_hour * 60;
+        var now_time_minutes = now_time % 100 + now_time_hour * 60 + 240; // blaze 240 cuz we in ithaca and server in oregon
         next_bus_time = next_bus_minutes - now_time_minutes;
         best_routes.push({'next_bus': next_bus_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
     }
