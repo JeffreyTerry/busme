@@ -25,6 +25,8 @@ module.exports = function(app, config){
 
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
+    req.params.destination = req.params.destination.replace('_', ' ');
+    req.params.destination += ' Ithaca';
     busRouteController.fromCurrent(req.params.lat, req.params.lng, req.params.destination, res);
   });
 
