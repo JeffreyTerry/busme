@@ -39,8 +39,7 @@ public class MapActivity extends Activity implements LocationListener {
         Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
         Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
         
-        TextView busNum = (TextView) findViewById(R.id.busNum);
-        TextView arrivalTime = (TextView) findViewById(R.id.arrivalTime);
+
         TextView bd1 = (TextView) findViewById(R.id.board1);
         TextView bd2 = (TextView) findViewById(R.id.board2);
         TextView trv1 = (TextView) findViewById(R.id.travel1);
@@ -49,14 +48,13 @@ public class MapActivity extends Activity implements LocationListener {
         TextView dest2 = (TextView) findViewById(R.id.destination2);
         TextView percentage = (TextView) findViewById(R.id.percent);
         
-        busNum.setTypeface(Bebas);
+
         bd1.setTypeface(Exo);
         bd2.setTypeface(Exo);
         trv1.setTypeface(Exo);
         trv2.setTypeface(Exo);
         dest1.setTypeface(Exo);
         dest2.setTypeface(Exo);
-        arrivalTime.setTypeface(Exo);
         percentage.setTypeface(Ubuntu);
         
         
