@@ -79,19 +79,20 @@ public class MainModel {
 			// This should query the database for the user's default suggestions
 			buses = getJSONArrayForURL("/routes/default/" + "5" + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-					+ routeEnd);
+					+ routeEnd.replace(" ","_"));
 		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				|| routeStart.contentEquals(CURRENT_LOCATION)) {
 			buses = getJSONArrayForURL("/routes/fromcurrent/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-					+ routeEnd);
+					+ routeEnd.replace(" ","_"));
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
 			buses = getJSONArrayForURL("/routes/fromcustom/"
-					+ routeStart + "/" + routeEnd);
+					+ routeStart.replace(" ", "_") + "/" + routeEnd.replace(" ","_"));
 		}
-
+		
+		System.out.print("dude buses" + buses.length());
 		JSONObject currentRoute;
 		for (int i = 0; i < buses.length(); i++) {
 			try {
@@ -107,6 +108,7 @@ public class MainModel {
 						Double.parseDouble(currentRoute.getString("dest_lng")),
 						currentRoute.getString("travel_time")
 						));
+				System.out.println("dude currentroute" + currentRoute.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
