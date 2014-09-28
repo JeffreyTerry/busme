@@ -18,6 +18,41 @@ function loadData() {
     });
 }
 
+// Compute the edit distance between the two given strings
+function getEditDistance(a, b) {
+  if(a.length === 0) return b.length; 
+  if(b.length === 0) return a.length; 
+ 
+  var matrix = [];
+ 
+  // increment along the first column of each row
+  var i;
+  for(i = 0; i <= b.length; i++){
+    matrix[i] = [i];
+  }
+ 
+  // increment each column in the first row
+  var j;
+  for(j = 0; j <= a.length; j++){
+    matrix[0][j] = j;
+  }
+ 
+  // Fill in the rest of the matrix
+  for(i = 1; i <= b.length; i++){
+    for(j = 1; j <= a.length; j++){
+      if(b.charAt(i-1) == a.charAt(j-1)){
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+                                Math.min(matrix[i][j-1] + 1, // insertion
+                                         matrix[i-1][j] + 1)); // deletion
+      }
+    }
+  }
+ 
+  return matrix[b.length][a.length];
+}
+
 function distanceBetween(lat1,lon1,lat2,lon2) {
       var R = 6371; // Radius of the earth in km
       var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -36,29 +71,25 @@ function deg2rad(deg) {
 }
 
 function getAddressLatLng(address, cb){
-    // var address_found = true;
-    // var stopName;
-    // address = address.split(' ');
-    // if(address.length > 0){
-    //     for(stop in stopData) {
-    //         for(i in address){
-    //             if(stop.toLowerCase().indexOf(address[i].toLowerCase()) != -1) {
-    //                 stopName = stop;
-    //             } else {
-    //                 address_found = false;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-    // if (address_found) {
-    //     console.log(stopName);
-    //     result = {};
-    //     result.lat = stopData[stopName][0];
-    //     result.lng = stopData[stopName][1];
-    //     cb(undefined, result);
-    // } else {
+    highest_score = ['', 0];
+    if(address.length > 0) {
+        for(stop in stopData) {
+            var distance = getEditDistance(address, stop);
+            if(distance > highest_score[1]) {
+                highest_score = [stop, distance];
+            }
+        }
+    }
+    if (false) {
+        console.log(highest_score[0]);
+        result = {};
+        result.lat = stopData[highest_score[0]][0];
+        result.lng = stopData[highest_score[0]][1];
+        cb(undefined, result);
+    } else {
+        console.log(address);
         gm.geocode(address, function(err, response){
+            console.log(response.results[0].geometry);
             if(err) {
                 cb(err);
             } else {
@@ -72,7 +103,7 @@ function getAddressLatLng(address, cb){
                 cb(undefined, result);
             }
         });
-    // }
+    }
 }
 
 function insert_stop_in_back(list, stop, distance) {
@@ -212,10 +243,10 @@ module.exports = {
                 closest_stops = [];
                 possible_buses = [];
                 var max_num_of_stops = 5;
-                while(possible_buses.length == 0 && max_num_of_stops <= 25) {
+                while(possible_buses.length == 0 && max_num_of_stops <= 55) {
                     closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
-                    max_num_of_stops += 10;
                     possible_buses = findBestPossibleBusRoutes(closest_stops);
+                    max_num_of_stops += 10;
                 }
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
@@ -237,10 +268,10 @@ module.exports = {
                     closest_stops = [];
                     possible_buses = [];
                     var max_num_of_stops = 5;
-                    while(possible_buses.length == 0 && max_num_of_stops <= 25) {
+                    while(possible_buses.length == 0 && max_num_of_stops <= 55) {
                         closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
-                        max_num_of_stops += 10;
                         possible_buses = findBestPossibleBusRoutes(closest_stops);
+                        max_num_of_stops += 10;
                     }
                     if(possible_buses.length > 0){
                         res.json(possible_buses);
