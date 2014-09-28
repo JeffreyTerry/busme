@@ -250,7 +250,7 @@ public class MapActivity extends Activity implements LocationListener {
 		protected ArrayList<LatLng> doInBackground(String... args) {
 			try {
 				int routeNumber = extras.getInt("routeNumber");
-				routeCoordinates = getJSONArrayForURL("/data/route/" + MainActivity.id + "/"
+				routeCoordinates = getJSONArrayForURL("/data/route/"
 						+ routeNumber);
 				System.out.println("This is the routeNumber" + routeNumber);
 				return parseJSONArray(routeCoordinates);
