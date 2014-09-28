@@ -22,23 +22,19 @@ module.exports = function(app, config){
     app.get(key, renderStaticPage);
   });
 
-  app.get('/api/test', function(req, res){
-    res.json({'msg': 'hey'});
-  });
-
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
-    res.json([{'next_bus': '23', 'route_number': '10', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    busRouteController.fromCurrent(req.params.lat, req.params.lng, req.params.destination, res);
   });
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:start/:destination', function(req, res){
-    res.json([{'next_bus': '13', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    busRouteController.fromCustom(req.params.start, req.params.destination, res);
   });
 
   // get user suggested routes
   app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
-    res.json([{'next_bus': '17', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons'}]);
+    busRouteController.default(req.params.uid, req.params.lat, req.params.lng, res);
   });
 
   app.post('/api/newdevice', function(req, res){

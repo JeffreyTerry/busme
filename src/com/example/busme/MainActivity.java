@@ -1,6 +1,7 @@
 package com.example.busme;
 
 import java.util.List;
+import java.util.Stack;
 import java.util.Vector;
 
 import android.os.Bundle;
@@ -8,9 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,6 +23,10 @@ public class MainActivity extends FragmentActivity {
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
 	public static FragmentManager fragmentManager;
+	
+	private Stack<Integer> pageHist;
+	private boolean saveToHistory;
+	private int currentPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,26 @@ public class MainActivity extends FragmentActivity {
         
         //map fragment
         fragmentManager = this.getSupportFragmentManager();
-
         
+        //Page changer
+        pageHist = new Stack<Integer>();
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener(){
+        	@Override
+            public void onPageSelected(int a) {
+                if(saveToHistory){
+                    pageHist.push(Integer.valueOf(currentPage));
+                }
+            }
+
+            @Override
+            public void onPageScrolled(int a, float b, int c) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int a) {
+            }
+        });
+        saveToHistory = true;
 	}
 	
 	public void setShadows(View shadowExpanded, View shadowRetracted) {
@@ -68,7 +89,18 @@ public class MainActivity extends FragmentActivity {
 		this.etDestination = etDestination;
 		this.mainEtDivider = mainEtDivider;
 	}
-
+	
+	public void onBackPressed(){
+		if (pageHist.size()%2 == 0){
+			super.onBackPressed();
+		}
+		else {
+			saveToHistory = false;
+			mViewPager.setCurrentItem(pageHist.pop().intValue());
+			saveToHistory = true;
+		}
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
