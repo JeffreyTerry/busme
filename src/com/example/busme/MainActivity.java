@@ -61,17 +61,18 @@ public class MainActivity extends FragmentActivity {
         pageHist = new Stack<Integer>();
         mViewPager.setOnPageChangeListener(new OnPageChangeListener(){
         	@Override
-            public void onPageSelected(int arg0) {
-                if(saveToHistory)
+            public void onPageSelected(int a) {
+                if(saveToHistory){
                     pageHist.push(Integer.valueOf(currentPage));
+                }
             }
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            public void onPageScrolled(int a, float b, int c) {
             }
 
             @Override
-            public void onPageScrollStateChanged(int arg0) {
+            public void onPageScrollStateChanged(int a) {
             }
         });
         saveToHistory = true;
@@ -90,13 +91,13 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void onBackPressed(){
-		if (!pageHist.empty()){
+		if (pageHist.size()%2 == 0){
+			super.onBackPressed();
+		}
+		else {
 			saveToHistory = false;
 			mViewPager.setCurrentItem(pageHist.pop().intValue());
 			saveToHistory = true;
-		}
-		else {
-			super.onBackPressed();
 		}
 	}
 	
