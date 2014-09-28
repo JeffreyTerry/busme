@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     deviceController = require('../app/controllers/device_controller'),
-    busRouteController = require('../app/controllers/bus_route_controller');
+    busRouteController = require('../app/controllers/bus_route_controller'),
+    routeDataController = require('../app/controllers/route_data_controller');
 
 // Stores a dictionary with route paths as keys and their corresponding static html files as values.
 var URLToFileMap = {
@@ -24,6 +25,8 @@ module.exports = function(app, config){
 
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:lat/:lng/:destination', function(req, res){
+    req.params.destination = req.params.destination.replace('_', ' ');
+    req.params.destination += ' Ithaca';
     busRouteController.fromCurrent(req.params.lat, req.params.lng, req.params.destination, res);
   });
 
@@ -34,7 +37,17 @@ module.exports = function(app, config){
 
   // get user suggested routes
   app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
-    busRouteController.default(req.params.uid, req.params.lat, req.params.lng, res);
+    busRouteController.fromDefault(req.params.uid, req.params.lat, req.params.lng, res);
+  });
+
+  // get a list of [lat, lng] pairs that trace out a given route
+  app.get('/api/data/route/:route_num', function(req, res){
+    routeDataController.getRouteLatLngs('route' + req.params.route_num, res);
+  });
+
+  // get a list of [lat, lng] pairs that trace out a given route
+  app.get('/api/data/allstops', function(req, res){
+    routeDataController.getAllStops(req, res);
   });
 
   app.post('/api/newdevice', function(req, res){

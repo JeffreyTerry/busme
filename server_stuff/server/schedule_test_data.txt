@@ -11452,6 +11452,64 @@ details('alert1');
         <tr>
           <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
         </tr>
+        <br><h5>Route 43 EXPRESS Weekdays</h5><tr class="tableSub"><td>Green @ Commons</td>
+<td>Statler Hall</td>
+<td>Dairy Bar</td>
+<td>Dryden Village @ Post Office</td>
+<td>TC3</td>
+</tr>
+<tr align="center" class="tableSub"><td>A</td>
+<td>B</td>
+<td>C</td>
+<td>F</td>
+<td>H</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">6:55AM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">7:14AM</td>
+<td width="75">7:18AM</td>
+</tr><tr class="bg2"><td width="75">4:30PM</td>
+<td width="75">4:38PM</td>
+<td width="75">4:42PM</td>
+<td width="75">4:58PM</td>
+<td width="75">5:02PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
+        </tr>
+        <br><h5>Route 43 EXPRESS Weekdays</h5><tr class="tableSub"><td>TC3</td>
+<td>Dryden Village @ Sunoco</td>
+<td>Dairy Bar Across Street</td>
+<td>Sage Hall</td>
+<td>Seneca @ Commons</td>
+<td>Green @ Commons</td>
+</tr>
+<tr align="center" class="tableSub"><td>H</td>
+<td>F</td>
+<td>M</td>
+<td>O</td>
+<td>P</td>
+<td>A</td>
+</tr>
+<tr></tr>
+<tr class="bg1"><td width="75">7:22AM</td>
+<td width="75">7:26AM</td>
+<td width="75">7:43AM</td>
+<td width="75">7:47AM</td>
+<td width="75">7:52AM</td>
+<td width="75">7:56AM</td>
+</tr><tr class="bg2"><td width="75">5:05PM</td>
+<td width="75">5:09PM</td>
+<td width="75">--</td>
+<td width="75">--</td>
+<td width="75">5:29PM</td>
+<td width="75">5:33PM</td>
+</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
+        <tr>
+          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
+        </tr>
         <br><h5>Route 43 Weekdays</h5><tr class="tableSub"><td>Green @ Commons</td>
 <td>Statler Hall</td>
 <td>Dairy Bar</td>
@@ -11770,64 +11828,6 @@ details('alert1');
 <td width="75">9:51PM</td>
 <td width="75">9:56PM</td>
 <td width="75">--</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Outbound from center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 43 EXPRESS Weekdays</h5><tr class="tableSub"><td>Green @ Commons</td>
-<td>Statler Hall</td>
-<td>Dairy Bar</td>
-<td>Dryden Village @ Post Office</td>
-<td>TC3</td>
-</tr>
-<tr align="center" class="tableSub"><td>A</td>
-<td>B</td>
-<td>C</td>
-<td>F</td>
-<td>H</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">6:55AM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">7:14AM</td>
-<td width="75">7:18AM</td>
-</tr><tr class="bg2"><td width="75">4:30PM</td>
-<td width="75">4:38PM</td>
-<td width="75">4:42PM</td>
-<td width="75">4:58PM</td>
-<td width="75">5:02PM</td>
-</tr></table></td></tr></table></span>	    <table width="890" border="0" cellspacing="3">
-        <tr>
-          <td colspan="20" bgcolor="#8cd2ef" class="heading"><h6>Inbound to center of Ithaca</h6></td>
-        </tr>
-        <br><h5>Route 43 EXPRESS Weekdays</h5><tr class="tableSub"><td>TC3</td>
-<td>Dryden Village @ Sunoco</td>
-<td>Dairy Bar Across Street</td>
-<td>Sage Hall</td>
-<td>Seneca @ Commons</td>
-<td>Green @ Commons</td>
-</tr>
-<tr align="center" class="tableSub"><td>H</td>
-<td>F</td>
-<td>M</td>
-<td>O</td>
-<td>P</td>
-<td>A</td>
-</tr>
-<tr></tr>
-<tr class="bg1"><td width="75">7:22AM</td>
-<td width="75">7:26AM</td>
-<td width="75">7:43AM</td>
-<td width="75">7:47AM</td>
-<td width="75">7:52AM</td>
-<td width="75">7:56AM</td>
-</tr><tr class="bg2"><td width="75">5:05PM</td>
-<td width="75">5:09PM</td>
-<td width="75">--</td>
-<td width="75">--</td>
-<td width="75">5:29PM</td>
-<td width="75">5:33PM</td>
 </tr></table></td></tr></table></span>	  <a name="bigpic"><img border=0 src="/mrnpics/43_Aug2013.jpg"></a><br>
 	  Route 43 map</div>		<div class="clearFloats"></div>
 		<div class="buttons">
