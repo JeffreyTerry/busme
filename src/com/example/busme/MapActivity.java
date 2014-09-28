@@ -1,11 +1,13 @@
 package com.example.busme;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +27,40 @@ public class MapActivity extends Activity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
 		initializeMapFragment();
+		initializeFonts();
+	}
+	
+	private void initializeFonts(){
+        String bebas = "BebasNeue.otf";
+        String exo = "Exo-Regular.otf";
+        String ubuntu = "Ubuntu-Title.ttf";
+        
+        Typeface Bebas = Typeface.createFromAsset(getAssets(), bebas);
+        Typeface Exo = Typeface.createFromAsset(getAssets(), exo);
+        Typeface Ubuntu = Typeface.createFromAsset(getAssets(), ubuntu);
+        
+        TextView busNum = (TextView) findViewById(R.id.busNum);
+        TextView arrivalTime = (TextView) findViewById(R.id.arrivalTime);
+        TextView bd1 = (TextView) findViewById(R.id.board1);
+        TextView bd2 = (TextView) findViewById(R.id.board2);
+        TextView trv1 = (TextView) findViewById(R.id.travel1);
+        TextView trv2 = (TextView) findViewById(R.id.travel2);
+        TextView dest1 = (TextView) findViewById(R.id.destination1);
+        TextView dest2 = (TextView) findViewById(R.id.destination2);
+        TextView percentage = (TextView) findViewById(R.id.percent);
+        
+        busNum.setTypeface(Bebas);
+        bd1.setTypeface(Exo);
+        bd2.setTypeface(Exo);
+        trv1.setTypeface(Exo);
+        trv2.setTypeface(Exo);
+        dest1.setTypeface(Exo);
+        dest2.setTypeface(Exo);
+        arrivalTime.setTypeface(Exo);
+        percentage.setTypeface(Ubuntu);
+        
+        
+        
 	}
 
 	private void initializeMapFragment() {
