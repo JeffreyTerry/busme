@@ -97,6 +97,10 @@ public class MainModel {
 		for (int i = 0; i < buses.length(); i++) {
 			try {
 				currentRoute = buses.getJSONObject(i);
+				if(currentRoute.has("err")) {
+					results.add(new MainListViewItem(-1, -1, currentRoute.getString("err"), "", 0.0, 0.0, 0.0, 0.0, "0"));
+					return results;
+				}
 				results.add(new MainListViewItem(Integer.parseInt(currentRoute
 						.getString("next_bus")), Integer.parseInt(currentRoute
 						.getString("route_number")), currentRoute
