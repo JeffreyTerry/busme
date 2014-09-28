@@ -1,3 +1,9 @@
+<!-- TODO <android.support.v4.widget.SwipeRefreshLayout
+	    	xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:id="@+id/swipe_container"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent" > -->
+		    
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,6 +36,7 @@
             android:inputType="text"
             android:nextFocusDown="@+id/etDestination"
             android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:textColorHint="#6599FF"
             android:visibility="gone" >
         </EditText>
@@ -59,20 +66,22 @@
             android:inputType="text"
             android:nextFocusDown="@+id/lvMain"
             android:onClick="showEtStart"
-            android:paddingLeft="15dp" >
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
         </EditText>
-
+	    
         <ListView
             android:id="@id/lvMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/etDestination"
-            android:layout_centerHorizontal="true"
+	    	android:layout_below="@+id/etDestination"
+	    	android:layout_centerHorizontal="true"
             android:background="@drawable/list_background"
             android:divider="@android:color/transparent"
             android:dividerHeight="12sp" >
         </ListView>
+    
     </RelativeLayout>
 
     <View
