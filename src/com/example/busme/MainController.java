@@ -153,8 +153,7 @@ public class MainController extends BroadcastReceiver implements
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
-		
-		 MainListViewItem item = mainListViewAdapter.getItem(position);
+		 MainListViewItem item = mainListViewAdapter.getItem(position + 1);
 		 Intent i = new Intent(context, MapActivity.class);
 		 i.putExtra("time", item.getTime());
 		 i.putExtra("start", item.getRouteStart());
