@@ -205,7 +205,7 @@ module.exports = {
                 if(possible_buses.length > 0){
                     res.json(possible_buses);
                 } else {
-                    res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+                    res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': dest_lat, 'destination': dest_lng, 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': dest_lat, 'dest_lng': dest_lng}]);
                 }
             }
         });
