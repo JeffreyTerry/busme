@@ -98,9 +98,5 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
-	
-	
-	
-	
 
 }
