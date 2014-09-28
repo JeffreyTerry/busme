@@ -59,7 +59,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		locationMarker.showInfoWindow();
 		
 	}
-	
+
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub

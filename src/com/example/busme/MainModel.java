@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class MainModel {
 	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
-	private static final String BASE_URL = "http://theseedok.com/api";
+	private static final String BASE_URL = "http://www.theseedok.com/api";
 	private Context c;
 
 	public MainModel(Context c) {
@@ -51,6 +51,7 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
+			System.out.println("builder tostring" + builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONArray finalResult = new JSONArray(tokener);
 			return finalResult;
@@ -70,6 +71,7 @@ public class MainModel {
 		Criteria crit = new Criteria();
 		String provider = locationManager.getBestProvider(crit, true);
 		Location loc = locationManager.getLastKnownLocation(provider);
+		
 		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 		JSONArray buses;
 		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
