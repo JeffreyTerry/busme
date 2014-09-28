@@ -12,8 +12,8 @@ def transform_coordinate_quartets(coordinate_list):
     return list((coordinate_list[i:i + 3][::-1] for i in xrange(0, len(coordinate_list), 4)))
 
 # these are the routes we will collect data for
-# routes = [10, 11, 15, 17, 81, 82, 83, 92]
-routes = []
+routes = [10, 11, 15, 17, 81, 82, 83, 92]
+# routes = []
 
 for route in routes:
     data = urllib2.urlopen('http://www.tcatbus.com/kml/route' + str(route) + '.kml').read();
@@ -22,14 +22,16 @@ for route in routes:
     coordinate_data = str(root.Document.Placemark.LineString.coordinates).strip()
     coordinate_data = re.compile('[,\s]').split(coordinate_data)
     coordinate_list = transform_coordinate_triplets(coordinate_data)
-    open('route' + str(route) + '.txt', 'w').write(str(coordinate_list))
+    coordinate_list = str(coordinate_list)
+    coordinate_list = coordinate_list.replace("'", '"')
+    open('data/route' + str(route) + '.txt', 'w').write(coordinate_list)
     # print coordinate_list
     # sleep so the server doesn't get suspicious and kick us out
-    sleep(2)
+    sleep(0.5)
 
 # these are the routes we will collect data for
-stops = ["Cornell", "Downtown", "Country"]
-# stops = []
+# stops = ["Cornell", "Downtown", "Country"]
+stops = []
 full_coordinate_list = []
 for stop in stops:
     data = urllib2.urlopen('http://www.tcatbus.com/kml/route' + stop + '.kml').read();
@@ -57,6 +59,7 @@ if len(full_coordinate_list) > 0:
 # the values are dictionaries where each entry is (e.g.) {"stop name": [times]}
 routes = {}
 # these are the numbers for each route to query on tcat's website
+# route_schedules = [428]
 route_schedules = []
 for route_schedule in route_schedules:
     # data = urllib2.urlopen('http://tcat.nextinsight.com/routes/' + route_schedule).read();
@@ -208,7 +211,11 @@ route_data['SAT'] = SAT
 route_data['SUN'] = SUN
 
 print route_data
-open('data/route_data.txt', 'w').write(str(route_data))
+if len(routes) > 0:
+    route_data = str(route_data)
+    route_data = route_data.replace("'", '"')
+    route_data = route_data.replace('"s', "'")
+    open('data/route_data.txt', 'w').write(route_data)
 
 
 
