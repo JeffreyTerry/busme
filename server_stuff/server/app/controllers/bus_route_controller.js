@@ -18,41 +18,6 @@ function loadData() {
     });
 }
 
-// Compute the edit distance between the two given strings
-function getEditDistance(a, b) {
-  if(a.length === 0) return b.length; 
-  if(b.length === 0) return a.length; 
- 
-  var matrix = [];
- 
-  // increment along the first column of each row
-  var i;
-  for(i = 0; i <= b.length; i++){
-    matrix[i] = [i];
-  }
- 
-  // increment each column in the first row
-  var j;
-  for(j = 0; j <= a.length; j++){
-    matrix[0][j] = j;
-  }
- 
-  // Fill in the rest of the matrix
-  for(i = 1; i <= b.length; i++){
-    for(j = 1; j <= a.length; j++){
-      if(b.charAt(i-1) == a.charAt(j-1)){
-        matrix[i][j] = matrix[i-1][j-1];
-      } else {
-        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
-                                Math.min(matrix[i][j-1] + 1, // insertion
-                                         matrix[i-1][j] + 1)); // deletion
-      }
-    }
-  }
- 
-  return matrix[b.length][a.length];
-}
-
 function distanceBetween(lat1,lon1,lat2,lon2) {
       var R = 6371; // Radius of the earth in km
       var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -72,22 +37,27 @@ function deg2rad(deg) {
 
 function getAddressLatLng(address, cb){
     highest_score = ['', 0];
-    if(address.length > 0) {
-        for(stop in stopData) {
-            var distance = getEditDistance(address, stop);
-            if(distance > highest_score[1]) {
-                highest_score = [stop, distance];
+    address = address.split(' ');
+    for(stop in stopData) {
+        var words_matched = 0;
+        for(i in address){
+            if(stop.toLowerCase().indexOf(address[i].toLowerCase()) != -1){
+                words_matched++;
             }
         }
+        if(words_matched > highest_score[1]){
+            highest_score = [stop, words_matched];
+        }
     }
-    if (false) {
-        console.log(highest_score[0]);
+    if (highest_score[1] != 0) {
+        console.log(highest_score);
         result = {};
         result.lat = stopData[highest_score[0]][0];
         result.lng = stopData[highest_score[0]][1];
         cb(undefined, result);
     } else {
         console.log(address);
+        address += ' ithaca';
         gm.geocode(address, function(err, response){
             console.log(response.results[0].geometry);
             if(err) {
@@ -221,7 +191,9 @@ function findBestPossibleBusRoutes(possible_starts_and_dests) {
         now_time_hour = Math.floor(now_time / 100);
         var now_time_minutes = now_time % 100 + now_time_hour * 60 - 240; // blaze 240 cuz we in ithaca and server in oregon
         next_bus_time = next_bus_minutes - now_time_minutes;
-        best_routes.push({'next_bus': next_bus_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
+        if(routes_possible[i][1] != routes_possible[i][2] && next_bus_time != 59671) {
+            best_routes.push({'next_bus': next_bus_time, 'travel_time': travel_time, 'route_number': routes_possible[i][0].substring(5, 7), 'start': routes_possible[i][1], 'destination': routes_possible[i][2], 'start_lat': stopData[routes_possible[i][1]][0], 'start_lng': stopData[routes_possible[i][1]][1], 'dest_lat': stopData[routes_possible[i][2]][0], 'dest_lng': stopData[routes_possible[i][2]][1]});
+        }
     }
     return best_routes;
 }
