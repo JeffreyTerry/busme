@@ -202,7 +202,11 @@ module.exports = {
                 dest_lng = response.lng;
                 closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 40);
                 possible_buses = findBestPossibleBusRoutes(closest_stops);
-                res.json(possible_buses);
+                if(possible_buses.length > 0){
+                    res.json(possible_buses);
+                } else {
+                    res.json([{'next_bus': '17', 'travel_time': '15', 'route_number': '11', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': start_lat, 'start_lng': start_lng, 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+                }
             }
         });
     }, fromCustom: function(start, destination, res) {
