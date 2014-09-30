@@ -1,5 +1,7 @@
 var gm = require('googlemaps'),
-    fs = require('fs');
+    fs = require('fs'),
+    http = require('http'),
+    request = require('request');
 
 // stopDictionary will look like {stop1name: [lat, lng], stop2name: [lat, lng], ...}
 var stopDictionary = {};
@@ -96,6 +98,7 @@ function insert_stop_in_back(list, stop, distance) {
     return list;
 }
 
+
 function findClosestStops(start_lat, start_lng, dest_lat, dest_lng, num_of_results) {
     var max_stop_count = num_of_results;
     var closest_stops_to_start = [];
@@ -121,11 +124,83 @@ function findClosestStops(start_lat, start_lng, dest_lat, dest_lng, num_of_resul
     return [closest_stops_to_start, closest_stops_to_dest];
 }
 
+function getNextBusForStops(start, dest, cb) {
+    if(!(stopToTcatIdDictionary.hasOwnProperty(start) && stopToTcatIdDictionary.hasOwnProperty(dest))) {
+        cb({'err': 'invalid stops'});
+        return;
+    }
+    request.post({
+        url: 'http://tcat.nextinsight.com/index.php',
+        form: {
+            'wml': '',
+            'addrO': '',
+            'latO': '',
+            'lonO': '',
+            'addrD': '',
+            'latD': '',
+            'lonD': '',
+            'origin': '',
+            'destination': '',
+            'search': 'search',
+            'fulltext': '',
+            'radiusO': '',
+            'radiusD': '',
+            'addressid1': '',
+            'addressid2': '',
+            'start': stopToTcatIdDictionary[start],
+            'end': stopToTcatIdDictionary[dest],
+            'day': 1,
+            'departure': 0,
+            'starthours': 10,
+            'startminutes': 40,
+            'startampm': 0,
+            'customer': 1,
+            'sort': 1,
+            'transfers': 0,
+            'addr': '',
+            'city': 'Ithaca',
+            'radius': .25
+        }},
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                nextBusStarts = body.match(/<[^<]*<[^<]*Board the[^<]*<[^<]*<[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
+                nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
+                if(nextBusStarts == null || nextBusDestinations == null) {
+                    
+                }
+                var nextBusStart = nextBusStarts[0];
+                var nextBusDestination = nextBusDestinations[0];
+                console.log(nextBusStart)
+                console.log(nextBusDestination);
+
+                // cb(undefined, nextBus);
+            }
+            // console.log(response);
+        }
+    );
+}
+
 loadData();
 setTimeout(function(){
-    closest_stops = findClosestStops(42.431494, -76.49203199999999, 42.431494, -76.49203199999999, 4);
-    console.log('closes stops:', closest_stops);
-    // possible_buses = findBestPossibleBusRoutes(closest_stops);
+    locations = getLatLngForSearchTerms('airport', function(err, response){
+        if(err){
+            console.log('error outer', err);
+        }
+        start_lat = response.lat;
+        start_lng = response.lng;
+        locations = getLatLngForSearchTerms('sage', function(err, response2){
+            if(err){
+                console.log('error inner', err);
+            }
+            dest_lat = response2.lat;
+            dest_lng = response2.lng;
+            closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 4);
+            console.log('closes stops:', closest_stops);
+            getNextBusForStops(closest_stops[0][0][0], closest_stops[1][0][0], function(err, response){
+                console.log(err, response);
+            });
+        });
+    });
 }, 2000);
 module.exports = {
     fromCurrent: function(start_lat, start_lng, destination, res) {
