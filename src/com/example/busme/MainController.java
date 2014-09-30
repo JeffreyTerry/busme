@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 public class MainController extends BroadcastReceiver implements
 		OnEditorActionListener, OnItemClickListener,
@@ -37,7 +38,7 @@ public class MainController extends BroadcastReceiver implements
 	private MainModel model;
 	private int numberOfLocationUpdates;
 	private SwipeDismisserListView swipeDismisserListView;
-	private float x1, x2;
+	private float x1;
 
 	public MainController(Context c) {
 		model = new MainModel(c);
@@ -45,8 +46,8 @@ public class MainController extends BroadcastReceiver implements
 		createMainListViewAdapter();
 
 		numberOfLocationUpdates = 1;
-		c.registerReceiver(this,
-				LocationTracker.getLocationBroadcastIntentFilter());
+//		c.registerReceiver(this,
+//				LocationTracker.getLocationBroadcastIntentFilter());
 //		startAlarmBroadcaster();
 	}
 
@@ -93,7 +94,6 @@ public class MainController extends BroadcastReceiver implements
 				context, ALARM_REQUEST_CODE, i,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		am.cancel(updateLocationIntent);
-		System.out.println();
 	}
 
 	private void createMainListViewAdapter() {
@@ -247,23 +247,26 @@ public class MainController extends BroadcastReceiver implements
 					return model.getCardsForQuery(args[0], args[1]);
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-					result.add(MainListViewItem.NULL_ITEM);
 					return result;
 				}
 			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-				result.add(MainListViewItem.NULL_ITEM);
-				
 				return result;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<MainListViewItem> result) {
-			mainListViewAdapter.clear();
-			mainListViewAdapter.setLoading(false);
-			mainListViewAdapter.addAll(result);
-			super.onPostExecute(result);
+		protected void onPostExecute(ArrayList<MainListViewItem> results) {
+			if(results.size() == 0){
+				mainListViewAdapter.clear();
+				mainListViewAdapter.setLoading(false);
+				Toast.makeText(context, "No routes found", Toast.LENGTH_LONG).show();
+			} else{
+				mainListViewAdapter.clear();
+				mainListViewAdapter.setLoading(false);
+				mainListViewAdapter.addAll(results);
+			}
+			super.onPostExecute(results);
 		}
 	}
 }

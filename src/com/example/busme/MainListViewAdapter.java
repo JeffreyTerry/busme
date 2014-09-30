@@ -64,7 +64,6 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			v.setTag("loading");
 			return v;
 		}
-		System.out.println(convertView);
 
 		if (convertView == null || convertView.getTag().equals("hello")
 				|| convertView.getTag().equals("goodbye")

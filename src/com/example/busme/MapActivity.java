@@ -44,12 +44,10 @@ public class MapActivity extends Activity implements LocationListener {
 	private GoogleMap gmap;
 	private Bundle extras;
 	ArrayList<LatLng> markerPoints;
-	private static final String BASE_URL = "http://www.theseedok.com/api";
 	private JSONArray routeCoordinates;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
 		initializeMapFragment();
@@ -108,7 +106,6 @@ public class MapActivity extends Activity implements LocationListener {
 	}
 
 	private void initializeMapFragment() {
-		// TODO Auto-generated method stub
 		extras = this.getIntent().getExtras();
 
 		gmap = ((MapFragment) this.getFragmentManager().findFragmentById(
@@ -173,7 +170,6 @@ public class MapActivity extends Activity implements LocationListener {
 					list.add(new LatLng(innerArray.getDouble(0), innerArray
 							.getDouble(1)));
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -183,61 +179,18 @@ public class MapActivity extends Activity implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-
-		
-
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Gets JSON from the server at "BASE_URL + apiURL"
-	 * 
-	 * @param apiURL
-	 * @return
-	 */
-	private JSONArray getJSONArrayForURL(String apiURL) {
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(BASE_URL + apiURL);
-			HttpResponse response = client.execute(request);
-
-			// Get the response
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent(), "UTF-8"));
-			StringBuilder builder = new StringBuilder();
-			for (String line = null; (line = reader.readLine()) != null;) {
-				builder.append(line).append("\n");
-			}
-			System.out.println("builder tostring" + builder.toString());
-			JSONTokener tokener = new JSONTokener(builder.toString());
-			JSONArray finalResult = new JSONArray(tokener);
-			return finalResult;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	private class QueryTask extends AsyncTask<String, Void, ArrayList<LatLng>> {
@@ -250,9 +203,8 @@ public class MapActivity extends Activity implements LocationListener {
 		protected ArrayList<LatLng> doInBackground(String... args) {
 			try {
 				int routeNumber = extras.getInt("routeNumber");
-				routeCoordinates = getJSONArrayForURL("/data/route/"
+				routeCoordinates = MainModel.getJSONArrayForURL("/data/route/"
 						+ routeNumber);
-				System.out.println("This is the routeNumber" + routeNumber);
 				return parseJSONArray(routeCoordinates);
 			} catch (Exception e) {
 				return null;

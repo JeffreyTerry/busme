@@ -57,4 +57,8 @@ module.exports = function(app, config){
   app.post('/api/buslocation/:lat/:lng', function(req, res){
     busRouteController.makeLocation(req, res);
   });
+
+  app.get('/test/:varname', function(req, res){
+    busRouteController.test(req.params.varname, res);
+  });
 };

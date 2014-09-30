@@ -4,7 +4,7 @@ module.exports = {
     createNewDevice: function(req, res) {
         User.create({}, function(err, user) {
             if (err) {
-                res.json(err);
+                res.json({'err': err});
             } else {
                 res.json({'id': user._id});
             }

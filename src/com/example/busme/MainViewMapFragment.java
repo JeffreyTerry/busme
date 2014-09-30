@@ -1,24 +1,12 @@
 package com.example.busme;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Random;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -35,11 +23,8 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainViewMapFragment extends Fragment implements LocationListener {
 
@@ -122,10 +107,10 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		protected HashMap<String, LatLng> doInBackground(String... args) {
 			try {
 				routeCoordinates = MainModel
-						.getJSONObjectForURL("/data/allstops");
+						.getJSONObjectForURL("/data/stops");
 				return parseJSONObject(routeCoordinates);
-
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
