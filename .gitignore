@@ -52,33 +52,33 @@ res/values/api_key.xml
 ######## server stuff ##########
 # Compiled source #
 ###################
-server_stuff/server/*.com
-server_stuff/server/*.class
-server_stuff/server/*.dll
-server_stuff/server/*.exe
-server_stuff/server/*.o
-server_stuff/server/*.so
-server_stuff/server/*.sge.o
-server_stuff/server/*.sge.pe
+server_stuff/*/*.com
+server_stuff/*/*.class
+server_stuff/*/*.dll
+server_stuff/*/*.exe
+server_stuff/*/*.o
+server_stuff/*/*.so
+server_stuff/*/*.sge.o
+server_stuff/*/*.sge.pe
 
 
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
 # git has its own built in compression methods
-server_stuff/server/*.7z
-server_stuff/server/*.dmg
-server_stuff/server/*.gz
-server_stuff/server/*.iso
-server_stuff/server/*.jar
-server_stuff/server/*.rar
-server_stuff/server/*.tar
-server_stuff/server/*.zip
-server_stuff/server/.sass-cache
-server_stuff/server/node_modules
-server_stuff/server/bower_components
-server_stuff/server/public
-server_stuff/server/db
+server_stuff/*/*.7z
+server_stuff/*/*.dmg
+server_stuff/*/*.gz
+server_stuff/*/*.iso
+server_stuff/*/*.jar
+server_stuff/*/*.rar
+server_stuff/*/*.tar
+server_stuff/*/*.zip
+server_stuff/*/.sass-cache
+server_stuff/*/node_modules
+server_stuff/*/bower_components
+server_stuff/*/public
+server_stuff/*/db
 
 # Logs and databases #
 ######################
@@ -88,13 +88,13 @@ server_stuff/server/db
 
 # OS generated files #
 ######################
-server_stuff/server/.DS_Store
-server_stuff/server/.DS_Store?
-server_stuff/server/._*
-server_stuff/server/.Spotlight-V100
-server_stuff/server/.Trashes
-server_stuff/server/ehthumbs.db
-server_stuff/server/Thumbs.db
+server_stuff/*/.DS_Store
+server_stuff/*/.DS_Store?
+server_stuff/*/._*
+server_stuff/*/.Spotlight-V100
+server_stuff/*/.Trashes
+server_stuff/*/ehthumbs.db
+server_stuff/*/Thumbs.db
 
 # api key file
 res/values/api_key.xml
