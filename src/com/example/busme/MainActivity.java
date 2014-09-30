@@ -52,33 +52,32 @@ public class MainActivity extends FragmentActivity {
 	private Stack<Integer> pageHist;
 	private boolean saveToHistory;
 	private int currentPage;
-	public static String id;
+	private static String id;
 
 	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		mainController = new MainController(this);
 
 		setContentView(R.layout.viewpager_main);
 		initializePages();
+
+		// load shared preferences
+		prefs = this.getSharedPreferences("com.example.busme",
+				Context.MODE_PRIVATE);
 		
-		
-		//load prefs settingss
-		prefs = this.getSharedPreferences(
-				"com.example.busme", Context.MODE_PRIVATE);
-		if (prefs.getString("id", "") == "") {
-			// first time firing the app
+		// if this is the first time firing the app
+		if (prefs.getString("id", "").contentEquals("")) {
 			new QueryTask().execute();
 		} else {
-			id = prefs.getString("id", "");
+			MainActivity.id = prefs.getString("id", "");
 		}
-		
-		
+	}
+
+	public static String getId() {
+		return MainActivity.id;
 	}
 
 	public MainController getMainController() {
@@ -169,9 +168,8 @@ public class MainActivity extends FragmentActivity {
 	 * mainController.fetchNewCards(etStart.getText().toString(),
 	 * etDestination.getText().toString()); swipeLayout.setRefreshing(false); }
 	 */
-	
-	private class QueryTask extends
-			AsyncTask<String, Void, JSONObject> {
+
+	private class QueryTask extends AsyncTask<String, Void, JSONObject> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -180,9 +178,8 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		protected JSONObject doInBackground(String... args) {
 			try {
-				JSONObject result = getJSONObjectForURL("/newdevice");
+				JSONObject result = MainModel.getJSONObjectForURL("/newdevice");
 				return result;
-
 			} catch (Exception e) {
 				return null;
 			}
@@ -191,51 +188,18 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			String uniqueID;
-			try {
-				uniqueID = result.getString("id");
-
-				Editor editor = prefs.edit();
-				editor.putString("id", uniqueID);
-				editor.commit();
-				System.out.println("unique id " + uniqueID);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (result != null) {
+				String uniqueID;
+				try {
+					uniqueID = result.getString("id");
+					Editor editor = prefs.edit();
+					editor.putString("id", uniqueID);
+					editor.commit();
+					MainActivity.id = uniqueID;
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-	}
-	
-
-	/**
-	 * Gets JSON from the server at "BASE_URL + apiURL"
-	 * 
-	 * @param apiURL
-	 * @return
-	 */
-	private JSONObject getJSONObjectForURL(String apiURL) {
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(BASE_URL + apiURL);
-			HttpResponse response = client.execute(request);
-
-			// Get the response
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent(), "UTF-8"));
-			StringBuilder builder = new StringBuilder();
-			for (String line = null; (line = reader.readLine()) != null;) {
-				builder.append(line).append("\n");
-			}
-			JSONTokener tokener = new JSONTokener(builder.toString());
-			JSONObject finalResult = new JSONObject(tokener);
-			return finalResult;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }

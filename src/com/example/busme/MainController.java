@@ -47,7 +47,7 @@ public class MainController extends BroadcastReceiver implements
 		numberOfLocationUpdates = 1;
 		c.registerReceiver(this,
 				LocationTracker.getLocationBroadcastIntentFilter());
-		startAlarmBroadcaster();
+//		startAlarmBroadcaster();
 	}
 
 	public void setEtStart(EditText etStart) {
@@ -153,19 +153,21 @@ public class MainController extends BroadcastReceiver implements
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
-		
-		 MainListViewItem item = mainListViewAdapter.getItem(position + 1);
-		 Intent i = new Intent(context, MapActivity.class);
-		 i.putExtra("time", item.getTime());
-		 i.putExtra("start", item.getRouteStart());
-		 i.putExtra("destination", item.getRouteDestination());
-		 i.putExtra("routeNumber", item.getRouteNumber());
-		 i.putExtra("startLat", item.getStartLat());
-		 i.putExtra("startLng", item.getStartLng());
-		 i.putExtra("destLat", item.getDestLat());
-		 i.putExtra("destLng", item.getDestLng());
-		 i.putExtra("travelTime", item.getTravelTime());
-		 context.startActivity(i);
+		MainListViewItem item = mainListViewAdapter.getItem(position + 1);
+		if(item == MainListViewItem.NULL_ITEM) {
+			return;
+		}
+		Intent i = new Intent(context, MapActivity.class);
+		i.putExtra("time", item.getTime());
+		i.putExtra("start", item.getRouteStart());
+		i.putExtra("destination", item.getRouteDestination());
+		i.putExtra("routeNumber", item.getRouteNumber());
+		i.putExtra("startLat", item.getStartLat());
+		i.putExtra("startLng", item.getStartLng());
+		i.putExtra("destLat", item.getDestLat());
+		i.putExtra("destLng", item.getDestLng());
+		i.putExtra("travelTime", item.getTravelTime());
+		context.startActivity(i);
 	}
 
 	/**
@@ -245,14 +247,12 @@ public class MainController extends BroadcastReceiver implements
 					return model.getCardsForQuery(args[0], args[1]);
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-					result.add(new MainListViewItem(-1, -1, "invalid params",
-							"invalid params", -1, -1, -1, -1, "N/A"));
+					result.add(MainListViewItem.NULL_ITEM);
 					return result;
 				}
 			} catch (Exception e) {
 				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-				result.add(new MainListViewItem(-1, -1, "network error",
-						"network error", -1, -1, -1, -1, "N/A"));
+				result.add(MainListViewItem.NULL_ITEM);
 				
 				return result;
 			}

@@ -31,14 +31,46 @@ public class MainModel {
 	public MainModel(Context c) {
 		this.c = c;
 	}
-
+	
 	/**
-	 * Gets JSON from the server at "BASE_URL + apiURL"
+	 * Gets a JSON object from the server at "BASE_URL + apiURL"
 	 * 
 	 * @param apiURL
 	 * @return
 	 */
-	private JSONArray getJSONArrayForURL(String apiURL) {
+	public static JSONObject getJSONObjectForURL(String apiURL) {
+		try {
+			HttpClient client = new DefaultHttpClient();
+			HttpGet request = new HttpGet(BASE_URL + apiURL);
+			HttpResponse response = client.execute(request);
+
+			// Get the response
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					response.getEntity().getContent(), "UTF-8"));
+			StringBuilder builder = new StringBuilder();
+			for (String line = null; (line = reader.readLine()) != null;) {
+				builder.append(line).append("\n");
+			}
+			JSONTokener tokener = new JSONTokener(builder.toString());
+			JSONObject finalResult = new JSONObject(tokener);
+			return finalResult;
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets a JSON array from the server at "BASE_URL + apiURL"
+	 * 
+	 * @param apiURL
+	 * @return
+	 */
+	public static JSONArray getJSONArrayForURL(String apiURL) {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(BASE_URL + apiURL);
@@ -77,18 +109,18 @@ public class MainModel {
 		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				&& routeEnd.contentEquals(LOCATION_UNSPECIFIED)) {
 			// This should query the database for the user's default suggestions
-			buses = getJSONArrayForURL("/routes/default/" + MainActivity.id + "/"
+			buses = getJSONArrayForURL("/routes/default/" + MainActivity.getId() + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
 					+ routeEnd.replace(" ","_"));
 		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				|| routeStart.contentEquals(CURRENT_LOCATION)) {
-			buses = getJSONArrayForURL("/routes/fromcurrent/"  + MainActivity.id + "/"
+			buses = getJSONArrayForURL("/routes/fromcurrent/"  + MainActivity.getId() + "/"
 					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
 					+ routeEnd.replace(" ","_"));
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
-			buses = getJSONArrayForURL("/routes/fromcustom/"  + MainActivity.id + "/"
+			buses = getJSONArrayForURL("/routes/fromcustom/"  + MainActivity.getId() + "/"
 					+ routeStart.replace(" ", "_") + "/" + routeEnd.replace(" ","_"));
 		}
 		
@@ -98,7 +130,7 @@ public class MainModel {
 			try {
 				currentRoute = buses.getJSONObject(i);
 				if(currentRoute.has("err")) {
-					results.add(new MainListViewItem(-1, -1, currentRoute.getString("err"), "", 0.0, 0.0, 0.0, 0.0, "0"));
+					results.add(MainListViewItem.NULL_ITEM);
 					return results;
 				}
 				results.add(new MainListViewItem(Integer.parseInt(currentRoute

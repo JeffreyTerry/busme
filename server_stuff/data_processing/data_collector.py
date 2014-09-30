@@ -5,6 +5,15 @@ from time import sleep
 from pykml import parser
 from pyquery import PyQuery as pq
 
+# some bus stops have inconsistent names across data sources
+# we deal with that here
+juice_list = {'Goldwin Smith Hall': 'Goldwin Smith'}
+def replace_juice_listed(juiced):
+    for k, v in juice_list.iteritems():
+        juiced[v] = juiced[k]
+        del juiced[k]
+    return juiced
+
 def replace_blaze(juiced):
     juiced = juiced.replace('"', 'kj324h5249fdj')
     juiced = juiced.replace("'", '"')
@@ -46,8 +55,8 @@ for route in routes:
 
 # this creates a dict like {stop_name: [lat, lng]} and a list like [[stop, lat, lng]]
 # these are the routes we will collect data for
-stops = ["Cornell", "Downtown", "Country"]
-# stops = []
+# stops = ["Cornell", "Downtown", "Country"]
+stops = []
 full_coordinate_list = []
 full_stop_list = []
 for stop in stops:
@@ -94,6 +103,7 @@ if should_generate_new_route_dictionary:
     option_elements = select_element('option')
     for i in option_elements:
         stop_to_id_dictionary[i.text_content()[1:]] = i.get('value')
+    stop_to_id_dictionary = replace_juice_listed(stop_to_id_dictionary)
     stop_to_id_dictionary = str(stop_to_id_dictionary)
     stop_to_id_dictionary = replace_blaze(stop_to_id_dictionary)
     open('data/stop_to_id_dictionary.txt', 'w').write(stop_to_id_dictionary)
