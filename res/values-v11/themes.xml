@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Default" parent="@android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/Widget.ActionBar</item>
+    </style>
+
+    <style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+                <item name="android:icon">@drawable/logo_top</item>
+                <item name="android:displayOptions">showHome</item>
+                <item name="android:background">#d8d8d8</item>
+                <item name="android:height">55dp</item>
+                
+    </style>
+
+</resources>
