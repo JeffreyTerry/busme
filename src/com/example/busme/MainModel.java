@@ -31,7 +31,7 @@ public class MainModel {
 	public MainModel(Context c) {
 		this.c = c;
 	}
-	
+
 	/**
 	 * Gets a JSON object from the server at "BASE_URL + apiURL"
 	 * 
@@ -63,7 +63,7 @@ public class MainModel {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets a JSON array from the server at "BASE_URL + apiURL"
 	 * 
@@ -83,7 +83,6 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
-			System.out.println("builder tostring" + builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONArray finalResult = new JSONArray(tokener);
 			return finalResult;
@@ -99,52 +98,53 @@ public class MainModel {
 
 	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,
 			String routeEnd) {
-		LocationManager locationManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) c
+				.getSystemService(Context.LOCATION_SERVICE);
 		Criteria crit = new Criteria();
 		String provider = locationManager.getBestProvider(crit, true);
 		Location loc = locationManager.getLastKnownLocation(provider);
-		
+
 		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 		JSONArray buses;
 		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				&& routeEnd.contentEquals(LOCATION_UNSPECIFIED)) {
 			// This should query the database for the user's default suggestions
-			buses = getJSONArrayForURL("/routes/default/" + MainActivity.getId() + "/"
-					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-					+ routeEnd.replace(" ","_"));
+			buses = getJSONArrayForURL("/routes/default/"
+					+ MainActivity.getId() + "/" + loc.getLatitude() + "/"
+					+ loc.getLongitude() + "/" + routeEnd.replace(" ", "_"));
 		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
 				|| routeStart.contentEquals(CURRENT_LOCATION)) {
-			buses = getJSONArrayForURL("/routes/fromcurrent/"  + MainActivity.getId() + "/"
-					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-					+ routeEnd.replace(" ","_"));
+			buses = getJSONArrayForURL("/routes/fromcurrent/"
+					+ MainActivity.getId() + "/" + loc.getLatitude() + "/"
+					+ loc.getLongitude() + "/" + routeEnd.replace(" ", "_"));
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
-			buses = getJSONArrayForURL("/routes/fromcustom/"  + MainActivity.getId() + "/"
-					+ routeStart.replace(" ", "_") + "/" + routeEnd.replace(" ","_"));
+			buses = getJSONArrayForURL("/routes/fromcustom/"
+					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
+					+ "/" + routeEnd.replace(" ", "_"));
 		}
-		
-		System.out.print("dude buses" + buses.length());
+
 		JSONObject currentRoute;
 		for (int i = 0; i < buses.length(); i++) {
 			try {
 				currentRoute = buses.getJSONObject(i);
-				if(currentRoute.has("err")) {
+				if (currentRoute.has("err")) {
 					results.add(MainListViewItem.NULL_ITEM);
 					return results;
 				}
-				results.add(new MainListViewItem(Integer.parseInt(currentRoute
-						.getString("next_bus")), Integer.parseInt(currentRoute
-						.getString("route_number")), currentRoute
-						.getString("start"), currentRoute
-						.getString("destination"),
+				results.add(new MainListViewItem(
+						Integer.parseInt(currentRoute.getString("next_bus")),
+						Integer.parseInt(currentRoute.getString("route_number")),
+						currentRoute.getString("start"),
+						currentRoute.getString("destination"),
 						Double.parseDouble(currentRoute.getString("start_lat")),
 						Double.parseDouble(currentRoute.getString("start_lng")),
 						Double.parseDouble(currentRoute.getString("dest_lat")),
 						Double.parseDouble(currentRoute.getString("dest_lng")),
-						currentRoute.getString("travel_time")
-						));
-				System.out.println("dude currentroute" + currentRoute.toString());
+						"-1"
+				// currentRoute.getString("travel_time")
+				));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
