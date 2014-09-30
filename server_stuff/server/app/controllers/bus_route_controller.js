@@ -64,7 +64,6 @@ function getLatLngForSearchTerms(searchTerms, cb){
         result.lng = stopDictionary[highest_score[0]][1];
         cb(undefined, result);
     } else {
-        console.log(searchTerms);
         searchTerms += ' ithaca';
         gm.geocode(searchTerms, function(err, response){
             if(err) {
@@ -166,90 +165,133 @@ function getNextBusForStops(start, dest, cb) {
                 nextBusStarts = body.match(/<[^<]*<[^<]*Board the[^<]*<[^<]*<[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                 nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                 if(nextBusStarts == null || nextBusDestinations == null) {
-                    
+                    cb({'err': 'no routes found'});
+                } else {
+                    var nextBusStart = nextBusStarts[0];
+                    var nextBusDestination = nextBusDestinations[0];
+                    var nextBusRouteNumber = nextBusStart.match(/(Route)(\s)*(\d)*/);
+                    if(nextBusRouteNumber.length > 0) {
+                        nextBusRouteNumber = nextBusRouteNumber[0].match(/(\d)*$/);
+                        if(nextBusRouteNumber.length > 0) {
+                            nextBusRouteNumber = nextBusRouteNumber[0];
+                        }
+                    }
+                    var nextBusStartTime = nextBusStart.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
+                    if(nextBusStartTime.length > 0) {
+                        nextBusStartTime = nextBusStartTime[0];
+                    }
+                    var nextBusStartStopName = nextBusStart.match(/<a\shref="\/stops\/(\w)*">[^<]*<\/a>/);
+                    if(nextBusStartStopName.length > 0) {
+                        nextBusStartStopName = nextBusStartStopName[0].match(/>[(\S)(\s)]*</);
+                        if(nextBusStartStopName.length > 0) {
+                            if(nextBusStartStopName[0].length > 2){
+                                nextBusStartStopName = nextBusStartStopName[0].substring(1, nextBusStartStopName[0].length - 1);
+                            }
+                        }
+                    }
+                    var nextBusDestTime = nextBusDestination.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
+                    if(nextBusDestTime.length > 0) {
+                        nextBusDestTime = nextBusDestTime[0];
+                    }
+                    var nextBusDestStopName = nextBusDestination.match(/<a\shref="\/stops\/(\w)*">[^<]*<\/a>/);
+                    if(nextBusDestStopName.length > 0) {
+                        nextBusDestStopName = nextBusDestStopName[0].match(/>[(\S)(\s)]*</);
+                        if(nextBusDestStopName.length > 0) {
+                            if(nextBusDestStopName[0].length > 1){
+                                nextBusDestStopName = nextBusDestStopName[0].substring(1, nextBusDestStopName[0].length - 1);
+                            }
+                        }
+                    }
+                    var nextBusStartLatLng = '';
+                    if(stopDictionary.hasOwnProperty(nextBusStartStopName)){
+                        nextBusStartLatLng = stopDictionary[nextBusStartStopName];
+                    }
+                    var nextBusDestLatLng = '';
+                    if(stopDictionary.hasOwnProperty(nextBusDestStopName)){
+                        nextBusDestLatLng = stopDictionary[nextBusDestStopName];
+                    }
+                    var nextBus = {
+                        'next_bus': '3',
+                        'travel_time': '25',
+                        'route_number': nextBusRouteNumber,
+                        'start': nextBusStartStopName,
+                        'destination': nextBusDestStopName,
+                        'start_lat': nextBusStartLatLng[0],
+                        'start_lng': nextBusStartLatLng[1],
+                        'dest_lat': nextBusDestLatLng[0],
+                        'dest_lng': nextBusDestLatLng[1]
+                    };
+                    cb(undefined, [nextBus]);
+                    // res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
                 }
-                var nextBusStart = nextBusStarts[0];
-                var nextBusDestination = nextBusDestinations[0];
-                console.log(nextBusStart)
-                console.log(nextBusDestination);
-
-                // cb(undefined, nextBus);
             }
-            // console.log(response);
         }
     );
 }
 
 loadData();
-setTimeout(function(){
-    locations = getLatLngForSearchTerms('airport', function(err, response){
-        if(err){
-            console.log('error outer', err);
-        }
-        start_lat = response.lat;
-        start_lng = response.lng;
-        locations = getLatLngForSearchTerms('sage', function(err, response2){
-            if(err){
-                console.log('error inner', err);
-            }
-            dest_lat = response2.lat;
-            dest_lng = response2.lng;
-            closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 4);
-            console.log('closes stops:', closest_stops);
-            getNextBusForStops(closest_stops[0][0][0], closest_stops[1][0][0], function(err, response){
-                console.log(err, response);
-            });
-        });
-    });
-}, 2000);
+// setTimeout(function(){
+//     getLatLngForSearchTerms('airport', function(err, response){
+//         if(err){
+//             console.log('error outer', err);
+//         }
+//         start_lat = response.lat;
+//         start_lng = response.lng;
+//         locations = getLatLngForSearchTerms('sage', function(err, response2){
+//             if(err){
+//                 console.log('error inner', err);
+//             }
+//             dest_lat = response2.lat;
+//             dest_lng = response2.lng;
+//             closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, 4);
+//             console.log('closes stops:', closest_stops);
+//             getNextBusForStops(closest_stops[0][0][0], closest_stops[1][0][0], function(err, response){
+//                 console.log(err, response);
+//             });
+//         });
+//     });
+// }, 2000);
 module.exports = {
-    fromCurrent: function(start_lat, start_lng, destination, res) {
-        getAddressLatLng(destination, function(err, response){
+    fromCurrent: function(uid, start_lat, start_lng, destination, res) {
+        locations = getLatLngForSearchTerms(destination, function(err, response2){
             if(err) {
-                res.json([{'err': 'address_not_found'}]);
+                res.json([{'err': 'start address not found'}]);
             } else {
-                dest_lat = response.lat;
-                dest_lng = response.lng;
-                closest_stops = [];
-                possible_buses = [];
-                var max_num_of_stops = 5;
-                while(possible_buses.length == 0 && max_num_of_stops <= 55) {
-                    closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
-                    possible_buses = findBestPossibleBusRoutes(closest_stops);
-                    max_num_of_stops += 10;
-                }
-                if(possible_buses.length > 0){
-                    res.json(possible_buses);
-                } else {
-                    res.json([{'err': 'no_routes_found'}]);
+                dest_lat = response2.lat;
+                dest_lng = response2.lng;
+                var numOfResultsToReturn = 2;
+                closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, numOfResultsToReturn);
+                var results = [];
+                var numResultsReturned = 0;
+                for(var i = 0; i < numOfResultsToReturn; i++) {
+                    for(var j = 0; j < numOfResultsToReturn; j++) {
+                        getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], function(err, response){
+                            if(!err) {
+                                results.push.apply(results, response);
+                            }
+                            numResultsReturned++;
+                            console.log(numResultsReturned, numOfResultsToReturn * numOfResultsToReturn);
+                            if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn)) {
+                                if(results.length == 0){
+                                    res.json([{'err': 'no routes found'}]);
+                                } else {
+                                    res.json(results);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
-    }, fromCustom: function(start, destination, res) {
-        getAddressLatLng(start, function(err, response1){
-            getAddressLatLng(destination, function(err, response){
-                if(err) {
-                    res.json([{'err': 'address_not_found'}]);
-                } else {
-                    start_lat = response1.lat;
-                    start_lng = response1.lng;
-                    dest_lat = response.lat;
-                    dest_lng = response.lng;
-                    closest_stops = [];
-                    possible_buses = [];
-                    var max_num_of_stops = 5;
-                    while(possible_buses.length == 0 && max_num_of_stops <= 55) {
-                        closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, max_num_of_stops);
-                        possible_buses = findBestPossibleBusRoutes(closest_stops);
-                        max_num_of_stops += 10;
-                    }
-                    if(possible_buses.length > 0){
-                        res.json(possible_buses);
-                    } else {
-                        res.json([{'err': 'no_routes_found'}]);
-                    }
-                }
-            });
+    }, fromCustom: function(uid, start, destination, res) {
+        getLatLngForSearchTerms(start, function(err, response){
+            if(err) {
+                res.json([{'err': 'destination address not found'}]);
+            } else {
+                start_lat = response.lat;
+                start_lng = response.lng;
+                module.exports.fromCurrent(uid, start_lat, start_lng, destination, res);
+            }
         });
     }, fromDefault: function(uid, lat, lng, res) {
         res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
