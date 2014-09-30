@@ -164,7 +164,10 @@ function getNextBusForStops(start, dest, cb) {
             }},
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
+                    body = body.replace('\\', '');
                     body = body.replace(/<sup>(\w)*<\/sup>/g, '');
+                    body = body.replace(':</strong>', '</strong>');
+                    body = body.replace(':</b>', '</b>');
                     var nextBusStarts = body.match(/<[^<]*<[^<]*Board the[^<]*<[^<]*<[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
