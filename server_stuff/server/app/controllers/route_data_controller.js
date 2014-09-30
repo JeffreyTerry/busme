@@ -16,7 +16,7 @@ module.exports = {
             res.json([{'error': 'route_not_found'}])
         }
     },
-    getAllStops: function(req, res) {
+    getStops: function(req, res) {
         try{
             fs.readFile(__dirname + '/../../public/data/stop_names.txt', function(err, data){
                 if(!err){

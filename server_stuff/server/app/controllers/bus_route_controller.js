@@ -150,11 +150,11 @@ function getNextBusForStops(start, dest, cb) {
                 'addressid2': '',
                 'start': stopToTcatIdDictionary[start],
                 'end': stopToTcatIdDictionary[dest],
-                'day': 1,
+                'day': now.getDay(),
                 'departure': 0,
-                'starthours': (now.getHours()) % 12,
+                'starthours': now.getHours() % 12,
                 'startminutes': now.getMinutes(),
-                'startampm': ((now.getHours()) / 12 == 0? 0: 1),
+                'startampm': (now.getHours() / 12 == 0? 0: 1),
                 'customer': 1,
                 'sort': 1,
                 'transfers': 0,
@@ -253,7 +253,6 @@ function getNextBusForStops(start, dest, cb) {
                             'dest_lng': nextBusDestLatLng[1]
                         };
                         cb(undefined, [nextBus]);
-                        // res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
                     }
                 }
             }
@@ -330,5 +329,58 @@ module.exports = {
         res.json([{'next_bus': '12:00 PM', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
+    }, test: function(varname, res) {
+        switch(varname){
+            case 'stopList':
+            res.json(stopList);
+            break;
+            case 'stopToTcatIdDictionary':
+            res.json(stopToTcatIdDictionary);
+            break;
+            case 'stopDictionary':
+            res.json(stopDictionary);
+            break;
+            case 'http':
+            var now = new Date()
+            request.post({
+                url: 'http://tcat.nextinsight.com/index.php',
+                form: {
+                    'wml': '',
+                    'addrO': '',
+                    'latO': '',
+                    'lonO': '',
+                    'addrD': '',
+                    'latD': '',
+                    'lonD': '',
+                    'origin': '',
+                    'destination': '',
+                    'search': 'search',
+                    'fulltext': '',
+                    'radiusO': '',
+                    'radiusD': '',
+                    'addressid1': '',
+                    'addressid2': '',
+                    'start': stopToTcatIdDictionary['Airport'],
+                    'end': stopToTcatIdDictionary['Goldwin Smith'],
+                    'day': 1,
+                    'departure': 0,
+                    'starthours': (now.getHours() - 2) % 12,
+                    'startminutes': now.getMinutes(),
+                    'startampm': ((now.getHours() - 2) / 12 == 0? 0: 1),
+                    'customer': 1,
+                    'sort': 1,
+                    'transfers': 0,
+                    'addr': '',
+                    'city': 'Ithaca',
+                    'radius': .25
+                }},
+                function (error, response, body) {
+                    res.json({'content': body});
+                });
+            break;
+            default:
+            res.json({'err': 'idu'});
+            break;
+        }
     }
 };

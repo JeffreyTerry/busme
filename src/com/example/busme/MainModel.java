@@ -19,8 +19,7 @@ import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-
-import com.google.android.gms.maps.model.LatLng;
+import android.util.Log;
 
 public class MainModel {
 	public static final String CURRENT_LOCATION = "";
@@ -120,18 +119,19 @@ public class MainModel {
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
-			buses = getJSONArrayForURL("/routes/fromcustom/"
-					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
-					+ "/" + routeEnd.replace(" ", "_"));
+			Log.d("customizing yo", "yo");
+			buses = getJSONArrayForURL("/routes/fromcustom/4/airport/goldwin");
+//					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
+//					+ "/" + routeEnd.replace(" ", "_"));
 		}
 
 		JSONObject currentRoute;
 		for (int i = 0; i < buses.length(); i++) {
 			try {
 				currentRoute = buses.getJSONObject(i);
-				System.out.println(currentRoute);
+				Log.d("currentRoute", currentRoute.toString());
 				if (currentRoute.has("err")) {
-					results.add(MainListViewItem.NULL_ITEM);
+					Log.d("the error yo", currentRoute.getString("err"));
 					return results;
 				}
 				results.add(new MainListViewItem(
