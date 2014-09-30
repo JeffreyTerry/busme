@@ -1,6 +1,7 @@
 package com.example.busme;
 
 public class MainListViewItem {
+	public static final MainListViewItem NULL_ITEM = new MainListViewItem(-1, -1, "", "", -1, -1, -1, -1, "");
 	private int time;
 	private int routeNumber;
 	private double start_lat;

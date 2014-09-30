@@ -30,8 +30,8 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 	}
 
 	private void addPaddingItems() {
-		items.add(0, new MainListViewItem(-1, -1, "null", "null", -1, -1, -1, -1, "N/A"));
-		items.add(0, new MainListViewItem(-1, -1, "null", "null", -1, -1, -1, -1, "N/A"));
+		items.add(0, MainListViewItem.NULL_ITEM);
+		items.add(0, MainListViewItem.NULL_ITEM);
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 		if(loading){
 			items.clear();
 			addPaddingItems();
-			items.add(new MainListViewItem(-1, -1, "loading", "loading", -1, -1,-1,-1, "N/A"));
+			items.add(MainListViewItem.NULL_ITEM);
 		}
 		this.loading = loading;
 	}
