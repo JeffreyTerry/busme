@@ -5,6 +5,19 @@ from time import sleep
 from pykml import parser
 from pyquery import PyQuery as pq
 
+def replace_blaze(juiced):
+    juiced = juiced.replace('"', 'kj324h5249fdj')
+    juiced = juiced.replace("'", '"')
+    juiced = juiced.replace('"s', "'s")
+    juiced = juiced.replace('s" ', "s' ")
+    juiced = juiced.replace('kj324h5249fdj', "'")
+    juiced = juiced.replace(", '", ', "')
+    juiced = juiced.replace("', ", '", ')
+    juiced = juiced.replace("['", '["')
+    juiced = juiced.replace("']", '"]')
+    juiced = juiced.replace("':", '":')
+    return juiced
+
 def transform_coordinate_triplets(coordinate_list):
     return [[coordinate_list[i], coordinate_list[i + 2], coordinate_list[i + 1]] for i in xrange(0, len(coordinate_list), 3)]
 
@@ -63,13 +76,11 @@ coordinate_dictionary = {}
 for coordinates in full_coordinate_list:
     coordinate_dictionary[coordinates[2]] = coordinates[:2]
 if len(full_coordinate_list) > 0:
-    coordinate_dictionary = str(coordinate_dictionary).replace("'", '"')
-    coordinate_dictionary = coordinate_dictionary.replace('"s', "'s")
-    coordinate_dictionary = coordinate_dictionary.replace('s" ', "s' ")
+    coordinate_dictionary = str(coordinate_dictionary)
+    coordinate_dictionary = replace_blaze(coordinate_dictionary)
     open('data/stops_dictionary.txt', 'w').write(coordinate_dictionary)
-    full_stop_list = str(full_stop_list).replace("'", '"')
-    full_stop_list = full_stop_list.replace('"s', "'s")
-    full_stop_list = full_stop_list.replace('s" ', "s' ")
+    full_stop_list = str(full_stop_list)
+    full_stop_list = replace_blaze(full_stop_list)
     open('data/stops_list.txt', 'w').write(full_stop_list)
 
 # this creates a dictionary like {route_name: tcat_route_id}
@@ -83,9 +94,8 @@ if should_generate_new_route_dictionary:
     option_elements = select_element('option')
     for i in option_elements:
         stop_to_id_dictionary[i.text_content()[1:]] = i.get('value')
-    stop_to_id_dictionary = str(stop_to_id_dictionary).replace("'", '"')
-    stop_to_id_dictionary = stop_to_id_dictionary.replace('"s', "'s")
-    stop_to_id_dictionary = stop_to_id_dictionary.replace('s" ', "s' ")
+    stop_to_id_dictionary = str(stop_to_id_dictionary)
+    stop_to_id_dictionary = replace_blaze(stop_to_id_dictionary)
     open('data/stop_to_id_dictionary.txt', 'w').write(stop_to_id_dictionary)
 
 
