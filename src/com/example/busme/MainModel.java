@@ -129,12 +129,13 @@ public class MainModel {
 		for (int i = 0; i < buses.length(); i++) {
 			try {
 				currentRoute = buses.getJSONObject(i);
+				System.out.println(currentRoute);
 				if (currentRoute.has("err")) {
 					results.add(MainListViewItem.NULL_ITEM);
 					return results;
 				}
 				results.add(new MainListViewItem(
-						Integer.parseInt(currentRoute.getString("next_bus")),
+						currentRoute.getString("next_bus"),
 						Integer.parseInt(currentRoute.getString("route_number")),
 						currentRoute.getString("start"),
 						currentRoute.getString("destination"),
@@ -142,9 +143,7 @@ public class MainModel {
 						Double.parseDouble(currentRoute.getString("start_lng")),
 						Double.parseDouble(currentRoute.getString("dest_lat")),
 						Double.parseDouble(currentRoute.getString("dest_lng")),
-						"-1"
-				// currentRoute.getString("travel_time")
-				));
+						currentRoute.getString("travel_time")));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
