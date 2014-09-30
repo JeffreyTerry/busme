@@ -105,14 +105,14 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			// get the TextView from the ViewHolder and then set the text (item
 			// name) and tag (item ID) values
 
-			viewHolder.tvTime.setText(item.getTime()
+			viewHolder.tvTime.setText(item.getMinutesUntilNextBus()
 					+ " mins");
 			viewHolder.tvRouteNumber.setText("Bus #" + item.getRouteNumber());
 			viewHolder.tvRouteStart.setText(item.getRouteStart());
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
-			if (item.getTime() < 11) {
+			if (item.getMinutesUntilNextBus() < 11) {
 				viewHolder.tvTime.setTextColor(Color.rgb(55, 197, 112));
-			} else if (item.getTime() < 31) {
+			} else if (item.getMinutesUntilNextBus() < 31) {
 				viewHolder.tvTime.setTextColor(Color.rgb(244, 191,65));
 				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item1);
 			} else {

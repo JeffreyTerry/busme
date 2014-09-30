@@ -45,13 +45,11 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 	GoogleMap gmap;
 	FragmentTransaction fragmentTransaction;
-	private static final String BASE_URL = "http://www.theseedok.com/api";
 	private JSONObject routeCoordinates;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View android = inflater
 				.inflate(R.layout.mainmap_frag, container, false);
 
@@ -84,7 +82,6 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
 		LatLng latLng = new LatLng(location.getLatitude(),
 				location.getLongitude());
 
@@ -94,31 +91,23 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 	@Override
 	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onProviderEnabled(String arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 	}
 
@@ -132,7 +121,8 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected HashMap<String, LatLng> doInBackground(String... args) {
 			try {
-				routeCoordinates = getJSONObjectForURL("/data/allstops");
+				routeCoordinates = MainModel
+						.getJSONObjectForURL("/data/allstops");
 				return parseJSONObject(routeCoordinates);
 
 			} catch (Exception e) {
@@ -150,7 +140,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 						.position(new LatLng(result.get(key).latitude, result
 								.get(key).longitude));
 				markerOptions.title(key);
-				
+
 				gmap.addMarker(markerOptions);
 			}
 		}
@@ -170,7 +160,6 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 							array.getDouble(1));
 					map.put(key, stopLocation);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -178,37 +167,4 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		}
 		return map;
 	}
-
-	/**
-	 * Gets JSON from the server at "BASE_URL + apiURL"
-	 * 
-	 * @param apiURL
-	 * @return
-	 */
-	private JSONObject getJSONObjectForURL(String apiURL) {
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(BASE_URL + apiURL);
-			HttpResponse response = client.execute(request);
-
-			// Get the response
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent(), "UTF-8"));
-			StringBuilder builder = new StringBuilder();
-			for (String line = null; (line = reader.readLine()) != null;) {
-				builder.append(line).append("\n");
-			}
-			JSONTokener tokener = new JSONTokener(builder.toString());
-			JSONObject finalResult = new JSONObject(tokener);
-			return finalResult;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }

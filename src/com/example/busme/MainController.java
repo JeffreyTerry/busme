@@ -158,7 +158,7 @@ public class MainController extends BroadcastReceiver implements
 			return;
 		}
 		Intent i = new Intent(context, MapActivity.class);
-		i.putExtra("time", item.getTime());
+		i.putExtra("time", item.getMinutesUntilNextBus());
 		i.putExtra("start", item.getRouteStart());
 		i.putExtra("destination", item.getRouteDestination());
 		i.putExtra("routeNumber", item.getRouteNumber());

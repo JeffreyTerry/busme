@@ -238,9 +238,12 @@ function getNextBusForStops(start, dest, cb) {
                         if(nextBusTravelHours != null) {
                             nextBusTravelMinutes += parseInt(nextBusTravelHours) * 60;
                         }
+                        if(nextBusStartTime.indexOf(':') == 1) {
+                            nextBusStartTime = '0' + nextBusStartTime;
+                        }
                         var nextBus = {
                             'next_bus': nextBusStartTime,
-                            'travel_time': nextBusTravelMinutes,
+                            'travel_time': '' + nextBusTravelMinutes,
                             'route_number': nextBusRouteNumber,
                             'start': nextBusStartStopName,
                             'destination': nextBusDestStopName,
@@ -324,7 +327,7 @@ module.exports = {
             }
         });
     }, fromDefault: function(uid, lat, lng, res) {
-        res.json([{'next_bus': '3', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+        res.json([{'next_bus': '12:00 PM', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
     }
