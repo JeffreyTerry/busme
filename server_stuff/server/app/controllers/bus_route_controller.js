@@ -129,7 +129,7 @@ function getNextBusForStops(start, dest, cb) {
         console.log("ERROR", 'start:', start, ', stop:', stop);
         cb({'err': 'invalid stops'});
     } else {
-        var now = new Date();
+        var now = new Date(new Date().valueOf() + 3600000 * 3);
         request.post({
             url: 'http://tcat.nextinsight.com/index.php',
             form: {
@@ -154,7 +154,7 @@ function getNextBusForStops(start, dest, cb) {
                 'departure': 0,
                 'starthours': now.getHours() % 12,
                 'startminutes': now.getMinutes(),
-                'startampm': (now.getHours() / 12 == 0? 0: 1),
+                'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
                 'customer': 1,
                 'sort': 1,
                 'transfers': 0,
@@ -169,7 +169,6 @@ function getNextBusForStops(start, dest, cb) {
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
                     if(nextBusStarts == null || nextBusDestinations == null || nextBusTravelTimes == null) {
-                        // console.log(nextBusStarts, nextBusDestinations, nextBusTravelTimes);
                         cb({'err': 'no routes found'});
                     } else {
                         var nextBusStart = nextBusStarts[0];
@@ -305,7 +304,7 @@ module.exports = {
                             numResultsReturned++;
                             if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn)) {
                                 if(results.length == 0){
-                                    res.json([{'err': 'no routes found'}]);
+                                    res.json([{'err': err}]);
                                 } else {
                                     res.json(results);
                                 }
@@ -341,7 +340,8 @@ module.exports = {
             res.json(stopDictionary);
             break;
             case 'http':
-            var now = new Date()
+            // get the current date, adding three hours
+            var now = new Date(new Date().valueOf() + 3600000 * 3);
             request.post({
                 url: 'http://tcat.nextinsight.com/index.php',
                 form: {
@@ -362,11 +362,11 @@ module.exports = {
                     'addressid2': '',
                     'start': stopToTcatIdDictionary['Airport'],
                     'end': stopToTcatIdDictionary['Goldwin Smith'],
-                    'day': 1,
+                    'day': now.getDay(),
                     'departure': 0,
-                    'starthours': (now.getHours() - 2) % 12,
+                    'starthours': now.getHours() % 12,
                     'startminutes': now.getMinutes(),
-                    'startampm': ((now.getHours() - 2) / 12 == 0? 0: 1),
+                    'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
                     'customer': 1,
                     'sort': 1,
                     'transfers': 0,
