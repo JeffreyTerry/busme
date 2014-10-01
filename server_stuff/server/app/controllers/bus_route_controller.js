@@ -129,8 +129,8 @@ function getNextBusForStops(start, dest, cb) {
         console.log("ERROR", 'start:', start, ', stop:', stop);
         cb({'err': 'invalid stops'});
     } else {
-        // var now = new Date(new Date().valueOf() + 3600000 * 1);
-        var now = new Date("Tue Sep 30 2014 22:41:09 GMT-0500 (CDT)");
+        now = new Date();
+        now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
         request.post({
             url: 'http://tcat.nextinsight.com/index.php',
             form: {
@@ -151,11 +151,11 @@ function getNextBusForStops(start, dest, cb) {
                 'addressid2': '',
                 'start': stopToTcatIdDictionary[start],
                 'end': stopToTcatIdDictionary[dest],
-                'day': 2, //now.getDay(),
+                'day': now.getDay(),
                 'departure': 0,
-                'starthours': 11, //now.getHours() % 12,
-                'startminutes': 2, //now.getMinutes(),
-                'startampm': 1, //(Math.floor(now.getHours() / 12) == 0? 0: 1),
+                'starthours': now.getHours() % 12,
+                'startminutes': now.getMinutes(),
+                'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
                 'customer': 1,
                 'sort': 1,
                 'transfers': 0,
@@ -389,6 +389,7 @@ module.exports = {
             break;
             case 'time':
             now = new Date();
+            now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
             res.json({'now': now, 'offset': now.getTimezoneOffset()});
             default:
             res.json({'err': 'idu'});
