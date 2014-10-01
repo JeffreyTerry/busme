@@ -120,7 +120,9 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected void onPostExecute(HashMap<String, LatLng> result) {
 			super.onPostExecute(result);
-
+			if(result == null){
+				return;
+			}
 			for (String key : result.keySet()) {
 				// adding the initial marker
 				MarkerOptions markerOptions = new MarkerOptions()
