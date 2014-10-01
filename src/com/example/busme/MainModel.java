@@ -50,7 +50,6 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
-			Log.d("response", builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONObject finalResult = new JSONObject(tokener);
 			return finalResult;
@@ -120,7 +119,6 @@ public class MainModel {
 		} else {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
-			Log.d("customizing yo", "yo");
 			buses = getJSONArrayForURL("/routes/fromcustom/"
 					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
 					+ "/" + routeEnd.replace(" ", "_"));
@@ -130,7 +128,6 @@ public class MainModel {
 		for (int i = 0; i < buses.length(); i++) {
 			try {
 				currentRoute = buses.getJSONObject(i);
-				Log.d("currentRoute", currentRoute.toString());
 				if (currentRoute.has("err")) {
 					Log.d("the error yo", currentRoute.getString("err"));
 					return results;
