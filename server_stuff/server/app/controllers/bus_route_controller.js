@@ -129,7 +129,8 @@ function getNextBusForStops(start, dest, cb) {
         console.log("ERROR", 'start:', start, ', stop:', stop);
         cb({'err': 'invalid stops'});
     } else {
-        var now = new Date(new Date().valueOf() + 3600000 * 3);
+        // var now = new Date(new Date().valueOf() + 3600000 * 1);
+        var now = new Date("Tue Sep 30 2014 22:41:09 GMT-0500 (CDT)");
         request.post({
             url: 'http://tcat.nextinsight.com/index.php',
             form: {
@@ -256,6 +257,8 @@ function getNextBusForStops(start, dest, cb) {
                         };
                         cb(undefined, [nextBus]);
                     }
+                } else {
+                    cb({'err': 'tcat post error'});
                 }
             }
         );
