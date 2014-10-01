@@ -111,6 +111,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
 			if (item.getMinutesUntilNextBus() < 11) {
 				viewHolder.tvTime.setTextColor(Color.rgb(55, 197, 112));
+				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item);
 			} else if (item.getMinutesUntilNextBus() < 31) {
 				viewHolder.tvTime.setTextColor(Color.rgb(244, 191,65));
 				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item1);
