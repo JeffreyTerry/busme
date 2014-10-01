@@ -120,9 +120,9 @@ public class MainModel {
 			// This should query the data base for suggestions based on a
 			// specified start and destination
 			Log.d("customizing yo", "yo");
-			buses = getJSONArrayForURL("/routes/fromcustom/4/airport/goldwin");
-//					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
-//					+ "/" + routeEnd.replace(" ", "_"));
+			buses = getJSONArrayForURL("/routes/fromcustom/"
+					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
+					+ "/" + routeEnd.replace(" ", "_"));
 		}
 
 		JSONObject currentRoute;
