@@ -1,7 +1,9 @@
 var gm = require('googlemaps'),
     fs = require('fs'),
     http = require('http'),
-    request = require('request');
+    request = require('request'),
+    _ = require('underscore'),
+    arraysAreEqual = require('./lib').arraysAreEqual;
 
 // stopDictionary will look like {stop1name: [lat, lng], stop2name: [lat, lng], ...}
 var stopDictionary = {};
@@ -82,6 +84,22 @@ function getLatLngForSearchTerms(searchTerms, cb){
     }
 }
 
+function addUnlessDuplicateRoute(existingRoutes, newRoutes) {
+    var duplicate;
+    for(var j = 0; j < newRoutes.length; j++) {
+        duplicate = false;
+        for(var i = 0; i < existingRoutes.length; i++) {
+            if(existingRoutes[i].next_bus == newRoutes[j].next_bus && arraysAreEqual(existingRoutes[i].route_numbers, newRoutes[j].route_numbers)) {
+                duplicate = true;
+            }
+        }
+        if(!duplicate) {
+            existingRoutes.push(newRoutes[j]);
+        }
+    }
+    return existingRoutes;
+}
+
 function insert_stop_in_back(list, stop, distance) {
     list.push([stop, distance]);
     var temp;
@@ -123,14 +141,13 @@ function findClosestStops(start_lat, start_lng, dest_lat, dest_lng, num_of_resul
     return [closest_stops_to_start, closest_stops_to_dest];
 }
 
-function getNextBusForStops(start, dest, cb) {
+// time
+function getNextBusForStops(start, dest, time, cb) {
     if(!(stopToTcatIdDictionary.hasOwnProperty(start) && stopToTcatIdDictionary.hasOwnProperty(dest))) {
         console.log(stopToTcatIdDictionary.hasOwnProperty(start), stopToTcatIdDictionary.hasOwnProperty(dest));
         console.log("ERROR", 'start:', start, ', stop:', stop);
         cb({'err': 'invalid stops'});
     } else {
-        now = new Date();
-        now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
         request.post({
             url: 'http://tcat.nextinsight.com/index.php',
             form: {
@@ -151,11 +168,11 @@ function getNextBusForStops(start, dest, cb) {
                 'addressid2': '',
                 'start': stopToTcatIdDictionary[start],
                 'end': stopToTcatIdDictionary[dest],
-                'day': now.getDay(),
+                'day': time.getDay(),
                 'departure': 0,
-                'starthours': now.getHours() % 12,
-                'startminutes': now.getMinutes(),
-                'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
+                'starthours': time.getHours() % 12,
+                'startminutes': time.getMinutes(),
+                'startampm': (Math.floor(time.getHours() / 12) == 0? 0: 1),
                 'customer': 1,
                 'sort': 1,
                 'transfers': 0,
@@ -168,7 +185,7 @@ function getNextBusForStops(start, dest, cb) {
                     body = body.replace(/<sup>(\w)*<\/sup>/g, '');
                     body = body.replace(':</strong>', '</strong>');
                     body = body.replace(':</b>', '</b>');
-                    var nextBusStarts = body.match(/<[^<]*<[^<]*Board the[^<]*<[^<]*<[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
+                    var nextBusStarts = body.match(/<[^<]*<[^<]*Board the[^<]*<[^<]*<[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>(<br>[\w\s,]*)?/g);
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
                     if(nextBusStarts == null || nextBusDestinations == null || nextBusTravelTimes == null) {
@@ -177,39 +194,52 @@ function getNextBusForStops(start, dest, cb) {
                     } else {
                         var nextBusStart = nextBusStarts[0];
                         var nextBusDestination = nextBusDestinations[0];
-                        var nextBusRouteNumber = nextBusStart.match(/(Route)(\s)*(\d)*/);
-                        if(nextBusRouteNumber.length != null) {
-                            nextBusRouteNumber = nextBusRouteNumber[0].match(/(\d)*$/);
-                            if(nextBusRouteNumber.length != null) {
-                                nextBusRouteNumber = nextBusRouteNumber[0];
+                        var nextBusRoutes = nextBusStart.match(/(Route)(\s)*(\d)*/g);
+                        var nextBusRouteNumbers = [];
+                        if(nextBusRoutes != null) {
+                            var i = 0;
+                            while(('' + nextBusRoutes[i]).match(/(Route)(\s)*(\d)*/) != null) {
+                                var nextBusRouteNumber = nextBusRoutes[i].match(/(\d)*$/);
+                                if(nextBusRouteNumber != null) {
+                                    nextBusRouteNumbers.push(nextBusRouteNumber[0]);
+                                }
+                                i++;
                             }
                         }
+                        if(nextBusRouteNumbers.length == 0) {
+                            nextBusRouteNumbers.push(0);
+                        } else {
+                            nextBusRouteNumbers = _.uniq(nextBusRouteNumbers);
+                        }
+
                         var nextBusStartTime = nextBusStart.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
-                        if(nextBusStartTime.length != null) {
+                        if(nextBusStartTime != null) {
                             nextBusStartTime = nextBusStartTime[0];
                         }
+                        var nextBusDestTime = nextBusDestination.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
+                        if(nextBusDestTime != null) {
+                            nextBusDestTime = nextBusDestTime[0];
+                        }
+
                         var nextBusStartStopName = nextBusStart.match(/<a\shref="\/stops\/(\w)*">[^<]*<\/a>/);
-                        if(nextBusStartStopName.length != null) {
+                        if(nextBusStartStopName != null) {
                             nextBusStartStopName = nextBusStartStopName[0].match(/>[(\S)(\s)]*</);
-                            if(nextBusStartStopName.length != null) {
+                            if(nextBusStartStopName != null) {
                                 if(nextBusStartStopName[0].length > 1){
                                     nextBusStartStopName = nextBusStartStopName[0].substring(1, nextBusStartStopName[0].length - 1);
                                 }
                             }
                         }
-                        var nextBusDestTime = nextBusDestination.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
-                        if(nextBusDestTime.length != null) {
-                            nextBusDestTime = nextBusDestTime[0];
-                        }
                         var nextBusDestStopName = nextBusDestination.match(/<a\shref="\/stops\/(\w)*">[^<]*<\/a>/);
-                        if(nextBusDestStopName.length != null) {
+                        if(nextBusDestStopName != null) {
                             nextBusDestStopName = nextBusDestStopName[0].match(/>[(\S)(\s)]*</);
-                            if(nextBusDestStopName.length != null) {
+                            if(nextBusDestStopName != null) {
                                 if(nextBusDestStopName[0].length > 1){
                                     nextBusDestStopName = nextBusDestStopName[0].substring(1, nextBusDestStopName[0].length - 1);
                                 }
                             }
                         }
+
                         var nextBusStartLatLng = '0.0';
                         if(stopDictionary.hasOwnProperty(nextBusStartStopName)){
                             nextBusStartLatLng = stopDictionary[nextBusStartStopName];
@@ -218,6 +248,7 @@ function getNextBusForStops(start, dest, cb) {
                         if(stopDictionary.hasOwnProperty(nextBusDestStopName)){
                             nextBusDestLatLng = stopDictionary[nextBusDestStopName];
                         }
+
                         var nextBusTravelTime = nextBusTravelTimes[0];
                         var nextBusTravelHours = nextBusTravelTime.match(/\d*\s*hour/);
                         var nextBusTravelMinutes = nextBusTravelTime.match(/\d*\s*minutes/);
@@ -244,10 +275,12 @@ function getNextBusForStops(start, dest, cb) {
                         if(nextBusStartTime.indexOf(':') == 1) {
                             nextBusStartTime = '0' + nextBusStartTime;
                         }
+
                         var nextBus = {
                             'next_bus': nextBusStartTime,
                             'travel_time': '' + nextBusTravelMinutes,
-                            'route_number': nextBusRouteNumber,
+                            'route_number': nextBusRouteNumbers[0], // deprecated
+                            'route_numbers': nextBusRouteNumbers,
                             'start': nextBusStartStopName,
                             'destination': nextBusDestStopName,
                             'start_lat': nextBusStartLatLng[0],
@@ -299,23 +332,34 @@ module.exports = {
                 closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, numOfResultsToReturn);
                 var results = [];
                 var numResultsReturned = 0;
+
+
+                // this looks at routes up to 30 minutes in advance
+                var timesToQuery = [];
+                var now = new Date();
+                var TEN_MINUTES = 10 * 60 * 1000;
+                for(var i = 0; i < 4; i++) {
+                    timesToQuery.push(new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)) + i * TEN_MINUTES));
+                }
                 for(var i = 0; i < numOfResultsToReturn; i++) {
                     for(var j = 0; j < numOfResultsToReturn; j++) {
-                        getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], function(err, response){
-                            if(!err) {
-                                results.push.apply(results, response);
-                            } else {
-                                console.log(err);
-                            }
-                            numResultsReturned++;
-                            if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn)) {
-                                if(results.length == 0){
-                                    res.json([{'err': err}]);
+                        for(var k = 0; k < timesToQuery.length; k++) {
+                            getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], timesToQuery[k], function(err, response){
+                                if(!err) {
+                                    addUnlessDuplicateRoute(results, response);
                                 } else {
-                                    res.json(results);
+                                    console.log(err);
                                 }
-                            }
-                        });
+                                numResultsReturned++;
+                                if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn * timesToQuery.length)) {
+                                    if(results.length == 0){
+                                        res.json([{'err': err}]);
+                                    } else {
+                                        res.json(results);
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             }
