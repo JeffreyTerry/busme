@@ -18,7 +18,7 @@ module.exports = {
     },
     getStops: function(req, res) {
         try{
-            fs.readFile(__dirname + '/../../public/data/stops_list.txt', function(err, data){
+            fs.readFile(__dirname + '/../../public/data/stops_dictionary.txt', function(err, data){
                 if(!err){
                     routeData = JSON.parse(data);
                     res.json(routeData);

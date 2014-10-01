@@ -2,6 +2,9 @@
 package com.example.busme;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.app.Activity;
 import android.content.Context;
@@ -109,7 +112,10 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			viewHolder.tvRouteNumber.setText("Bus #" + item.getRouteNumbers()[0]);
 			viewHolder.tvRouteStart.setText(item.getRouteStart());
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
-			if (item.getMinutesUntilNextBus() < 11) {
+			if (item.getMinutesUntilNextBus() < 0) {
+				viewHolder.tvTime.setTextColor(Color.rgb(0, 0, 0));
+				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item);
+			} else if (item.getMinutesUntilNextBus() < 11) {
 				viewHolder.tvTime.setTextColor(Color.rgb(55, 197, 112));
 				viewHolder.linearlayoutCond.setBackgroundResource(R.drawable.main_list_item);
 			} else if (item.getMinutesUntilNextBus() < 31) {
@@ -139,5 +145,25 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 			items.add(MainListViewItem.NULL_ITEM);
 		}
 		this.loading = loading;
+	}
+
+	@Override
+	public void addAll(Collection<? extends MainListViewItem> collection) {
+		super.addAll(collection);
+		Collections.sort(items, new Comparator<MainListViewItem>(){
+			@Override
+			public int compare(MainListViewItem first, MainListViewItem second) {
+				if(first == MainListViewItem.NULL_ITEM) {
+					return -1;
+				} else if(second == MainListViewItem.NULL_ITEM) {
+					return 1;
+				}
+				int minutesUntilNextBusFirst = (int) first.getMinutesUntilNextBus();
+				int minutesUntilNextBusSecond = (int) second.getMinutesUntilNextBus();
+				int travelTimeFirst = Integer.parseInt(first.getTravelTime());
+				int travelTimeSecond = Integer.parseInt(second.getTravelTime());
+				return (minutesUntilNextBusFirst + travelTimeFirst) - (minutesUntilNextBusSecond + travelTimeSecond);
+			}
+		});
 	}
 }
