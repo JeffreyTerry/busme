@@ -154,7 +154,7 @@ function getNextBusForStops(start, dest, cb) {
                 'day': 2, //now.getDay(),
                 'departure': 0,
                 'starthours': 11, //now.getHours() % 12,
-                'startminutes': 2, now.getMinutes(),
+                'startminutes': 2, //now.getMinutes(),
                 'startampm': 1, //(Math.floor(now.getHours() / 12) == 0? 0: 1),
                 'customer': 1,
                 'sort': 1,
