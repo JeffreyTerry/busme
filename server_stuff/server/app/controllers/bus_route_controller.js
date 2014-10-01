@@ -89,7 +89,7 @@ function addUnlessDuplicateRoute(existingRoutes, newRoutes) {
     for(var j = 0; j < newRoutes.length; j++) {
         duplicate = false;
         for(var i = 0; i < existingRoutes.length; i++) {
-            if(existingRoutes[i].next_bus == newRoutes[j].next_bus && arraysAreEqual(existingRoutes[i].route_numbers, newRoutes[j].route_numbers)) {
+            if(existingRoutes[i].next_bus == newRoutes[j].next_bus && existingRoutes[i].route_numbers == newRoutes[j].route_numbers) {
                 duplicate = true;
             }
         }
@@ -207,9 +207,14 @@ function getNextBusForStops(start, dest, time, cb) {
                             }
                         }
                         if(nextBusRouteNumbers.length == 0) {
-                            nextBusRouteNumbers.push(0);
+                            nextBusRouteNumbers = '0'
                         } else {
                             nextBusRouteNumbers = _.uniq(nextBusRouteNumbers);
+                            var result = '';
+                            for(var i = 0; i < nextBusRouteNumbers.length; i++) {
+                                result += nextBusRouteNumbers[i] + ',';
+                            }
+                            nextBusRouteNumbers = result.substring(0, result.length - 1);
                         }
 
                         var nextBusStartTime = nextBusStart.match(/(\d)*:(\d)*((\s)*)+((\bAM\b)|(\bPM\b))/);
@@ -279,7 +284,7 @@ function getNextBusForStops(start, dest, time, cb) {
                         var nextBus = {
                             'next_bus': nextBusStartTime,
                             'travel_time': '' + nextBusTravelMinutes,
-                            'route_number': nextBusRouteNumbers[0], // deprecated
+                            'route_number': nextBusRouteNumbers, // deprecated
                             'route_numbers': nextBusRouteNumbers,
                             'start': nextBusStartStopName,
                             'destination': nextBusDestStopName,

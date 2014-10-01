@@ -1,19 +1,15 @@
 package com.example.busme;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import android.util.Log;
 
 public class MainListViewItem {
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
-			"01:00 PM", -1, "", "", -1, -1, -1, -1, "");
+			"01:00 PM", "69", "", "", -1, -1, -1, -1, "");
 	private String nextBusTimeString;
-	private int routeNumber;
+	private int[] routeNumbers;
 	private double start_lat;
 	private double start_lng;
 	private double dest_lat;
@@ -39,11 +35,20 @@ public class MainListViewItem {
 	 * @param dest_lng
 	 * @param travel_time
 	 */
-	public MainListViewItem(String nextBusTimeString, int routeNumber, String start,
+	public MainListViewItem(String nextBusTimeString, String routeNumberCSV, String start,
 			String destination, double start_lat, double start_lng,
 			double dest_lat, double dest_lng, String travel_time) {
 		this.nextBusTimeString = nextBusTimeString;
-		this.routeNumber = routeNumber;
+		String[] routeNumberStrings = routeNumberCSV.split(",");
+		if(routeNumberStrings.length == 0) {
+			this.routeNumbers = new int[1];
+			this.routeNumbers[0] = 0;
+		} else {
+			this.routeNumbers = new int[routeNumberStrings.length];
+			for(int i = 0; i < routeNumberStrings.length; i++) {
+				routeNumbers[i] = Integer.parseInt(routeNumberStrings[i]);
+			}
+		}
 		routeStart = start;
 		routeDestination = destination;
 		this.start_lat = start_lat;
@@ -93,8 +98,8 @@ public class MainListViewItem {
 		return nextBusTimeString;
 	}
 
-	public int getRouteNumber() {
-		return routeNumber;
+	public int[] getRouteNumbers() {
+		return routeNumbers;
 	}
 
 	public double getStartLat() {

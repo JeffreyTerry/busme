@@ -106,7 +106,7 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 
 			viewHolder.tvTime.setText(item.getMinutesUntilNextBus()
 					+ " mins");
-			viewHolder.tvRouteNumber.setText("Bus #" + item.getRouteNumber());
+			viewHolder.tvRouteNumber.setText("Bus #" + item.getRouteNumbers()[0]);
 			viewHolder.tvRouteStart.setText(item.getRouteStart());
 			viewHolder.tvRouteDestination.setText(item.getRouteDestination());
 			if (item.getMinutesUntilNextBus() < 11) {

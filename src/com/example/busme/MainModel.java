@@ -83,7 +83,6 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
-			Log.d("array response", builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONArray finalResult = new JSONArray(tokener);
 			return finalResult;
@@ -138,7 +137,7 @@ public class MainModel {
 				}
 				results.add(new MainListViewItem(
 						currentRoute.getString("next_bus"),
-						Integer.parseInt(currentRoute.getString("route_number")),
+						currentRoute.getString("route_numbers"),
 						currentRoute.getString("start"),
 						currentRoute.getString("destination"),
 						Double.parseDouble(currentRoute.getString("start_lat")),
