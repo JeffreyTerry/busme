@@ -7,11 +7,10 @@ from pyquery import PyQuery as pq
 
 # some bus stops have inconsistent names across data sources
 # we deal with that here
-juice_list = {'Goldwin Smith Hall': 'Goldwin Smith'}
-def replace_juice_listed(juiced):
+juice_list = {'Goldwin Smith': 'Goldwin Smith Hall'}
+def replace_juiced(juiced):
     for k, v in juice_list.iteritems():
-        juiced[v] = juiced[k]
-        del juiced[k]
+        juiced = juiced.replace(k, v)
     return juiced
 
 def replace_blaze(juiced):
@@ -55,8 +54,8 @@ for route in routes:
 
 # this creates a dict like {stop_name: [lat, lng]} and a list like [[stop, lat, lng]]
 # these are the routes we will collect data for
-# stops = ["Cornell", "Downtown", "Country"]
-stops = []
+stops = ["Cornell", "Downtown", "Country"]
+# stops = []
 full_coordinate_list = []
 full_stop_list = []
 for stop in stops:
@@ -68,6 +67,7 @@ for stop in stops:
     for placemark in placemarks:
         coordinate_data += unicode(placemark.name).encode('ascii', 'ignore') + ',' + str(placemark.Point.coordinates) + ','
     coordinate_data = coordinate_data[:-1].strip()
+    coordinate_data = replace_juiced(coordinate_data)
     coordinate_data = coordinate_data.replace(', ', ' ')
     coordinate_data = coordinate_data.replace(',0', '')
     coordinate_data = coordinate_data.split(',')
@@ -93,7 +93,7 @@ if len(full_coordinate_list) > 0:
     open('data/stops_list.txt', 'w').write(full_stop_list)
 
 # this creates a dictionary like {route_name: tcat_route_id}
-should_generate_new_route_dictionary = True
+should_generate_new_route_dictionary = False
 if should_generate_new_route_dictionary:
     stop_to_id_dictionary = {}
     data = urllib2.urlopen('http://tcat.nextinsight.com/').read();
@@ -103,7 +103,6 @@ if should_generate_new_route_dictionary:
     option_elements = select_element('option')
     for i in option_elements:
         stop_to_id_dictionary[i.text_content()[1:]] = i.get('value')
-    stop_to_id_dictionary = replace_juice_listed(stop_to_id_dictionary)
     stop_to_id_dictionary = str(stop_to_id_dictionary)
     stop_to_id_dictionary = replace_blaze(stop_to_id_dictionary)
     open('data/stop_to_id_dictionary.txt', 'w').write(stop_to_id_dictionary)
