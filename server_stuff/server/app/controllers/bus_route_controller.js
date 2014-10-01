@@ -387,6 +387,9 @@ module.exports = {
                     res.json({'content': body});
                 });
             break;
+            case 'time':
+            now = new Date();
+            res.json({'now': now, 'offset': now.getTimezoneOffset()});
             default:
             res.json({'err': 'idu'});
             break;
