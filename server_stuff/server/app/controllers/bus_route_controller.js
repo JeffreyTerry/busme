@@ -380,7 +380,7 @@ module.exports = {
             }
         });
     }, fromDefault: function(uid, lat, lng, res) {
-        res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+        res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'route_numbers': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
     }, test: function(varname, res) {
