@@ -80,17 +80,6 @@ public class MainListViewItem {
 		}
 		
 		int minutesNow = now.get(Calendar.MINUTE);
-
-		Log.d("now", now.toString());
-		Log.d("hours next", "" + hoursNext);
-		Log.d("hours now", "" + hoursNow);
-		Log.d("minutes next", "" + minutesNext);
-		Log.d("minutes now", "" + minutesNow);
-		Log.d("am or pm", amOrPm);
-		Log.d("fuck", ""+now.get(Calendar.AM_PM));
-		Log.d("fuck", ""+Calendar.AM);
-		Log.d("fuck", ""+Calendar.PM);
-			
 		return (hoursNext - hoursNow) * 60 + (minutesNext - minutesNow);
 	}
 
