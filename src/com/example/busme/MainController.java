@@ -161,7 +161,7 @@ public class MainController extends BroadcastReceiver implements
 		i.putExtra("time", item.getNextBusTime());
 		i.putExtra("start", item.getRouteStart());
 		i.putExtra("destination", item.getRouteDestination());
-		i.putExtra("routeNumber", item.getRouteNumber());
+		i.putExtra("routeNumbers", item.getRouteNumbers());
 		i.putExtra("startLat", item.getStartLat());
 		i.putExtra("startLng", item.getStartLng());
 		i.putExtra("destLat", item.getDestLat());

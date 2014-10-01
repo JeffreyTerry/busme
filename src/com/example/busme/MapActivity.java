@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.json.JSONArray;
@@ -18,6 +19,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.SparseIntArray;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -32,7 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapActivity extends Activity implements LocationListener {
-
+	private static SparseIntArray routeColors;
 	private GoogleMap gmap;
 	private Bundle extras;
 	ArrayList<LatLng> markerPoints;
@@ -42,10 +44,47 @@ public class MapActivity extends Activity implements LocationListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
+		initializeRouteColors();
 		initializeMapFragment();
 
 		markerPoints = new ArrayList<LatLng>();
 		initializeFonts();
+	}
+	
+	private void initializeRouteColors() {
+		routeColors = new SparseIntArray();
+		// routes [10, 11, 13, 14, 15, 17, 20, 21, 30, 31, 32, 36, 37, 40, 41, 43, 51, 52, 53, 65, 67, 70, 72, 75, 77, 81, 82, 83, 90, 92, 93]
+		routeColors.put(10, Color.CYAN);
+		routeColors.put(11, Color.GREEN);
+		routeColors.put(13, Color.RED);
+		routeColors.put(14, Color.BLUE);
+		routeColors.put(15, Color.YELLOW);
+		routeColors.put(17, Color.MAGENTA);
+		routeColors.put(20, Color.CYAN);
+		routeColors.put(21, Color.GREEN);
+		routeColors.put(30, Color.RED);
+		routeColors.put(31, Color.BLUE);
+		routeColors.put(32, Color.YELLOW);
+		routeColors.put(36, Color.MAGENTA);
+		routeColors.put(37, Color.CYAN);
+		routeColors.put(40, Color.GREEN);
+		routeColors.put(41, Color.RED);
+		routeColors.put(43, Color.BLUE);
+		routeColors.put(51, Color.YELLOW);
+		routeColors.put(52, Color.MAGENTA);
+		routeColors.put(53, Color.CYAN);
+		routeColors.put(65, Color.GREEN);
+		routeColors.put(67, Color.RED);
+		routeColors.put(70, Color.BLUE);
+		routeColors.put(72, Color.YELLOW);
+		routeColors.put(75, Color.MAGENTA);
+		routeColors.put(77, Color.CYAN);
+		routeColors.put(81, Color.GREEN);
+		routeColors.put(82, Color.RED);
+		routeColors.put(83, Color.BLUE);
+		routeColors.put(90, Color.YELLOW);
+		routeColors.put(92, Color.MAGENTA);
+		routeColors.put(93, Color.CYAN);
 	}
 
 	private void initializeFonts() {
@@ -137,7 +176,10 @@ public class MapActivity extends Activity implements LocationListener {
 		startMarker.showInfoWindow();
 
 		// requests route data from server
-		new QueryTask().execute();
+		int[] routeNumbers = extras.getIntArray("routeNumbers");
+		for(int i = 0; i < routeNumbers.length; i++) {
+			new QueryTask().execute(routeNumbers[i]);
+		}
 
 		LatLngBounds.Builder b = new LatLngBounds.Builder();
 		// b.include(current);
@@ -185,18 +227,20 @@ public class MapActivity extends Activity implements LocationListener {
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
-	private class QueryTask extends AsyncTask<String, Void, ArrayList<LatLng>> {
+	private class QueryTask extends AsyncTask<Integer, Void, ArrayList<LatLng>> {
+		private int routeNumber;
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected ArrayList<LatLng> doInBackground(String... args) {
+		protected ArrayList<LatLng> doInBackground(Integer...routeNumber) {
+			this.routeNumber = routeNumber[0];
 			try {
-				int routeNumber = extras.getInt("routeNumber");
 				routeCoordinates = MainModel.getJSONArrayForURL("/data/route/"
-						+ routeNumber);
+						+ routeNumber[0]);
 				return parseJSONArray(routeCoordinates);
 			} catch (Exception e) {
 				return null;
@@ -206,8 +250,12 @@ public class MapActivity extends Activity implements LocationListener {
 		@Override
 		protected void onPostExecute(ArrayList<LatLng> result) {
 			super.onPostExecute(result);
-			PolylineOptions plOptions = new PolylineOptions().width(15).color(
-					Color.CYAN);
+			PolylineOptions plOptions;
+			if(routeColors.indexOfKey(routeNumber) >= 0) {
+				plOptions = new PolylineOptions().width(15).color(routeColors.get(routeNumber));
+			} else {
+				plOptions = new PolylineOptions().width(15).color(Color.WHITE);
+			}
 
 			for (int i = 0; i < result.size(); i++) {
 				plOptions.add(result.get(i));
