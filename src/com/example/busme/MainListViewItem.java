@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class MainListViewItem {
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
-			"01:00 PM", "69", "", "", -1, -1, -1, -1, "");
+			"01:00 PM", "69", "nowhere", "nowhere", -1, -1, -1, -1, "0");
 	private String nextBusTimeString;
 	private int[] routeNumbers;
 	private double start_lat;
