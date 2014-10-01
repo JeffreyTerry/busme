@@ -61,4 +61,8 @@ module.exports = function(app, config){
   app.get('/test/:varname', function(req, res){
     busRouteController.test(req.params.varname, res);
   });
+
+  app.get('/test/:varname/:start/:dest', function(req, res){
+    busRouteController.test(req.params.varname, res, req.params.start, req.params.dest);
+  });
 };
