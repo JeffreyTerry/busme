@@ -21,9 +21,11 @@ public class MainListViewItem {
 	private String routeStart;
 	private String routeDestination;
 	private String travel_time;
-	private SimpleDateFormat dateFormatter;
-	private Calendar now, nextBusDate;
+	private Calendar now;
 	private TimeZone easternTime;
+	private int hoursNext, minutesNext;
+	private String amOrPm;
+	
 
 	/**
 	 * 
@@ -50,29 +52,41 @@ public class MainListViewItem {
 		this.dest_lng = dest_lng;
 		this.travel_time = travel_time;
 
-		easternTime = TimeZone.getTimeZone("GMT+05:00");
-		nextBusDate = Calendar.getInstance(easternTime);
-		dateFormatter = new SimpleDateFormat("HH:mm a", Locale.US);
+		easternTime = TimeZone.getTimeZone("GMT+20:00");
+		try {
+			hoursNext = Integer.parseInt(nextBusTimeString.substring(0, 2)) % 12;
+			minutesNext = Integer.parseInt(nextBusTimeString.substring(3, 5));
+			amOrPm = nextBusTimeString.substring(nextBusTimeString.length() - 2);
+		} catch(Exception e){
+			hoursNext = 0;
+			minutesNext = 0;
+			amOrPm = "AM";
+		}
 	}
 
 	public long getMinutesUntilNextBus() {
-		try {
-			nextBusDate.setTime(dateFormatter.parse(nextBusTimeString));
-			now = Calendar.getInstance(easternTime);
-			int hoursNext = nextBusDate.get(Calendar.HOUR_OF_DAY);
-			int hoursNow = now.get(Calendar.HOUR_OF_DAY);
-			// if the next bus is coming tomorrow
-			if(hoursNow > 12 && hoursNext < 12) {
-				hoursNext += 24;
+		now = Calendar.getInstance(easternTime);
+		int hoursNow = now.get(Calendar.HOUR) % 12;
+		// if the next bus is coming tomorrow
+		if((amOrPm.contentEquals("AM") && now.get(Calendar.AM_PM) == Calendar.PM) || (amOrPm.contentEquals("PM") && now.get(Calendar.AM_PM) == Calendar.AM)) {
+			if(hoursNext < 12){
+				hoursNext += 12;
 			}
-			int minutesNext = nextBusDate.get(Calendar.MINUTE);
-			int minutesNow = now.get(Calendar.MINUTE);
-			
-			return (hoursNext - hoursNow) * 60 + (minutesNext - minutesNow);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return -1;
 		}
+		
+		int minutesNow = now.get(Calendar.MINUTE);
+
+		Log.d("now", now.toString());
+		Log.d("hours next", "" + hoursNext);
+		Log.d("hours now", "" + hoursNow);
+		Log.d("minutes next", "" + minutesNext);
+		Log.d("minutes now", "" + minutesNow);
+		Log.d("am or pm", amOrPm);
+		Log.d("fuck", ""+now.get(Calendar.AM_PM));
+		Log.d("fuck", ""+Calendar.AM);
+		Log.d("fuck", ""+Calendar.PM);
+			
+		return (hoursNext - hoursNow) * 60 + (minutesNext - minutesNow);
 	}
 
 	public String getNextBusTime() {
