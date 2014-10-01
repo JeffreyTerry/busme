@@ -210,11 +210,11 @@ function getNextBusForStops(start, dest, cb) {
                                 }
                             }
                         }
-                        var nextBusStartLatLng = '';
+                        var nextBusStartLatLng = '0.0';
                         if(stopDictionary.hasOwnProperty(nextBusStartStopName)){
                             nextBusStartLatLng = stopDictionary[nextBusStartStopName];
                         }
-                        var nextBusDestLatLng = '';
+                        var nextBusDestLatLng = '0.0';
                         if(stopDictionary.hasOwnProperty(nextBusDestStopName)){
                             nextBusDestLatLng = stopDictionary[nextBusDestStopName];
                         }

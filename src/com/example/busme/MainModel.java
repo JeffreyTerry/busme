@@ -50,6 +50,7 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
+			Log.d("response", builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONObject finalResult = new JSONObject(tokener);
 			return finalResult;
@@ -82,6 +83,7 @@ public class MainModel {
 			for (String line = null; (line = reader.readLine()) != null;) {
 				builder.append(line).append("\n");
 			}
+			Log.d("array response", builder.toString());
 			JSONTokener tokener = new JSONTokener(builder.toString());
 			JSONArray finalResult = new JSONArray(tokener);
 			return finalResult;
