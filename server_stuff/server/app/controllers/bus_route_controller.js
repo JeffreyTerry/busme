@@ -172,8 +172,8 @@ function getNextBusForStops(start, dest, cb) {
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
                     if(nextBusStarts == null || nextBusDestinations == null || nextBusTravelTimes == null) {
-                        // cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
-                        cb({'err': 'no routes found'});
+                        cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
+                        // cb({'err': 'no routes found'});
                     } else {
                         var nextBusStart = nextBusStarts[0];
                         var nextBusDestination = nextBusDestinations[0];
