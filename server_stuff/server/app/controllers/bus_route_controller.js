@@ -164,7 +164,6 @@ function getNextBusForStops(start, dest, cb) {
             }},
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    body = body.replace('\\', '');
                     body = body.replace(/<sup>(\w)*<\/sup>/g, '');
                     body = body.replace(':</strong>', '</strong>');
                     body = body.replace(':</b>', '</b>');
@@ -172,7 +171,8 @@ function getNextBusForStops(start, dest, cb) {
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
                     if(nextBusStarts == null || nextBusDestinations == null || nextBusTravelTimes == null) {
-                        cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
+                        // cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
+                        cb({'err': 'no routes found'});
                     } else {
                         var nextBusStart = nextBusStarts[0];
                         var nextBusDestination = nextBusDestinations[0];
@@ -328,62 +328,66 @@ module.exports = {
             }
         });
     }, fromDefault: function(uid, lat, lng, res) {
-        res.json([{'next_bus': '12:00 PM', 'travel_time': '25', 'route_number': '12', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+        res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
-    }, test: function(varname, res) {
-        switch(varname){
-            case 'stopList':
-            res.json(stopList);
-            break;
-            case 'stopToTcatIdDictionary':
-            res.json(stopToTcatIdDictionary);
-            break;
-            case 'stopDictionary':
-            res.json(stopDictionary);
-            break;
-            case 'http':
-            // get the current date, adding three hours
-            var now = new Date(new Date().valueOf() + 3600000 * 3);
-            request.post({
-                url: 'http://tcat.nextinsight.com/index.php',
-                form: {
-                    'wml': '',
-                    'addrO': '',
-                    'latO': '',
-                    'lonO': '',
-                    'addrD': '',
-                    'latD': '',
-                    'lonD': '',
-                    'origin': '',
-                    'destination': '',
-                    'search': 'search',
-                    'fulltext': '',
-                    'radiusO': '',
-                    'radiusD': '',
-                    'addressid1': '',
-                    'addressid2': '',
-                    'start': stopToTcatIdDictionary['Airport'],
-                    'end': stopToTcatIdDictionary['Goldwin Smith'],
-                    'day': now.getDay(),
-                    'departure': 0,
-                    'starthours': now.getHours() % 12,
-                    'startminutes': now.getMinutes(),
-                    'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
-                    'customer': 1,
-                    'sort': 1,
-                    'transfers': 0,
-                    'addr': '',
-                    'city': 'Ithaca',
-                    'radius': .25
-                }},
-                function (error, response, body) {
-                    res.json({'content': body});
-                });
-            break;
-            default:
-            res.json({'err': 'idu'});
-            break;
-        }
     }
+    // }, test: function(varname, res) {
+    //     switch(varname){
+    //         case 'stopList':
+    //         res.json(stopList);
+    //         break;
+    //         case 'stopToTcatIdDictionary':
+    //         res.json(stopToTcatIdDictionary);
+    //         break;
+    //         case 'stopDictionary':
+    //         res.json(stopDictionary);
+    //         break;
+    //         case 'http':
+    //         // get the current date, adding three hours
+    //         var now = new Date(new Date().valueOf() + 3600000 * 3);
+    //         request.post({
+    //             url: 'http://tcat.nextinsight.com/index.php',
+    //             form: {
+    //                 'wml': '',
+    //                 'addrO': '',
+    //                 'latO': '',
+    //                 'lonO': '',
+    //                 'addrD': '',
+    //                 'latD': '',
+    //                 'lonD': '',
+    //                 'origin': '',
+    //                 'destination': '',
+    //                 'search': 'search',
+    //                 'fulltext': '',
+    //                 'radiusO': '',
+    //                 'radiusD': '',
+    //                 'addressid1': '',
+    //                 'addressid2': '',
+    //                 'start': stopToTcatIdDictionary['Airport'],
+    //                 'end': stopToTcatIdDictionary['Goldwin Smith'],
+    //                 'day': now.getDay(),
+    //                 'departure': 0,
+    //                 'starthours': now.getHours() % 12,
+    //                 'startminutes': now.getMinutes(),
+    //                 'startampm': (Math.floor(now.getHours() / 12) == 0? 0: 1),
+    //                 'customer': 1,
+    //                 'sort': 1,
+    //                 'transfers': 0,
+    //                 'addr': '',
+    //                 'city': 'Ithaca',
+    //                 'radius': .25
+    //             }},
+    //             function (error, response, body) {
+    //                 body = body.replace(/<sup>(\w)*<\/sup>/g, '');
+    //                 body = body.replace(':</strong>', '</strong>');
+    //                 body = body.replace(':</b>', '</b>');
+    //                 res.json({'content': body});
+    //             });
+    //         break;
+    //         default:
+    //         res.json({'err': 'idu'});
+    //         break;
+    //     }
+    // }
 };

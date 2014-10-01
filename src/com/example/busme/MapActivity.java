@@ -1,20 +1,13 @@
 package com.example.busme;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -25,7 +18,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -84,25 +76,24 @@ public class MapActivity extends Activity implements LocationListener {
 		// UPDATING THE DATA
 
 		// boarding time
-		Date date = new Date();
-		int time = extras.getInt("time");
-		time = time * 60 * 1000;
-		long boardingTime = (date.getTime() + time);
-		date.setTime(boardingTime);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
-		bd2.setText(dateFormat.format(date));
+		String startTime = extras.getString("time");
+		bd2.setText(startTime);
 
 		// travel time
 		int travelTime = Integer.parseInt(extras.getString("travelTime"));
 		trv2.setText(extras.getString("travelTime") + " min");
 
 		// time of arrival
-		Date date2 = new Date();
-		travelTime = travelTime * 60 * 1000;
-		date2.setTime(boardingTime + travelTime);
-		dateFormat.format(date2);
-		dest2.setText(dateFormat.format(date2));
-
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a",
+				Locale.US);
+		try {
+			Date date;
+			date = dateFormatter.parse(startTime);
+			date = new Date(date.getTime() + travelTime * 60 * 1000);
+			dest2.setText(dateFormatter.format(date));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initializeMapFragment() {
@@ -119,8 +110,9 @@ public class MapActivity extends Activity implements LocationListener {
 		Location location = locationManager.getLastKnownLocation(provider);
 
 		locationManager.requestLocationUpdates(provider, 20000, 0, this);
-		
-		LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+
+		LatLng current = new LatLng(location.getLatitude(),
+				location.getLongitude());
 		LatLng startLatLng = new LatLng(extras.getDouble("startLat"),
 				extras.getDouble("startLng"));
 		LatLng destLatLng = new LatLng(extras.getDouble("destLat"),
@@ -146,9 +138,9 @@ public class MapActivity extends Activity implements LocationListener {
 
 		// requests route data from server
 		new QueryTask().execute();
-		
+
 		LatLngBounds.Builder b = new LatLngBounds.Builder();
-		b.include(current);
+		// b.include(current);
 		b.include(startLatLng);
 		b.include(destLatLng);
 		LatLngBounds bounds = b.build();

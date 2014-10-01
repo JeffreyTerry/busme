@@ -7,12 +7,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -50,7 +52,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		gmap.setMyLocationEnabled(true);
 
 		LocationManager locationManager = (LocationManager) this.getActivity()
-				.getSystemService(this.getActivity().LOCATION_SERVICE);
+				.getSystemService(Context.LOCATION_SERVICE);
 		Criteria crit = new Criteria();
 		crit.setAccuracy(Criteria.ACCURACY_FINE);
 		String provider = locationManager.getBestProvider(crit, true);
@@ -59,7 +61,8 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		if (location != null) {
 			onLocationChanged(location);
 		}
-		locationManager.requestLocationUpdates(provider, 20000, 0, this);
+		locationManager.requestSingleUpdate(provider, this,
+				Looper.getMainLooper());
 
 		new QueryTask().execute();
 
@@ -106,8 +109,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected HashMap<String, LatLng> doInBackground(String... args) {
 			try {
-				routeCoordinates = MainModel
-						.getJSONObjectForURL("/data/stops");
+				routeCoordinates = MainModel.getJSONObjectForURL("/data/stops");
 				return parseJSONObject(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
