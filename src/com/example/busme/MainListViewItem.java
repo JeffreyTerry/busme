@@ -52,7 +52,7 @@ public class MainListViewItem {
 		this.dest_lng = dest_lng;
 		this.travel_time = travel_time;
 
-		easternTime = TimeZone.getTimeZone("GMT+20:00");
+		easternTime = TimeZone.getTimeZone("GMT-4:00");
 		try {
 			hoursNext = Integer.parseInt(nextBusTimeString.substring(0, 2)) % 12;
 			minutesNext = Integer.parseInt(nextBusTimeString.substring(3, 5));
