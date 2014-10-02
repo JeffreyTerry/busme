@@ -21,6 +21,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainModel {
 	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
@@ -166,7 +167,7 @@ public class MainModel {
 			try {
 				currentRoute = buses.getJSONObject(i);
 				if (currentRoute.has("err")) {
-					Log.d("the error yo", currentRoute.getString("err"));
+//					Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); TODO test this
 					return results;
 				}
 				results.add(new MainListViewItem(
