@@ -63,9 +63,19 @@ module.exports = function(app, config){
     routeDataController.getRouteLatLngs('route' + req.params.route_num, res);
   });
 
+  // get a dictionary of stops to [lat, lng]
+  app.get('/api/data/stops/dictionary/latlng', function(req, res){
+    routeDataController.getStopsDictionary(req, res);
+  });
+
+  // get a dictionary of stops to stop_id
+  app.get('/api/data/stops/dictionary/id', function(req, res){
+    routeDataController.getStopToIdDictionary(req, res);
+  });
+
   // get a list of all stops in the system
-  app.get('/api/data/stops', function(req, res){
-    routeDataController.getStops(req, res);
+  app.get('/api/data/stops/list', function(req, res){
+    routeDataController.getStopsList(req, res);
   });
 
   app.get('/api/newdevice', function(req, res){
