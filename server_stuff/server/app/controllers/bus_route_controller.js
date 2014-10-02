@@ -434,15 +434,35 @@ module.exports = {
         now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
         User.findById(uid, function(err, user) {
             if(err) {
-                res.json({'err': err});
+                cb({'err': err});
+            } else if(user == null) {
+                cb({'err': 'user not found'});
             } else {
                 var searches = user.searches;
                 var mostRelevantSearches = [];
                 var maxNumOfSearchesToReturn = 10;
+
+                // step 1: add only searches that happened on this day of the week
                 for(var i = 0; i < searches.length; i++) {
                     var searchTime = new Date(searches[i].time);
+                    if(searchTime.getDay() == now.getDay()) {
+                        var toAdd = searches[i];
+                        toAdd.timeDifference = Math.abs((searchTime.getHours() - now.getHours()) * 60 + (searchTime.getMinutes() - now.getMinutes()));
+                        if(mostRelevantSearches.length < maxNumOfSearchesToReturn) {
+                            mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                        } else if(toAdd.timeDifference < mostRelevantSearches[mostRelevantSearches.length - 1].timeDifference) {
+                            mostRelevantSearches.pop();
+                            mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                        }
+                    }
+                }
+
+                // TODO step 2: if step 1 failed, let's search for places based on location
+
+                // step 3: if steps 1 & 2 failed, let's just give them the most recent searches
+                for(var i = 0; i < searches.length; i++) {
                     var toAdd = searches[i];
-                    toAdd.timeDifference = Math.abs((searchTime.getHours() - now.getHours()) * 60 + (searchTime.getMinutes() - now.getMinutes()));
+                    toAdd.timeDifference = toAdd.time * (-1);
                     if(mostRelevantSearches.length < maxNumOfSearchesToReturn) {
                         mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
                     } else if(toAdd.timeDifference < mostRelevantSearches[mostRelevantSearches.length - 1].timeDifference) {
@@ -450,6 +470,7 @@ module.exports = {
                         mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
                     }
                 }
+
                 var searchesFinished = 0;
                 var results = [];
                 for(var i = 0; i < mostRelevantSearches.length; i++) {
