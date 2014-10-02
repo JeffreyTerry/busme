@@ -63,6 +63,11 @@ module.exports = function(app, config){
     routeDataController.getRouteLatLngs('route' + req.params.route_num, res);
   });
 
+  // DEPRECATED get a dictionary of stops to [lat, lng]
+  app.get('/api/data/stops', function(req, res){
+    routeDataController.getStopsDictionary(req, res);
+  });
+
   // get a dictionary of stops to [lat, lng]
   app.get('/api/data/stops/dictionary/latlng', function(req, res){
     routeDataController.getStopsDictionary(req, res);
