@@ -393,13 +393,11 @@ module.exports = {
                             getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], timesToQuery[k], function(err, response){
                                 if(!err) {
                                     addRoutesIfRelevant(results, response);
-                                } else {
-                                    console.log(err);
                                 }
                                 numResultsReturned++;
                                 if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn * timesToQuery.length)) {
                                     if(results.length == 0){
-                                        cb({'err': err});
+                                        cb({'err': 'no routes found'});
                                     } else {
                                         console.log(uid, start_lat, start_lng, destination);
                                         if(!options || !options.hasOwnProperty('ignoreSearchInDatabase') || !options.ignoreSearchInDatabase) {
@@ -477,11 +475,13 @@ module.exports = {
                 var results = [];
                 for(var i = 0; i < mostRelevantSearches.length; i++) {
                     module.exports.fromCurrent(uid, mostRelevantSearches[i].startlat, mostRelevantSearches[i].startlng, mostRelevantSearches[i].destquery, function(err, response) {
+                        if(!err) {
+                            addRoutesIfRelevant(results, response);
+                        }
                         searchesFinished++;
-                        addRoutesIfRelevant(results, response);
                         if(searchesFinished >= mostRelevantSearches.length) {
                             if(results.length == 0){
-                                cb({'err': err});
+                                cb({'err': 'no routes found'});
                             } else {
                                 cb(undefined, results);
                             }
