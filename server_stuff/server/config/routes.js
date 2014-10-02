@@ -25,19 +25,37 @@ module.exports = function(app, config){
   // get fastest routes from current location to destination
   app.get('/api/routes/fromcurrent/:uid/:lat/:lng/:destination', function(req, res){
     req.params.destination = req.params.destination.replace('_', ' ');
-    busRouteController.fromCurrent(req.params.uid, req.params.lat, req.params.lng, req.params.destination, res);
+    busRouteController.fromCurrent(req.params.uid, req.params.lat, req.params.lng, req.params.destination, function(err, response){
+      if(err) {
+        res.json([err]);
+      } else {
+        res.json(response);
+      }
+    });
   });
 
   // get fastest routes from start to destination
   app.get('/api/routes/fromcustom/:uid/:start/:destination', function(req, res){
     req.params.start = req.params.start.replace('_', ' ');
     req.params.destination = req.params.destination.replace('_', ' ');
-    busRouteController.fromCustom(req.params.uid, req.params.start, req.params.destination, res);
+    busRouteController.fromCustom(req.params.uid, req.params.start, req.params.destination, function(err, response){
+      if(err) {
+        res.json([err]);
+      } else {
+        res.json(response);
+      }
+    });
   });
 
   // get user suggested routes
   app.get('/api/routes/default/:uid/:lat/:lng', function(req, res){
-    busRouteController.fromDefault(req.params.uid, req.params.lat, req.params.lng, res);
+    busRouteController.fromDefault(req.params.uid, req.params.lat, req.params.lng, function(err, response){
+      if(err) {
+        res.json([err]);
+      } else {
+        res.json(response);
+      }
+    });
   });
 
   // get a list of [lat, lng] pairs that trace out a given route

@@ -69,21 +69,21 @@ public class MainController extends BroadcastReceiver implements
 		v.setOnScrollListener(swipeDismisserListView.makeScrollListener());
 	}
 
-	public void resetLocationUpdateCount() {
+	private void resetLocationUpdateCount() {
 		numberOfLocationUpdates = 0;
 		startAlarmBroadcaster();
 	}
 
 	private void startAlarmBroadcaster() {
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		Intent i = new Intent(context, LocationTracker.class);
-		PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
-				context, ALARM_REQUEST_CODE, i,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-				+ LOCATION_UPDATE_FREQUENCY, LOCATION_UPDATE_FREQUENCY,
-				updateLocationIntent);
+//		AlarmManager am = (AlarmManager) context
+//				.getSystemService(Context.ALARM_SERVICE);
+//		Intent i = new Intent(context, LocationTracker.class);
+//		PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
+//				context, ALARM_REQUEST_CODE, i,
+//				PendingIntent.FLAG_CANCEL_CURRENT);
+//		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+//				+ LOCATION_UPDATE_FREQUENCY, LOCATION_UPDATE_FREQUENCY,
+//				updateLocationIntent);
 	}
 
 	private void stopAlarmBroadcaster() {
@@ -99,8 +99,6 @@ public class MainController extends BroadcastReceiver implements
 	private void createMainListViewAdapter() {
 		mainListViewAdapter = new MainListViewAdapter(context,
 				new ArrayList<MainListViewItem>());
-		fetchNewCards(MainModel.LOCATION_UNSPECIFIED,
-				MainModel.LOCATION_UNSPECIFIED);
 	}
 
 	public void fetchNewCards(String start, String dest) {

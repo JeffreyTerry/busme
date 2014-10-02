@@ -1,31 +1,16 @@
 package com.example.busme;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -42,7 +27,6 @@ public class MainActivity extends FragmentActivity {
 	private EditText etDestination, etStart;
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
 	private MainController mainController;
-	private static final String BASE_URL = "http://www.theseedok.com/api";
 	public static final String NULL_DEVICE_ID = "9876";
 
 	private ViewPager mViewPager;
@@ -71,6 +55,7 @@ public class MainActivity extends FragmentActivity {
 
 		// check to make sure our device id is valid
 		new Thread(new IdChecker()).start();
+		
 		// a holder id to make sure routes don't crash the app inadvertently before the CheckIdTask has finished executing
 		MainActivity.id = NULL_DEVICE_ID;
 	}
@@ -151,7 +136,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mainController.resetLocationUpdateCount();
+//		mainController.resetLocationUpdateCount();
 	}
 
 	public void showEtStart(View v) {
@@ -188,6 +173,7 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 		
+		@Override
 		public void run() {
 			try {
 				if (prefs.getString("id", "").contentEquals("")) {
@@ -201,7 +187,13 @@ public class MainActivity extends FragmentActivity {
 				Editor editor = prefs.edit();
 				editor.putString("id", MainActivity.id);
 				editor.commit();
+				
+				System.out.println("id: " + MainActivity.id);
+				// now that we've made sure our device id is valid, we get some default cards
+				mainController.fetchNewCards(MainModel.LOCATION_UNSPECIFIED,
+						MainModel.LOCATION_UNSPECIFIED);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
