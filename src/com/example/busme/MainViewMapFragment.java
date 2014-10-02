@@ -50,7 +50,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 		gmap = ((SupportMapFragment) this.getFragmentManager()
 				.findFragmentById(R.id.fgmapMain)).getMap();
-		gmap.setMyLocationEnabled(true);
+//		gmap.setMyLocationEnabled(true);
 
 		LocationManager locationManager = (LocationManager) this.getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);

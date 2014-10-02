@@ -4,7 +4,7 @@ var gm = require('googlemaps'),
     request = require('request'),
     _ = require('underscore'),
     arraysAreEqual = require('./lib').arraysAreEqual,
-    deviceController = require('./device_controller');
+    User = require('../models/device').model;
 
 // stopDictionary will look like {stop1name: [lat, lng], stop2name: [lat, lng], ...}
 var stopDictionary = {};
@@ -27,6 +27,18 @@ function loadData() {
         if(!err) {
             stopToTcatIdDictionary = JSON.parse(data);
         }
+    });
+}
+
+function saveSearch(uid, start_lat, start_lng, destination) {
+    var now = new Date();
+    now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
+    User.findByIdAndUpdate(uid, {$push: {searches: {
+        startlat: parseFloat(start_lat),
+        startlng: parseFloat(start_lng),
+        destquery: destination,
+        time: now.getTime()
+        }}}, function(err, res){
     });
 }
 
@@ -101,7 +113,22 @@ function addUnlessDuplicateRoute(existingRoutes, newRoutes) {
     return existingRoutes;
 }
 
-function insert_stop_in_back(list, stop, distance) {
+function insert_result_obj_in_back(list, result) {
+    list.push(result);
+    var temp;
+    for(var i = list.length - 2; i >= 0; i--) {
+        if(result.timeDifference < list[i].timeDifference) {
+            temp = list[i];
+            list[i] = list[i + 1];
+            list[i + 1] = temp;
+        } else {
+            break;
+        }
+    }
+    return list;
+}
+
+function insert_stop_array_in_back(list, stop, distance) {
     list.push([stop, distance]);
     var temp;
     for(var i = list.length - 2; i >= 0; i--) {
@@ -127,16 +154,16 @@ function findClosestStops(start_lat, start_lng, dest_lat, dest_lng, num_of_resul
         var distance_dest = distanceBetween(lat_lng[0], lat_lng[1], dest_lat, dest_lng);
         
         if(closest_stops_to_start.length < max_stop_count) {
-            closest_stops_to_start = insert_stop_in_back(closest_stops_to_start, stop, distance_start);
+            closest_stops_to_start = insert_stop_array_in_back(closest_stops_to_start, stop, distance_start);
         } else if(distance_start < closest_stops_to_start[closest_stops_to_start.length - 1][1]) {
             closest_stops_to_start.pop();
-            closest_stops_to_start = insert_stop_in_back(closest_stops_to_start, stop, distance_start);
+            closest_stops_to_start = insert_stop_array_in_back(closest_stops_to_start, stop, distance_start);
         }
         if(closest_stops_to_dest.length < max_stop_count) {
-            closest_stops_to_dest = insert_stop_in_back(closest_stops_to_dest, stop, distance_dest);
+            closest_stops_to_dest = insert_stop_array_in_back(closest_stops_to_dest, stop, distance_dest);
         } else if(distance_dest < closest_stops_to_dest[closest_stops_to_dest.length - 1][1]) {
             closest_stops_to_dest.pop();
-            closest_stops_to_dest = insert_stop_in_back(closest_stops_to_dest, stop, distance_dest);
+            closest_stops_to_dest = insert_stop_array_in_back(closest_stops_to_dest, stop, distance_dest);
         }
     }
     return [closest_stops_to_start, closest_stops_to_dest];
@@ -326,25 +353,38 @@ loadData();
 //         });
 //     });
 // }, 2000);
+
+
 module.exports = {
-    fromCurrent: function(uid, start_lat, start_lng, destination, res) {
+    // the options include {numberOfNearbyStopsToLookAt, numberOfTimesToQuery, ignoreSearchInDatabase}
+    fromCurrent: function(uid, start_lat, start_lng, destination, cb, options) {
+        if(!options) {
+            options = {};
+        }
         locations = getLatLngForSearchTerms(destination, function(err, response2){
             if(err) {
-                res.json([{'err': 'start address not found'}]);
+                cb({'err': 'start address not found'});
             } else {
                 dest_lat = response2.lat;
                 dest_lng = response2.lng;
                 var numOfResultsToReturn = 2;
+                if(options.hasOwnProperty('numberOfNearbyStopsToLookAt')) {
+                    numOfResultsToReturn = options.numberOfNearbyStopsToLookAt;
+                }
                 closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, numOfResultsToReturn);
                 var results = [];
                 var numResultsReturned = 0;
 
 
                 // this looks at routes up to 30 minutes in advance
+                var numberOfTimesToQuery = 4;
+                if(options.hasOwnProperty('numberOfTimesToQuery')) {
+                    numberOfTimesToQuery = options.numberOfTimesToQuery;
+                }
                 var timesToQuery = [];
                 var now = new Date();
                 var TEN_MINUTES = 10 * 60 * 1000;
-                for(var i = 0; i < 4; i++) {
+                for(var i = 0; i < numberOfTimesToQuery; i++) {
                     timesToQuery.push(new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)) + i * TEN_MINUTES));
                 }
                 for(var i = 0; i < numOfResultsToReturn; i++) {
@@ -359,10 +399,13 @@ module.exports = {
                                 numResultsReturned++;
                                 if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn * timesToQuery.length)) {
                                     if(results.length == 0){
-                                        res.json([{'err': err}]);
+                                        cb({'err': err});
                                     } else {
-                                        deviceController.saveSearch(uid, start_lat, start_lng, destination);
-                                        res.json(results);
+                                        console.log(uid, start_lat, start_lng, destination);
+                                        if(!options || !options.hasOwnProperty('ignoreSearchInDatabase') || !options.ignoreSearchInDatabase) {
+                                            saveSearch(uid, start_lat, start_lng, destination);
+                                        }
+                                        cb(undefined, results);
                                     }
                                 }
                             });
@@ -371,18 +414,59 @@ module.exports = {
                 }
             }
         });
-    }, fromCustom: function(uid, start, destination, res) {
+    }, fromCustom: function(uid, start, destination, cb, options) {
         getLatLngForSearchTerms(start, function(err, response){
             if(err) {
-                res.json([{'err': 'destination address not found'}]);
+                cb({'err': 'destination address not found'});
             } else {
                 start_lat = response.lat;
                 start_lng = response.lng;
-                module.exports.fromCurrent(uid, start_lat, start_lng, destination, res);
+                module.exports.fromCurrent(uid, start_lat, start_lng, destination, cb, options);
             }
         });
-    }, fromDefault: function(uid, lat, lng, res) {
-        deviceController.getDefaultCards(uid, lat, lng, res);
+    }, fromDefault: function(uid, lat, lng, cb, options) {
+        if(!options) {
+            options = {};
+        }
+        options.ignoreSearchInDatabase = true;
+        options.numberOfTimesToQuery = 1;
+        var now = new Date();
+        now = new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)));
+        User.findById(uid, function(err, user) {
+            if(err) {
+                res.json({'err': err});
+            } else {
+                var searches = user.searches;
+                var mostRelevantSearches = [];
+                var maxNumOfSearchesToReturn = 10;
+                for(var i = 0; i < searches.length; i++) {
+                    var searchTime = new Date(searches[i].time);
+                    var toAdd = searches[i];
+                    toAdd.timeDifference = Math.abs((searchTime.getHours() - now.getHours()) * 60 + (searchTime.getMinutes() - now.getMinutes()));
+                    if(mostRelevantSearches.length < maxNumOfSearchesToReturn) {
+                        mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                    } else if(toAdd.timeDifference < mostRelevantSearches[mostRelevantSearches.length - 1].timeDifference) {
+                        mostRelevantSearches.pop();
+                        mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                    }
+                }
+                var searchesFinished = 0;
+                var results = [];
+                for(var i = 0; i < mostRelevantSearches.length; i++) {
+                    module.exports.fromCurrent(uid, mostRelevantSearches[i].startlat, mostRelevantSearches[i].startlng, mostRelevantSearches[i].destquery, function(err, response) {
+                        searchesFinished++;
+                        addUnlessDuplicateRoute(results, response);
+                        if(searchesFinished >= mostRelevantSearches.length) {
+                            if(results.length == 0){
+                                cb({'err': err});
+                            } else {
+                                cb(undefined, results);
+                            }
+                        }
+                    }, options);
+                }
+            }
+        });
         // res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'route_numbers': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
