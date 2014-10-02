@@ -3,7 +3,8 @@ var gm = require('googlemaps'),
     http = require('http'),
     request = require('request'),
     _ = require('underscore'),
-    arraysAreEqual = require('./lib').arraysAreEqual;
+    arraysAreEqual = require('./lib').arraysAreEqual,
+    deviceController = require('./device_controller');
 
 // stopDictionary will look like {stop1name: [lat, lng], stop2name: [lat, lng], ...}
 var stopDictionary = {};
@@ -189,8 +190,8 @@ function getNextBusForStops(start, dest, time, cb) {
                     var nextBusDestinations = body.match(/<[^<]*<[^<]*Get off at[^<]*<a\shref="\/stops\/(\w)*">[^<]*<\/a>/g);
                     var nextBusTravelTimes = body.match(/[Ee]stimated\s*[Tt]rip\s*[Tt]ime:[\s\w]*/g);
                     if(nextBusStarts == null || nextBusDestinations == null || nextBusTravelTimes == null) {
-                        cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
-                        // cb({'err': 'no routes found'});
+                        // cb({'err': 'no routes found', 'nbs': nextBusStarts, 'nbds': nextBusDestinations, 'nbtts': nextBusTravelTimes, 'body': body, 'error': error});
+                        cb({'err': 'no routes found'});
                     } else {
                         var nextBusStart = nextBusStarts[0];
                         var nextBusDestination = nextBusDestinations[0];
@@ -360,6 +361,7 @@ module.exports = {
                                     if(results.length == 0){
                                         res.json([{'err': err}]);
                                     } else {
+                                        deviceController.saveSearch(uid, start_lat, start_lng, destination);
                                         res.json(results);
                                     }
                                 }
@@ -380,7 +382,8 @@ module.exports = {
             }
         });
     }, fromDefault: function(uid, lat, lng, res) {
-        res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'route_numbers': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
+        deviceController.getDefaultCards(uid, lat, lng, res);
+        // res.json([{'next_bus': '10:00 AM', 'travel_time': '420', 'route_number': '69', 'route_numbers': '69', 'start': 'Gates Hall', 'destination': 'Seneca Commons', 'start_lat': '42.4448765', 'start_lng': '-76.48081429999999', 'dest_lat': '42.4458765', 'dest_lng': '-76.48181429999999'}]);
     }, makeLocation: function(req, res) {
         console.log(req.body);
     }, test: function(varname, res) {

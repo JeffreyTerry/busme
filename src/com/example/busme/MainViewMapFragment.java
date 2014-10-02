@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -120,7 +121,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected void onPostExecute(HashMap<String, LatLng> result) {
 			super.onPostExecute(result);
-			if(result == null){
+			if (result == null) {
 				return;
 			}
 			for (String key : result.keySet()) {
@@ -128,32 +129,33 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 				MarkerOptions markerOptions = new MarkerOptions()
 						.position(new LatLng(result.get(key).latitude, result
 								.get(key).longitude));
+				// .icon(BitmapDescriptorFactory
+				// .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 				markerOptions.title(key);
 
 				gmap.addMarker(markerOptions);
 			}
 		}
-	}
+		private HashMap<String, LatLng> parseJSONObject(JSONObject dict) {
+			// list of LatLng of the selected route.
+			HashMap<String, LatLng> map = new HashMap<String, LatLng>();
+			if (dict != null) {
+				Iterator<?> keys = dict.keys();
 
-	private HashMap<String, LatLng> parseJSONObject(JSONObject dict) {
-		// list of LatLng of the selected route.
-		HashMap<String, LatLng> map = new HashMap<String, LatLng>();
-		if (dict != null) {
-			Iterator<?> keys = dict.keys();
-
-			while (keys.hasNext()) {
-				String key = (String) keys.next();
-				try {
-					JSONArray array = (JSONArray) dict.get(key);
-					LatLng stopLocation = new LatLng(array.getDouble(0),
-							array.getDouble(1));
-					map.put(key, stopLocation);
-				} catch (JSONException e) {
-					e.printStackTrace();
+				while (keys.hasNext()) {
+					String key = (String) keys.next();
+					try {
+						JSONArray array = (JSONArray) dict.get(key);
+						LatLng stopLocation = new LatLng(array.getDouble(0),
+								array.getDouble(1));
+						map.put(key, stopLocation);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
 				}
-			}
 
+			}
+			return map;
 		}
-		return map;
 	}
 }
