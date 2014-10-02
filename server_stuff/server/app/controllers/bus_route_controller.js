@@ -460,14 +460,16 @@ module.exports = {
                 // TODO step 2: if step 1 failed, let's search for places based on location
 
                 // step 3: if steps 1 & 2 failed, let's just give them the most recent searches
-                for(var i = 0; i < searches.length; i++) {
-                    var toAdd = searches[i];
-                    toAdd.timeDifference = toAdd.time * (-1);
-                    if(mostRelevantSearches.length < maxNumOfSearchesToReturn) {
-                        mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
-                    } else if(toAdd.timeDifference < mostRelevantSearches[mostRelevantSearches.length - 1].timeDifference) {
-                        mostRelevantSearches.pop();
-                        mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                if(mostRelevantSearches.length == 0) {
+                    for(var i = 0; i < searches.length; i++) {
+                        var toAdd = searches[i];
+                        toAdd.timeDifference = toAdd.time * (-1);
+                        if(mostRelevantSearches.length < maxNumOfSearchesToReturn) {
+                            mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                        } else if(toAdd.timeDifference < mostRelevantSearches[mostRelevantSearches.length - 1].timeDifference) {
+                            mostRelevantSearches.pop();
+                            mostRelevantSearches = insert_result_obj_in_back(mostRelevantSearches, toAdd);
+                        }
                     }
                 }
 
