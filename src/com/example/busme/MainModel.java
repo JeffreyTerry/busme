@@ -26,6 +26,7 @@ import android.widget.Toast;
 public class MainModel {
 	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
 	public static final String STOP_LOCATION_DATA_FILE = "stop_locations";
+	public static final String STOP_ID_DATA_FILE = "stop_ids";
 	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
 	private static final String BASE_URL = "http://www.theseedok.com/api";
@@ -167,7 +168,7 @@ public class MainModel {
 			try {
 				currentRoute = buses.getJSONObject(i);
 				if (currentRoute.has("err")) {
-//					Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); TODO test this
+//					Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); // TODO test this
 					return results;
 				}
 				results.add(new MainListViewItem(
