@@ -51,7 +51,11 @@ module.exports = function(app, config){
   });
 
   app.get('/api/newdevice', function(req, res){
-    deviceController.createNewDevice(req, res);
+    deviceController.createNewDevice(res);
+  });
+
+  app.get('/api/checkdeviceid/:uid', function(req, res){
+    deviceController.checkDeviceId(req.params.uid, res);
   });
 
   app.post('/api/buslocation/:lat/:lng', function(req, res){

@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
 	private MainController mainController;
 	private static final String BASE_URL = "http://www.theseedok.com/api";
+	public static final String NULL_DEVICE_ID = "9876";
 
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
@@ -67,13 +68,11 @@ public class MainActivity extends FragmentActivity {
 		// load shared preferences
 		prefs = this.getSharedPreferences("com.example.busme",
 				Context.MODE_PRIVATE);
-		
-		// if this is the first time firing the app
-		if (prefs.getString("id", "").contentEquals("")) {
-			new QueryTask().execute();
-		} else {
-			MainActivity.id = prefs.getString("id", "");
-		}
+
+		// check to make sure our device id is valid
+		new Thread(new IdChecker()).start();
+		// a holder id to make sure routes don't crash the app inadvertently before the CheckIdTask has finished executing
+		MainActivity.id = NULL_DEVICE_ID;
 	}
 
 	public static String getId() {
@@ -169,36 +168,40 @@ public class MainActivity extends FragmentActivity {
 	 * etDestination.getText().toString()); swipeLayout.setRefreshing(false); }
 	 */
 
-	private class QueryTask extends AsyncTask<String, Void, JSONObject> {
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-
-		@Override
-		protected JSONObject doInBackground(String... args) {
+	private class IdChecker implements Runnable {
+		private String getNewDeviceId() {
 			try {
-				JSONObject result = MainModel.getJSONObjectForURL("/newdevice");
-				return result;
-			} catch (Exception e) {
-				return null;
+				return MainModel.getJSONObjectForURL("/newdevice").getString("id");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return NULL_DEVICE_ID;
 			}
 		}
-
-		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
-			if (result != null) {
-				String uniqueID;
-				try {
-					uniqueID = result.getString("id");
-					Editor editor = prefs.edit();
-					editor.putString("id", uniqueID);
-					editor.commit();
-					MainActivity.id = uniqueID;
-				} catch (JSONException e) {
-					e.printStackTrace();
+		
+		private boolean idIsStillValid(String id) {
+			JSONObject result = MainModel.getJSONObjectForURL("/checkdeviceid/" + id);
+			try {
+				return result.getBoolean("valid");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public void run() {
+			try {
+				if (prefs.getString("id", "").contentEquals("")) {
+					MainActivity.id = getNewDeviceId();
+				} else {
+					MainActivity.id = prefs.getString("id", "");
+					if (!idIsStillValid(MainActivity.id)) {
+						MainActivity.id = getNewDeviceId();
+					}
 				}
+				Editor editor = prefs.edit();
+				editor.putString("id", MainActivity.id);
+				editor.commit();
+			} catch (Exception e) {
 			}
 		}
 	}

@@ -8,25 +8,25 @@ var config = {
   development: {
     root: rootPath,
     app: {
-      name: 'Jeffnet'
+      name: 'busme'
     },
     port: 3000,
-    db: 'mongodb://localhost/Jeffnet-development'
+    db: 'mongodb://localhost/busme-development'
   },
 
   test: {
     root: rootPath,
     app: {
-      name: 'Jeffnet'
+      name: 'busme'
     },
     port: 3000,
-    db: 'mongodb://localhost/Jeffnet-test'
+    db: 'mongodb://localhost/busme-test'
   },
 
   production: {
     root: rootPath,
     app: {
-      name: 'Jeffnet'
+      name: 'busme'
     },
     port: 3000,
     cred: {
@@ -37,7 +37,7 @@ var config = {
         ca: fs.readFileSync('/ssl/ca/ca.crt')
         */
     },
-    db: 'mongodb://localhost/Jeffnet-production'
+    db: 'mongodb://localhost/busme-production'
   }
 };
 
