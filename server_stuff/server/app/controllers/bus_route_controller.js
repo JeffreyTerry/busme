@@ -97,7 +97,7 @@ function getLatLngForSearchTerms(searchTerms, cb){
     }
 }
 
-function addUnlessDuplicateRoute(existingRoutes, newRoutes) {
+function addRoutesIfRelevant(existingRoutes, newRoutes) {
     var duplicate;
     for(var j = 0; j < newRoutes.length; j++) {
         duplicate = false;
@@ -106,7 +106,7 @@ function addUnlessDuplicateRoute(existingRoutes, newRoutes) {
                 duplicate = true;
             }
         }
-        if(!duplicate) {
+        if(!duplicate && newRoutes[j].travel_time < 90) {
             existingRoutes.push(newRoutes[j]);
         }
     }
@@ -392,7 +392,7 @@ module.exports = {
                         for(var k = 0; k < timesToQuery.length; k++) {
                             getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], timesToQuery[k], function(err, response){
                                 if(!err) {
-                                    addUnlessDuplicateRoute(results, response);
+                                    addRoutesIfRelevant(results, response);
                                 } else {
                                     console.log(err);
                                 }
@@ -476,7 +476,7 @@ module.exports = {
                 for(var i = 0; i < mostRelevantSearches.length; i++) {
                     module.exports.fromCurrent(uid, mostRelevantSearches[i].startlat, mostRelevantSearches[i].startlng, mostRelevantSearches[i].destquery, function(err, response) {
                         searchesFinished++;
-                        addUnlessDuplicateRoute(results, response);
+                        addRoutesIfRelevant(results, response);
                         if(searchesFinished >= mostRelevantSearches.length) {
                             if(results.length == 0){
                                 cb({'err': err});
