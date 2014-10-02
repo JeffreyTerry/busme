@@ -1,6 +1,7 @@
 package com.example.busme;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -22,13 +23,19 @@ import android.location.LocationManager;
 import android.util.Log;
 
 public class MainModel {
+	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
+	public static final String STOP_LOCATION_DATA_FILE = "stop_locations";
 	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
 	private static final String BASE_URL = "http://www.theseedok.com/api";
-	private Context c;
+	private static Context c;
 
 	public MainModel(Context c) {
-		this.c = c;
+		if (MainModel.c == null) {
+			MainModel.c = c;
+		} else {
+			Log.e("ERROR", "MainModel was instantiated twice");
+		}
 	}
 
 	/**
@@ -93,6 +100,36 @@ public class MainModel {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static void saveToFile(String data, String filename) {
+		try {
+			FileOutputStream fos = c.openFileOutput(filename,
+					Context.MODE_PRIVATE);
+			fos.write(data.getBytes());
+			fos.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public static String readFromFile(String filename) {
+		try {
+			BufferedReader bis = new BufferedReader(new InputStreamReader(
+					c.openFileInput(filename)));
+			String next;
+			String result = "";
+			while ((next = bis.readLine()) != null) {
+				result += next;
+			}
+			if(result.contentEquals("")) {
+				return null;
+			} else {
+				return result;
+			}
+		} catch (IOException e1) {
+			return null;
+		}
 	}
 
 	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,

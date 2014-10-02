@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.widget.TextView;
 
@@ -33,7 +35,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapActivity extends Activity implements LocationListener {
+public class ListItemDetailActivity extends Activity implements
+		LocationListener {
 	private static SparseIntArray routeColors;
 	private GoogleMap gmap;
 	private Bundle extras;
@@ -50,10 +53,11 @@ public class MapActivity extends Activity implements LocationListener {
 		markerPoints = new ArrayList<LatLng>();
 		initializeFonts();
 	}
-	
+
 	private void initializeRouteColors() {
 		routeColors = new SparseIntArray();
-		// routes [10, 11, 13, 14, 15, 17, 20, 21, 30, 31, 32, 36, 37, 40, 41, 43, 51, 52, 53, 65, 67, 70, 72, 75, 77, 81, 82, 83, 90, 92, 93]
+		// routes [10, 11, 13, 14, 15, 17, 20, 21, 30, 31, 32, 36, 37, 40, 41,
+		// 43, 51, 52, 53, 65, 67, 70, 72, 75, 77, 81, 82, 83, 90, 92, 93]
 		routeColors.put(10, Color.CYAN);
 		routeColors.put(11, Color.GREEN);
 		routeColors.put(13, Color.RED);
@@ -177,7 +181,7 @@ public class MapActivity extends Activity implements LocationListener {
 
 		// requests route data from server
 		int[] routeNumbers = extras.getIntArray("routeNumbers");
-		for(int i = 0; i < routeNumbers.length; i++) {
+		for (int i = 0; i < routeNumbers.length; i++) {
 			new QueryTask().execute(routeNumbers[i]);
 		}
 
@@ -229,20 +233,32 @@ public class MapActivity extends Activity implements LocationListener {
 
 	private class QueryTask extends AsyncTask<Integer, Void, ArrayList<LatLng>> {
 		private int routeNumber;
-		
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected ArrayList<LatLng> doInBackground(Integer...routeNumber) {
+		protected ArrayList<LatLng> doInBackground(Integer... routeNumber) {
 			this.routeNumber = routeNumber[0];
+
 			try {
-				routeCoordinates = MainModel.getJSONArrayForURL("/data/route/"
-						+ routeNumber[0]);
+				String routeData = MainModel
+						.readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber[0]);
+				if (routeData != null) {
+					routeCoordinates = new JSONArray(routeData);
+					Log.d("method", "already had stop data");
+				} else {
+					routeCoordinates = MainModel
+							.getJSONArrayForURL("/data/route/" + routeNumber[0]);
+					MainModel.saveToFile(routeCoordinates.toString(),
+							MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber[0]);
+					Log.d("method", "fetched new stop data");
+				}
 				return parseJSONArray(routeCoordinates);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
@@ -251,8 +267,9 @@ public class MapActivity extends Activity implements LocationListener {
 		protected void onPostExecute(ArrayList<LatLng> result) {
 			super.onPostExecute(result);
 			PolylineOptions plOptions;
-			if(routeColors.indexOfKey(routeNumber) >= 0) {
-				plOptions = new PolylineOptions().width(15).color(routeColors.get(routeNumber));
+			if (routeColors.indexOfKey(routeNumber) >= 0) {
+				plOptions = new PolylineOptions().width(15).color(
+						routeColors.get(routeNumber));
 			} else {
 				plOptions = new PolylineOptions().width(15).color(Color.WHITE);
 			}

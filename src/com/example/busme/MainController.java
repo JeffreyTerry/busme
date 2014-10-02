@@ -155,7 +155,7 @@ public class MainController extends BroadcastReceiver implements
 		if(item == MainListViewItem.NULL_ITEM) {
 			return;
 		}
-		Intent i = new Intent(context, MapActivity.class);
+		Intent i = new Intent(context, ListItemDetailActivity.class);
 		i.putExtra("time", item.getNextBusTime());
 		i.putExtra("start", item.getRouteStart());
 		i.putExtra("destination", item.getRouteDestination());
