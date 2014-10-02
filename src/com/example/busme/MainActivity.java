@@ -18,16 +18,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity {
+	public static final String NULL_DEVICE_ID = "9876";
+	private static String id;
 	private ListView mainListView;
 	private EditText etDestination, etStart;
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
 	private MainController mainController;
-	public static final String NULL_DEVICE_ID = "9876";
 
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
@@ -37,7 +39,6 @@ public class MainActivity extends FragmentActivity {
 	private Stack<Integer> pageHist;
 	private boolean saveToHistory;
 	private int currentPage;
-	private static String id;
 
 	private SwipeRefreshLayout swipeLayout;
 

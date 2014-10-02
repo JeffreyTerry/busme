@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -50,7 +50,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 		gmap = ((SupportMapFragment) this.getFragmentManager()
 				.findFragmentById(R.id.fgmapMain)).getMap();
-//		gmap.setMyLocationEnabled(true);
+		gmap.setMyLocationEnabled(true);
 
 		LocationManager locationManager = (LocationManager) this.getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);
@@ -110,7 +110,13 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected HashMap<String, LatLng> doInBackground(String... args) {
 			try {
-				routeCoordinates = MainModel.getJSONObjectForURL("/data/stops");
+				String stopData = MainModel.readFromFile(MainModel.STOP_LOCATION_DATA_FILE);
+				if(stopData != null) {
+					routeCoordinates = new JSONObject(stopData);
+				} else {
+					routeCoordinates = MainModel.getJSONObjectForURL("/data/stops");
+					MainModel.saveToFile(routeCoordinates.toString(), MainModel.STOP_LOCATION_DATA_FILE);
+				}
 				return parseJSONObject(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
