@@ -16,12 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -257,11 +255,22 @@ public class MainModel {
 	 * This generates a new set of cards and then sends them to the controller
 	 */
 	public static void generateDefaultCards() {
-		new CardGenerator().execute(LOCATION_UNSPECIFIED, LOCATION_UNSPECIFIED);
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				new CardGenerator().execute(LOCATION_UNSPECIFIED,
+						LOCATION_UNSPECIFIED);
+			}
+		});
 	}
 
 	public static void generateCardsForQuery(String start, String destination) {
-		new CardGenerator().execute(start, destination);
+		final String finalStart = start;
+		final String finalDestination = destination;
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				new CardGenerator().execute(finalStart, finalDestination);
+			}
+		});
 	}
 
 	private static class CardGenerator extends
@@ -295,7 +304,8 @@ public class MainModel {
 	private static class DeviceIdChecker implements Runnable {
 		private String getNewDeviceId() {
 			try {
-				return getJSONObjectForURL(BASE_URL + "/getdeviceid").getString("id");
+				return getJSONObjectForURL(BASE_URL + "/getdeviceid")
+						.getString("id");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return NULL_DEVICE_ID;
@@ -303,7 +313,8 @@ public class MainModel {
 		}
 
 		private boolean idIsStillValid(String id) {
-			JSONObject result = getJSONObjectForURL(BASE_URL + "/checkdeviceid/" + id);
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/checkdeviceid/" + id);
 			try {
 				return result.getBoolean("valid");
 			} catch (JSONException e) {
@@ -345,8 +356,8 @@ public class MainModel {
 		 * @return
 		 */
 		private boolean dataIsStillValid(String version) {
-			JSONObject result = getJSONObjectForURL(BASE_URL + "/checkdataversion/"
-					+ version);
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/checkdataversion/" + version);
 			try {
 				return result.getBoolean("valid");
 			} catch (JSONException e) {
@@ -356,7 +367,8 @@ public class MainModel {
 		}
 
 		private String getServerDataVersion() {
-			JSONObject result = getJSONObjectForURL(BASE_URL + "/getdataversion/");
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/getdataversion/");
 			try {
 				return result.getString("version");
 			} catch (JSONException e) {
