@@ -1,10 +1,7 @@
 package com.example.busme;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -18,7 +15,6 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +46,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 		gmap = ((SupportMapFragment) this.getFragmentManager()
 				.findFragmentById(R.id.fgmapMain)).getMap();
-		gmap.setMyLocationEnabled(true);
+//		gmap.setMyLocationEnabled(true);
 
 		LocationManager locationManager = (LocationManager) this.getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);
@@ -110,14 +106,15 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected HashMap<String, LatLng> doInBackground(String... args) {
 			try {
-				String stopData = MainModel.readFromFile(MainModel.STOP_LOCATION_DATA_FILE);
-				if(stopData != null) {
+				String stopData = MainModel.getStopToLatLngDictionaryData();
+				if (stopData != null) {
 					routeCoordinates = new JSONObject(stopData);
 				} else {
-					routeCoordinates = MainModel.getJSONObjectForURL("/data/stops");
-					MainModel.saveToFile(routeCoordinates.toString(), MainModel.STOP_LOCATION_DATA_FILE);
+					routeCoordinates = MainModel
+							.getJSONObjectForURL("/data/stops/dictionary/latlngs");
+					MainModel.saveStopToLatLngDictionaryData(routeCoordinates.toString());
 				}
-				return parseJSONObject(routeCoordinates);
+				return JSONConverter.convertStopLatLngsToHashMap(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -141,27 +138,6 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 				gmap.addMarker(markerOptions);
 			}
-		}
-		private HashMap<String, LatLng> parseJSONObject(JSONObject dict) {
-			// list of LatLng of the selected route.
-			HashMap<String, LatLng> map = new HashMap<String, LatLng>();
-			if (dict != null) {
-				Iterator<?> keys = dict.keys();
-
-				while (keys.hasNext()) {
-					String key = (String) keys.next();
-					try {
-						JSONArray array = (JSONArray) dict.get(key);
-						LatLng stopLocation = new LatLng(array.getDouble(0),
-								array.getDouble(1));
-						map.put(key, stopLocation);
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-
-			}
-			return map;
 		}
 	}
 }

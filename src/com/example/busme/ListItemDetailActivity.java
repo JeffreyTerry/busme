@@ -4,12 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -20,7 +17,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.widget.TextView;
 
@@ -194,25 +190,8 @@ public class ListItemDetailActivity extends Activity implements
 		CameraUpdate cu = CameraUpdateFactory
 				.newLatLngBounds(bounds, 20, 20, 5);
 		gmap.moveCamera(cu);
-		gmap.animateCamera(CameraUpdateFactory.zoomTo(14));
+		gmap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
-	}
-
-	private ArrayList<LatLng> parseJSONArray(JSONArray array) {
-		// list of LatLng of the selected route.
-		ArrayList<LatLng> list = new ArrayList<LatLng>();
-		if (array != null) {
-			for (int i = 0; i < array.length(); i++) {
-				try {
-					JSONArray innerArray = array.getJSONArray(i);
-					list.add(new LatLng(innerArray.getDouble(0), innerArray
-							.getDouble(1)));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
 	}
 
 	@Override
@@ -240,23 +219,18 @@ public class ListItemDetailActivity extends Activity implements
 		}
 
 		@Override
-		protected ArrayList<LatLng> doInBackground(Integer... routeNumber) {
-			this.routeNumber = routeNumber[0];
-
+		protected ArrayList<LatLng> doInBackground(Integer... routeNumbers) {
+			this.routeNumber = routeNumbers[0];
 			try {
-				String routeData = MainModel
-						.readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber[0]);
+				String routeData = MainModel.getRouteCoordinateData(routeNumber);
 				if (routeData != null) {
 					routeCoordinates = new JSONArray(routeData);
-					Log.d("method", "already had stop data");
 				} else {
 					routeCoordinates = MainModel
-							.getJSONArrayForURL("/data/route/" + routeNumber[0]);
-					MainModel.saveToFile(routeCoordinates.toString(),
-							MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber[0]);
-					Log.d("method", "fetched new stop data");
+							.getJSONArrayForURL("/data/route/" + routeNumber);
+					MainModel.saveRouteData(routeCoordinates.toString(), routeNumber);
 				}
-				return parseJSONArray(routeCoordinates);
+				return JSONConverter.convertRouteArrayToHashMap(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;

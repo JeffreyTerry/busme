@@ -3,8 +3,6 @@ package com.example.busme;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import android.util.Log;
-
 public class MainListViewItem {
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
 			"01:00 PM", "69", "nowhere", "nowhere", -1, -1, -1, -1, "0");

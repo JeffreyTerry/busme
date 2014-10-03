@@ -25,7 +25,7 @@ public class DirectionsJSONParser {
 
 			for (int i = 0; i < jRoutes.length(); i++) {
 				jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
-				List path = new ArrayList<HashMap<String, String>>();
+				ArrayList<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
 				for (int j = 0; j < jLegs.length(); j++) {
 					jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");

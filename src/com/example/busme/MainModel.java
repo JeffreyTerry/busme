@@ -17,27 +17,60 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class MainModel {
-	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
-	public static final String STOP_LOCATION_DATA_FILE = "stop_locations";
-	public static final String STOP_ID_DATA_FILE = "stop_ids";
+	public static final String NEW_CARDS_BROADCAST = "com.example.busme.newcards";
+	public static final String ERROR_EXTRA = "error";
+	public static final String CARD_ERROR_NO_ROUTES = "No routes found";
 	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
-	private static final String BASE_URL = "http://www.theseedok.com/api";
-	private static Context c;
+	public static final String BASE_URL = "http://www.theseedok.com/api";
+	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
 
-	public MainModel(Context c) {
-		if (MainModel.c == null) {
-			MainModel.c = c;
+	private static final String STOP_TO_LOCATION_DATA_FILE = "stop_locations";
+	private static final String STOP_TO_ID_DATA_FILE = "stop_ids";
+	private static final String NULL_DEVICE_ID = "9876";
+	private static final String NULL_DATA_VERSION = "-1";
+	private static String deviceId = NULL_DEVICE_ID;
+	private static String dataVersion = NULL_DATA_VERSION; // used to keep the
+															// app's data in
+															// sync with the
+															// server's data
+	private static Context context = null;
+	private static SharedPreferences sharedPreferences;
+	private static MainController mainController;
+
+	private MainModel() {
+	}
+
+	/**
+	 * This must be called before the model is used
+	 * 
+	 * @param c
+	 */
+	public static void initialize(Context c, MainController mc) {
+		if (context == null) {
+			context = c;
+			mainController = mc;
+			BusDataCollector.initialize(c);
 		} else {
 			Log.e("ERROR", "MainModel was instantiated twice");
 		}
+
+		// load shared preferences
+		sharedPreferences = context.getSharedPreferences("com.example.busme",
+				Context.MODE_PRIVATE);
+
+		// check to make sure our device id and stop data is valid
+		new Thread(new DeviceIdChecker()).start();
+		new Thread(new DataVersionChecker()).start();
 	}
 
 	/**
@@ -47,6 +80,9 @@ public class MainModel {
 	 * @return
 	 */
 	public static JSONObject getJSONObjectForURL(String apiURL) {
+		if (context == null) {
+			return null;
+		}
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(BASE_URL + apiURL);
@@ -104,9 +140,18 @@ public class MainModel {
 		return null;
 	}
 
+	/**
+	 * Save data to a private file
+	 * 
+	 * @param data
+	 * @param filename
+	 */
 	public static void saveToFile(String data, String filename) {
+		if (context == null) {
+			return;
+		}
 		try {
-			FileOutputStream fos = c.openFileOutput(filename,
+			FileOutputStream fos = context.openFileOutput(filename,
 					Context.MODE_PRIVATE);
 			fos.write(data.getBytes());
 			fos.close();
@@ -116,15 +161,18 @@ public class MainModel {
 	}
 
 	public static String readFromFile(String filename) {
+		if (context == null) {
+			return null;
+		}
 		try {
 			BufferedReader bis = new BufferedReader(new InputStreamReader(
-					c.openFileInput(filename)));
+					context.openFileInput(filename)));
 			String next;
 			String result = "";
 			while ((next = bis.readLine()) != null) {
 				result += next;
 			}
-			if(result.contentEquals("")) {
+			if (result.contentEquals("")) {
 				return null;
 			} else {
 				return result;
@@ -134,58 +182,218 @@ public class MainModel {
 		}
 	}
 
-	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,
-			String routeEnd) {
-		LocationManager locationManager = (LocationManager) c
-				.getSystemService(Context.LOCATION_SERVICE);
-		Criteria crit = new Criteria();
-		String provider = locationManager.getBestProvider(crit, true);
-		Location loc = locationManager.getLastKnownLocation(provider);
-
-		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-		JSONArray buses;
-		if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
-				&& routeEnd.contentEquals(LOCATION_UNSPECIFIED)) {
-			// This should query the database for the user's default suggestions
-			buses = getJSONArrayForURL("/routes/default/"
-					+ MainActivity.getId() + "/" + loc.getLatitude() + "/"
-					+ loc.getLongitude() + "/" + routeEnd.replace(" ", "_"));
-		} else if (routeStart.contentEquals(LOCATION_UNSPECIFIED)
-				|| routeStart.contentEquals(CURRENT_LOCATION)) {
-			buses = getJSONArrayForURL("/routes/fromcurrent/"
-					+ MainActivity.getId() + "/" + loc.getLatitude() + "/"
-					+ loc.getLongitude() + "/" + routeEnd.replace(" ", "_"));
+	public static String getRouteCoordinateData(int routeNumber) {
+		String data = readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
+				+ routeNumber);
+		if (data == null) {
+			return null;
 		} else {
-			// This should query the data base for suggestions based on a
-			// specified start and destination
-			buses = getJSONArrayForURL("/routes/fromcustom/"
-					+ MainActivity.getId() + "/" + routeStart.replace(" ", "_")
-					+ "/" + routeEnd.replace(" ", "_"));
+			return data;
+		}
+	}
+
+	public static void saveRouteData(String data, int routeNumber) {
+		MainModel.saveToFile(data, MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
+				+ routeNumber);
+	}
+
+	public static String getStopToLatLngDictionaryData() {
+		String data = readFromFile(STOP_TO_LOCATION_DATA_FILE);
+		if (data.contentEquals("")) {
+			return null;
+		} else {
+			return data;
+		}
+	}
+
+	public static void saveStopToLatLngDictionaryData(String data) {
+		MainModel.saveToFile(data, STOP_TO_LOCATION_DATA_FILE);
+	}
+
+	public static String getStopToTcatIdDictionaryData() {
+		String data = readFromFile(STOP_TO_ID_DATA_FILE);
+		if (data.contentEquals("")) {
+			return null;
+		} else {
+			return data;
+		}
+	}
+
+	public static void saveStopToTcatIdDictionaryData(String data) {
+		MainModel.saveToFile(data, STOP_TO_ID_DATA_FILE);
+	}
+
+	public static String getDeviceId() {
+		return deviceId;
+	}
+
+	// ////// CARD STUFF ///////
+	private static void sendCardsToController(ArrayList<MainListViewItem> cards) {
+		if (cards != null) {
+			sendCardsToController(cards, null);
+		} else {
+			sendCardsToController(cards, CARD_ERROR_NO_ROUTES);
+		}
+	}
+
+	/**
+	 * This method sends a JSONArray of cards to the controller
+	 * 
+	 * @param cardsJSON
+	 */
+	private static void sendCardsToController(
+			ArrayList<MainListViewItem> cards, String errorCode) {
+		if (mainController == null) {
+			return;
 		}
 
-		JSONObject currentRoute;
-		for (int i = 0; i < buses.length(); i++) {
-			try {
-				currentRoute = buses.getJSONObject(i);
-				if (currentRoute.has("err")) {
-//					Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); // TODO test this
-					return results;
-				}
-				results.add(new MainListViewItem(
-						currentRoute.getString("next_bus"),
-						currentRoute.getString("route_numbers"),
-						currentRoute.getString("start"),
-						currentRoute.getString("destination"),
-						Double.parseDouble(currentRoute.getString("start_lat")),
-						Double.parseDouble(currentRoute.getString("start_lng")),
-						Double.parseDouble(currentRoute.getString("dest_lat")),
-						Double.parseDouble(currentRoute.getString("dest_lng")),
-						currentRoute.getString("travel_time")));
-			} catch (JSONException e) {
-				e.printStackTrace();
+		if (errorCode == null) {
+			mainController.setCards(cards);
+		} else {
+			mainController.makeError(errorCode);
+		}
+	}
+
+	/**
+	 * This generates a new set of cards and then sends them to the controller
+	 */
+	public static void generateDefaultCards() {
+		new CardGenerator().execute(LOCATION_UNSPECIFIED, LOCATION_UNSPECIFIED);
+	}
+
+	public static void generateCardsForQuery(String start, String destination) {
+		new CardGenerator().execute(start, destination);
+	}
+
+	private static class CardGenerator extends
+			AsyncTask<String, Void, ArrayList<MainListViewItem>> {
+		@Override
+		protected void onPreExecute() {
+			mainController.setCardsLoading(true);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected ArrayList<MainListViewItem> doInBackground(
+				String... endpoints) {
+			if (endpoints.length == 2) {
+				return BusDataCollector.getCardsForQuery(endpoints[0],
+						endpoints[1]);
+			} else {
+				return null;
 			}
 		}
 
-		return results;
+		@Override
+		protected void onPostExecute(ArrayList<MainListViewItem> cards) {
+			System.out.println("HERE" + cards);
+			mainController.setCardsLoading(false);
+			sendCardsToController(cards);
+			super.onPostExecute(cards);
+		}
+	}
+
+	// ///////////// STARTUP CHECKS ////////////////
+	private static class DeviceIdChecker implements Runnable {
+		private String getNewDeviceId() {
+			try {
+				return getJSONObjectForURL("/getdeviceid").getString("id");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return NULL_DEVICE_ID;
+			}
+		}
+
+		private boolean idIsStillValid(String id) {
+			JSONObject result = getJSONObjectForURL("/checkdeviceid/" + id);
+			try {
+				return result.getBoolean("valid");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		@Override
+		public void run() {
+			try {
+				deviceId = sharedPreferences.getString("device_id", "");
+				if (deviceId.contentEquals("") || !idIsStillValid(deviceId)) {
+					deviceId = getNewDeviceId();
+					Editor editor = sharedPreferences.edit();
+					editor.putString("device_id", deviceId);
+					editor.commit();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static class DataVersionChecker implements Runnable {
+		private JSONObject getNewStopToLatLngDictionary() {
+			return getJSONObjectForURL("/data/stops/dictionary/ids");
+		}
+
+		private JSONObject getNewStopToTCATIdDictionary() {
+			return getJSONObjectForURL("/data/stops/dictionary/ids");
+		}
+
+		/**
+		 * Checks that we have the same data as the server
+		 * 
+		 * @param version
+		 *            The version string for our data
+		 * @return
+		 */
+		private boolean dataIsStillValid(String version) {
+			JSONObject result = getJSONObjectForURL("/checkdataversion/"
+					+ version);
+			try {
+				return result.getBoolean("valid");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		private String getServerDataVersion() {
+			JSONObject result = getJSONObjectForURL("/getdataversion/");
+			try {
+				return result.getString("version");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return NULL_DATA_VERSION;
+			}
+		}
+
+		@Override
+		public void run() {
+			try {
+				JSONObject stopToLatLngs = null, stopToTCATIds = null;
+				dataVersion = sharedPreferences.getString("data_version", "");
+				if (dataVersion.contentEquals("")
+						|| !dataIsStillValid(dataVersion)) {
+					stopToLatLngs = getNewStopToLatLngDictionary();
+					stopToTCATIds = getNewStopToTCATIdDictionary();
+					dataVersion = getServerDataVersion();
+
+					Editor editor = sharedPreferences.edit();
+					editor.putString("data_version", dataVersion);
+					editor.commit();
+
+					try {
+						saveStopToLatLngDictionaryData(stopToLatLngs.toString());
+						saveStopToTcatIdDictionaryData(stopToTCATIds.toString());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+				generateDefaultCards();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
