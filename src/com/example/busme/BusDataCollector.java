@@ -69,7 +69,7 @@ public class BusDataCollector {
 		if(routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 			if(routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab the user's default cards TODO
-				return null;
+				return getDefaultCardsFromBusMeServer();
 			} else {
 				// this should grab cards based on the current location
 				LocationManager locationManager = (LocationManager) context
@@ -83,7 +83,7 @@ public class BusDataCollector {
 					return null;
 				}
 				
-				return getCardsForLatLngs(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), endLatLng);
+				return getCardsForLatLngsFromTCAT(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), endLatLng);
 			}
 		} else if(routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 			// this should grab cards showing buses coming out of a single location TODO
@@ -98,7 +98,7 @@ public class BusDataCollector {
 				return null;
 			}
 
-			return getCardsForLatLngs(startLatLng, endLatLng);
+			return getCardsForLatLngsFromTCAT(startLatLng, endLatLng);
 		}
 	}
 	
@@ -202,12 +202,12 @@ public class BusDataCollector {
 	
 	
 	/**
-	 * This method queries the TCAT website and parses the response for route data
+	 * This method queries the TCAT website for multiple route options based on the start and end LatLngs
 	 * @param start
 	 * @param end
 	 * @return
 	 */
-	private static ArrayList<MainListViewItem> getCardsForLatLngs(LatLng start, LatLng end) {
+	private static ArrayList<MainListViewItem> getCardsForLatLngsFromTCAT(LatLng start, LatLng end) {
 		// step 1: get the stops to query for
 		ArrayList<String> closestStopsToStart = findClosestStopsToLatLng(start, NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT);
 		ArrayList<String> closestStopsToEnd = findClosestStopsToLatLng(end, NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT);
@@ -228,7 +228,7 @@ public class BusDataCollector {
         for(int i = 0; i < closestStopsToStart.size(); i++) {
             for(int j = 0; j < closestStopsToEnd.size(); j++) {
                 for(int k = 0; k < datesToQuery.length; k++) {
-                	currentCard = getCardForStops(closestStopsToStart.get(i), closestStopsToEnd.get(j), datesToQuery[k]);
+                	currentCard = getCardForStopsFromTCAT(closestStopsToStart.get(i), closestStopsToEnd.get(j), datesToQuery[k]);
                 	if(currentCard != null) {
                 		cardsToReturn.add(currentCard);
                 	}
@@ -245,7 +245,15 @@ public class BusDataCollector {
         }
 	}
 	
-	private static MainListViewItem getCardForStops(String start, String end, Calendar date) {
+	/**
+	 * This method queries the TCAT website and parses the response for route data
+	 * @param start
+	 * @param end
+	 * @param date
+	 * @return
+	 */
+	private static MainListViewItem getCardForStopsFromTCAT(String start, String end, Calendar date) {
+		// TODO query the TCAT server
 		return new MainListViewItem("01:30 PM", "69", "somewhere", "somewhere", -1, -1, -1, -1, "0");
 	}
 
@@ -253,66 +261,52 @@ public class BusDataCollector {
 	// String destination) {
 	// return null;
 	// }
-//
-//	@Deprecated
-//	public static ArrayList<MainListViewItem> getCardsForQuery(
-//			String routeStart, String routeEnd) {
-//		if (context == null) {
-//			return null;
-//		}
-//		LocationManager locationManager = (LocationManager) context
-//				.getSystemService(Context.LOCATION_SERVICE);
-//		Criteria crit = new Criteria();
-//		String provider = locationManager.getBestProvider(crit, true);
-//		Location loc = locationManager.getLastKnownLocation(provider);
-//
-//		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-//		JSONArray buses;
-//		if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)
-//				&& routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
-//			// This should query the database for the user's default suggestions
-//			buses = MainModel.getJSONArrayForURL("/routes/default/" + MainModel.getDeviceId() + "/"
-//					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-//					+ routeEnd.replace(" ", "_"));
-//		} else if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)
-//				|| routeStart.contentEquals(MainModel.CURRENT_LOCATION)) {
-//			buses = MainModel.getJSONArrayForURL("/routes/fromcurrent/" + MainModel.getDeviceId() + "/"
-//					+ loc.getLatitude() + "/" + loc.getLongitude() + "/"
-//					+ routeEnd.replace(" ", "_"));
-//		} else {
-//			// This should query the data base for suggestions based on a
-//			// specified start and destination
-//			buses = MainModel.getJSONArrayForURL("/routes/fromcustom/" + MainModel.getDeviceId() + "/"
-//					+ routeStart.replace(" ", "_") + "/"
-//					+ routeEnd.replace(" ", "_"));
-//		}
-//
-//		JSONObject currentRoute;
-//		for (int i = 0; i < buses.length(); i++) {
-//			try {
-//				currentRoute = buses.getJSONObject(i);
-//				if (currentRoute.has("err")) {
-//					// Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); //
-//					// test this
-//					return null;
-//				}
-//				results.add(new MainListViewItem(
-//						currentRoute.getString("next_bus"),
-//						currentRoute.getString("route_numbers"),
-//						currentRoute.getString("start"),
-//						currentRoute.getString("destination"),
-//						Double.parseDouble(currentRoute.getString("start_lat")),
-//						Double.parseDouble(currentRoute.getString("start_lng")),
-//						Double.parseDouble(currentRoute.getString("dest_lat")),
-//						Double.parseDouble(currentRoute.getString("dest_lng")),
-//						currentRoute.getString("travel_time")));
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		if(results.size() == 0){
-//			return null;
-//		}
-//		return results;
-//	}
+
+	@Deprecated
+	public static ArrayList<MainListViewItem> getDefaultCardsFromBusMeServer() {
+		if (context == null) {
+			return null;
+		}
+		LocationManager locationManager = (LocationManager) context
+				.getSystemService(Context.LOCATION_SERVICE);
+		Criteria crit = new Criteria();
+		String provider = locationManager.getBestProvider(crit, true);
+		Location loc = locationManager.getLastKnownLocation(provider);
+
+		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
+		// This should query the database for the user's default suggestions
+		JSONArray buses = MainModel.getJSONArrayForURL(MainModel.BASE_URL + "/routes/default/" + MainModel.getDeviceId() + "/"
+				+ loc.getLatitude() + "/" + loc.getLongitude() + "/");
+
+		if(buses == null){
+			return null;
+		}
+		JSONObject currentRoute;
+		for (int i = 0; i < buses.length(); i++) {
+			try {
+				currentRoute = buses.getJSONObject(i);
+				if (currentRoute.has("err")) {
+					// Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); //
+					// test this
+					return null;
+				}
+				results.add(new MainListViewItem(
+						currentRoute.getString("next_bus"),
+						currentRoute.getString("route_numbers"),
+						currentRoute.getString("start"),
+						currentRoute.getString("destination"),
+						Double.parseDouble(currentRoute.getString("start_lat")),
+						Double.parseDouble(currentRoute.getString("start_lng")),
+						Double.parseDouble(currentRoute.getString("dest_lat")),
+						Double.parseDouble(currentRoute.getString("dest_lng")),
+						currentRoute.getString("travel_time")));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		if(results.size() == 0){
+			return null;
+		}
+		return results;
+	}
 }
