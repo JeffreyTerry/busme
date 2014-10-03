@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.PriorityQueue;
@@ -64,6 +65,7 @@ public class BusDataCollector {
 		if(context == null) {
 			return null;
 		}
+		Log.d("route", routeStart + ", " + routeEnd);
 		if(routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 			if(routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab the user's default cards TODO
@@ -87,14 +89,15 @@ public class BusDataCollector {
 			// this should grab cards showing buses coming out of a single location TODO
 			return null;
 		} else {
+			Log.d("yolo", "yolocrackers");
 			// this should grab cards based on a start and an end location
-			LatLng startLatLng = getGeocodedLatLng(routeStart);
-			LatLng endLatLng = getGeocodedLatLng(routeEnd);
+			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
+			LatLng endLatLng = getLatLngForSearchTerms(routeEnd);
 			
 			if(startLatLng == null || endLatLng == null) {
 				return null;
 			}
-			
+
 			return getCardsForLatLngs(startLatLng, endLatLng);
 		}
 	}
@@ -205,10 +208,11 @@ public class BusDataCollector {
 	 * @return
 	 */
 	private static ArrayList<MainListViewItem> getCardsForLatLngs(LatLng start, LatLng end) {
-		// TODO
+		// step 1: get the stops to query for
 		ArrayList<String> closestStopsToStart = findClosestStopsToLatLng(start, NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT);
 		ArrayList<String> closestStopsToEnd = findClosestStopsToLatLng(end, NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT);
 
+		// step 2: get the dates to query for
 		TimeZone easternTime = TimeZone.getTimeZone("GMT-4:00");
 		Calendar now = Calendar.getInstance(easternTime);
 		Calendar[] datesToQuery = new Calendar[NUMBER_OF_FUTURE_DATES_TO_QUERY];
@@ -218,54 +222,32 @@ public class BusDataCollector {
 			now.roll(Calendar.SECOND, gapBetweenDates);
 		}
 		
-		/**
-		var numOfResultsToReturn = 2;
-        if(options.hasOwnProperty('numberOfNearbyStopsToLookAt')) {
-            numOfResultsToReturn = options.numberOfNearbyStopsToLookAt;
-        }
-        closest_stops = findClosestStops(start_lat, start_lng, dest_lat, dest_lng, numOfResultsToReturn);
-        var results = [];
-        var numResultsReturned = 0;
-        // this looks at routes up to 30 minutes in advance
-        var numberOfTimesToQuery = 4;
-        if(options.hasOwnProperty('numberOfTimesToQuery')) {
-            numberOfTimesToQuery = options.numberOfTimesToQuery;
-        }
-        
-        var timesToQuery = [];
-        var now = new Date();
-        var TEN_MINUTES = 10 * 60 * 1000;
-        for(var i = 0; i < numberOfTimesToQuery; i++) {
-            timesToQuery.push(new Date(now.getTime() + ((now.getTimezoneOffset() * 60 * 1000) - (240 * 60 * 1000)) + i * TEN_MINUTES));
-        }
-        for(var i = 0; i < numOfResultsToReturn; i++) {
-            for(var j = 0; j < numOfResultsToReturn; j++) {
-                for(var k = 0; k < timesToQuery.length; k++) {
-                    getNextBusForStops(closest_stops[0][i][0], closest_stops[1][j][0], timesToQuery[k], function(err, response){
-                        if(!err) {
-                            addRoutesIfRelevant(results, response);
-                        }
-                        numResultsReturned++;
-                        if(numResultsReturned == (numOfResultsToReturn * numOfResultsToReturn * timesToQuery.length)) {
-                            if(results.length == 0){
-                                cb({'err': 'no routes found'});
-                            } else {
-                                console.log(uid, start_lat, start_lng, destination);
-                                if(!options || !options.hasOwnProperty('ignoreSearchInDatabase') || !options.ignoreSearchInDatabase) {
-                                    saveSearch(uid, start_lat, start_lng, destination);
-                                }
-                                cb(undefined, results);
-                            }
-                        }
-                    });
+		// step 3: make the queries
+		MainListViewItem currentCard;
+		HashSet<MainListViewItem> cardsToReturn = new HashSet<MainListViewItem>();
+        for(int i = 0; i < closestStopsToStart.size(); i++) {
+            for(int j = 0; j < closestStopsToEnd.size(); j++) {
+                for(int k = 0; k < datesToQuery.length; k++) {
+                	currentCard = getCardForStops(closestStopsToStart.get(i), closestStopsToEnd.get(j), datesToQuery[k]);
+                	if(currentCard != null) {
+                		cardsToReturn.add(currentCard);
+                	}
                 }
             }
         }
-    }**/
-		
-		return null;
+        
+        // step 4: return the cards and save the search to the user history on the server
+        if(cardsToReturn.size() == 0) {
+        	return null;
+        } else {
+        	// TODO save this search to the server
+        	return new ArrayList<MainListViewItem>(cardsToReturn);
+        }
 	}
 	
+	private static MainListViewItem getCardForStops(String start, String end, Calendar date) {
+		return new MainListViewItem("01:30 PM", "69", "somewhere", "somewhere", -1, -1, -1, -1, "0");
+	}
 
 	// public static ArrayList<MainListViewItem> getCardsForQuery(String start,
 	// String destination) {

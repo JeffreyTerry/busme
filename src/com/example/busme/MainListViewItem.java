@@ -116,4 +116,35 @@ public class MainListViewItem {
 	public String getTravelTime() {
 		return travel_time;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof MainListViewItem)) {
+			return false;
+		}
+		
+		MainListViewItem otherItem = (MainListViewItem) o;
+		if(routeNumbers.length != otherItem.routeNumbers.length) {
+			return false;
+		}
+		boolean routeNumbersAreEqual = true;
+		for(int i = 0; i < routeNumbers.length; i++){
+			if(routeNumbers[i] != otherItem.routeNumbers[i]){
+				routeNumbersAreEqual = false;
+			}
+		}
+		return nextBusTimeString.contentEquals(otherItem.nextBusTimeString) && routeNumbersAreEqual;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 31 * result + nextBusTimeString.hashCode();
+		for(int i = 0; i < routeNumbers.length; i++) {
+			result = 31 * result + routeNumbers[i];
+		}
+		return result;
+	}
+	
+	
 }
