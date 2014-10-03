@@ -227,7 +227,7 @@ public class ListItemDetailActivity extends Activity implements
 					routeCoordinates = new JSONArray(routeData);
 				} else {
 					routeCoordinates = MainModel
-							.getJSONArrayForURL("/data/route/" + routeNumber);
+							.getJSONArrayForURL(MainModel.BASE_URL + "/data/route/" + routeNumber);
 					MainModel.saveRouteData(routeCoordinates.toString(), routeNumber);
 				}
 				return JSONConverter.convertRouteArrayToHashMap(routeCoordinates);
