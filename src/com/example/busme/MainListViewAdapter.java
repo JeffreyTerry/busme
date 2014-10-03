@@ -139,7 +139,6 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 	}
 
 	public void setLoading(boolean loading) {
-		System.out.println(this.loading + ", " + loading);
 		if(loading){
 			items.clear();
 			addPaddingItems();

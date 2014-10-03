@@ -19,9 +19,6 @@ import org.json.JSONTokener;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -286,7 +283,6 @@ public class MainModel {
 
 		@Override
 		protected void onPostExecute(ArrayList<MainListViewItem> cards) {
-			System.out.println("HERE" + cards);
 			mainController.setCardsLoading(false);
 			sendCardsToController(cards);
 			super.onPostExecute(cards);
@@ -332,7 +328,7 @@ public class MainModel {
 
 	private static class DataVersionChecker implements Runnable {
 		private JSONObject getNewStopToLatLngDictionary() {
-			return getJSONObjectForURL("/data/stops/dictionary/ids");
+			return getJSONObjectForURL("/data/stops/dictionary/latlngs");
 		}
 
 		private JSONObject getNewStopToTCATIdDictionary() {
@@ -372,6 +368,7 @@ public class MainModel {
 			try {
 				JSONObject stopToLatLngs = null, stopToTCATIds = null;
 				dataVersion = sharedPreferences.getString("data_version", "");
+				dataVersion = "-1";
 				if (dataVersion.contentEquals("")
 						|| !dataIsStillValid(dataVersion)) {
 					stopToLatLngs = getNewStopToLatLngDictionary();
@@ -389,7 +386,6 @@ public class MainModel {
 						e.printStackTrace();
 					}
 				}
-
 				generateDefaultCards();
 			} catch (Exception e) {
 				e.printStackTrace();

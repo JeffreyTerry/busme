@@ -178,7 +178,6 @@ public class MainController implements
 	}
 	
 	public void setCards(ArrayList<MainListViewItem> cards) {
-		System.out.println("Received cards");
 		mainListViewAdapter.clear();
 		mainListViewAdapter.addAll(cards);
 	}
