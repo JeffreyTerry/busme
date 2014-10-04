@@ -46,7 +46,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 		gmap = ((SupportMapFragment) this.getFragmentManager()
 				.findFragmentById(R.id.fgmapMain)).getMap();
-//		gmap.setMyLocationEnabled(true);
+		// gmap.setMyLocationEnabled(true);
 
 		LocationManager locationManager = (LocationManager) this.getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);
@@ -111,10 +111,13 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 					routeCoordinates = new JSONObject(stopData);
 				} else {
 					routeCoordinates = MainModel
-							.getJSONObjectForURL("/data/stops/dictionary/latlngs");
-					MainModel.saveStopToLatLngDictionaryData(routeCoordinates.toString());
+							.getJSONObjectForURL(MainModel.BASE_URL
+									+ "/data/stops/dictionary/latlngs");
+					MainModel.saveStopToLatLngDictionaryData(routeCoordinates
+							.toString());
 				}
-				return JSONConverter.convertStopLatLngsToHashMap(routeCoordinates);
+				return JSONConverter
+						.convertStopLatLngsToHashMap(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;

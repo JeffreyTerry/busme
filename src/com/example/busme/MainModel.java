@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -26,7 +27,6 @@ public class MainModel {
 	public static final String NEW_CARDS_BROADCAST = "com.example.busme.newcards";
 	public static final String ERROR_EXTRA = "error";
 	public static final String CARD_ERROR_NO_ROUTES = "No routes found";
-	public static final String CURRENT_LOCATION = "";
 	public static final String LOCATION_UNSPECIFIED = "";
 	public static final String BASE_URL = "http://www.theseedok.com/api";
 	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";
@@ -76,13 +76,13 @@ public class MainModel {
 	 * @param apiURL
 	 * @return
 	 */
-	public static JSONObject getJSONObjectForURL(String apiURL) {
+	public static JSONObject getJSONObjectForURL(String url) {
 		if (context == null) {
 			return null;
 		}
 		try {
 			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(BASE_URL + apiURL);
+			HttpGet request = new HttpGet(url);
 			HttpResponse response = client.execute(request);
 
 			// Get the response
@@ -111,10 +111,10 @@ public class MainModel {
 	 * @param apiURL
 	 * @return
 	 */
-	public static JSONArray getJSONArrayForURL(String apiURL) {
+	public static JSONArray getJSONArrayForURL(String url) {
 		try {
 			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(BASE_URL + apiURL);
+			HttpGet request = new HttpGet(url);
 			HttpResponse response = client.execute(request);
 
 			// Get the response
@@ -255,11 +255,22 @@ public class MainModel {
 	 * This generates a new set of cards and then sends them to the controller
 	 */
 	public static void generateDefaultCards() {
-		new CardGenerator().execute(LOCATION_UNSPECIFIED, LOCATION_UNSPECIFIED);
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				new CardGenerator().execute(LOCATION_UNSPECIFIED,
+						LOCATION_UNSPECIFIED);
+			}
+		});
 	}
 
 	public static void generateCardsForQuery(String start, String destination) {
-		new CardGenerator().execute(start, destination);
+		final String finalStart = start;
+		final String finalDestination = destination;
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				new CardGenerator().execute(finalStart, finalDestination);
+			}
+		});
 	}
 
 	private static class CardGenerator extends
@@ -293,7 +304,8 @@ public class MainModel {
 	private static class DeviceIdChecker implements Runnable {
 		private String getNewDeviceId() {
 			try {
-				return getJSONObjectForURL("/getdeviceid").getString("id");
+				return getJSONObjectForURL(BASE_URL + "/getdeviceid")
+						.getString("id");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return NULL_DEVICE_ID;
@@ -301,7 +313,8 @@ public class MainModel {
 		}
 
 		private boolean idIsStillValid(String id) {
-			JSONObject result = getJSONObjectForURL("/checkdeviceid/" + id);
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/checkdeviceid/" + id);
 			try {
 				return result.getBoolean("valid");
 			} catch (JSONException e) {
@@ -328,11 +341,11 @@ public class MainModel {
 
 	private static class DataVersionChecker implements Runnable {
 		private JSONObject getNewStopToLatLngDictionary() {
-			return getJSONObjectForURL("/data/stops/dictionary/latlngs");
+			return getJSONObjectForURL(BASE_URL + "/data/stops/dictionary/latlngs");
 		}
 
 		private JSONObject getNewStopToTCATIdDictionary() {
-			return getJSONObjectForURL("/data/stops/dictionary/ids");
+			return getJSONObjectForURL(BASE_URL + "/data/stops/dictionary/ids");
 		}
 
 		/**
@@ -343,8 +356,8 @@ public class MainModel {
 		 * @return
 		 */
 		private boolean dataIsStillValid(String version) {
-			JSONObject result = getJSONObjectForURL("/checkdataversion/"
-					+ version);
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/checkdataversion/" + version);
 			try {
 				return result.getBoolean("valid");
 			} catch (JSONException e) {
@@ -354,7 +367,8 @@ public class MainModel {
 		}
 
 		private String getServerDataVersion() {
-			JSONObject result = getJSONObjectForURL("/getdataversion/");
+			JSONObject result = getJSONObjectForURL(BASE_URL
+					+ "/getdataversion/");
 			try {
 				return result.getString("version");
 			} catch (JSONException e) {
