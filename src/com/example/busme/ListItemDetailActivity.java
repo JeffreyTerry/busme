@@ -178,7 +178,7 @@ public class ListItemDetailActivity extends Activity implements
 		// requests route data from server
 		int[] routeNumbers = extras.getIntArray("routeNumbers");
 		for (int i = 0; i < routeNumbers.length; i++) {
-			new QueryTask().execute(routeNumbers[i]);
+			new GetRouteDataTask().execute(routeNumbers[i]);
 		}
 
 		LatLngBounds.Builder b = new LatLngBounds.Builder();
@@ -210,7 +210,7 @@ public class ListItemDetailActivity extends Activity implements
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
-	private class QueryTask extends AsyncTask<Integer, Void, ArrayList<LatLng>> {
+	private class GetRouteDataTask extends AsyncTask<Integer, Void, ArrayList<LatLng>> {
 		private int routeNumber;
 
 		@Override
@@ -227,7 +227,7 @@ public class ListItemDetailActivity extends Activity implements
 					routeCoordinates = new JSONArray(routeData);
 				} else {
 					routeCoordinates = MainModel
-							.getJSONArrayForURL("/data/route/" + routeNumber);
+							.getJSONArrayForURL(MainModel.BASE_URL + "/data/route/" + routeNumber);
 					MainModel.saveRouteData(routeCoordinates.toString(), routeNumber);
 				}
 				return JSONConverter.convertRouteArrayToHashMap(routeCoordinates);
@@ -240,6 +240,9 @@ public class ListItemDetailActivity extends Activity implements
 		@Override
 		protected void onPostExecute(ArrayList<LatLng> result) {
 			super.onPostExecute(result);
+			if(result == null) {
+				return;
+			}
 			PolylineOptions plOptions;
 			if (routeColors.indexOfKey(routeNumber) >= 0) {
 				plOptions = new PolylineOptions().width(15).color(
