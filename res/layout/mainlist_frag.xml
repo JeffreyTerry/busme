@@ -63,7 +63,7 @@
             android:drawablePadding="15dp"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:hint="Where are you going?"
+            android:hint="Anywhere"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:nextFocusDown="@+id/lvMain"

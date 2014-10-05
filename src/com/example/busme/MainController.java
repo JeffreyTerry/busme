@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -85,7 +84,6 @@ public class MainController implements OnEditorActionListener,
 			swipeDismisserListView.onTouch(v, event);
 		case MotionEvent.ACTION_UP:
 			swipeDismisserListView.onTouch(v, event);
-			v.performClick();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (event.getX() > x1) {
@@ -252,11 +250,11 @@ public class MainController implements OnEditorActionListener,
 			} else {
 				if(initializeStopData()){
 					if(stopToTcatIds.containsKey(cardToRemove.getRouteStart()) && stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
-						BusDataHandler.removeStartEndQueryFromDatabase(cardToRemove.getRouteStart(), cardToRemove.getRouteDestination());
+						BusDataController.removeStartEndQueryFromDatabase(cardToRemove.getRouteStart(), cardToRemove.getRouteDestination());
 					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteStart())) {
-						BusDataHandler.removeStartQueryFromDatabase(cardToRemove.getRouteStart());
+						BusDataController.removeStartQueryFromDatabase(cardToRemove.getRouteStart());
 					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
-						BusDataHandler.removeEndQueryFromDatabase(cardToRemove.getRouteDestination());
+						BusDataController.removeEndQueryFromDatabase(cardToRemove.getRouteDestination());
 					}
 				}
 			}

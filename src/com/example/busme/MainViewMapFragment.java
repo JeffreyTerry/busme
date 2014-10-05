@@ -1,5 +1,6 @@
 package com.example.busme;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 
 	GoogleMap gmap;
 	FragmentTransaction fragmentTransaction;
-	private JSONObject routeCoordinates;
+	private JSONObject stopCoordinates;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -43,26 +44,8 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 	}
 
 	private void initializeMap() {
-
 		gmap = ((SupportMapFragment) this.getFragmentManager()
 				.findFragmentById(R.id.fgmapMain)).getMap();
-		// gmap.setMyLocationEnabled(true);
-
-		LocationManager locationManager = (LocationManager) this.getActivity()
-				.getSystemService(Context.LOCATION_SERVICE);
-		Criteria crit = new Criteria();
-		crit.setAccuracy(Criteria.ACCURACY_FINE);
-		String provider = locationManager.getBestProvider(crit, true);
-		Location location = locationManager.getLastKnownLocation(provider);
-
-		if (location != null) {
-			onLocationChanged(location);
-		}
-		locationManager.requestSingleUpdate(provider, this,
-				Looper.getMainLooper());
-
-		new QueryTask().execute();
-
 	}
 
 	@Override
@@ -89,35 +72,76 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		gmap.setMyLocationEnabled(true);
+		initializeStopCoordinates();
+		updateLocation();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		gmap.setMyLocationEnabled(false);
 	}
 
-	private class QueryTask extends
-			AsyncTask<String, Void, HashMap<String, LatLng>> {
+	public void initializeStopCoordinates() {
+		if (stopCoordinates == null) {
+			new LoadStopCoordinatesTask().execute();
+		}
+	}
+
+	public void updateLocation() {
+		LocationManager locationManager = (LocationManager) MainViewMapFragment.this
+				.getActivity().getSystemService(Context.LOCATION_SERVICE);
+		Criteria crit = new Criteria();
+		crit.setAccuracy(Criteria.ACCURACY_FINE);
+		String provider = locationManager.getBestProvider(crit, true);
+		Location location = locationManager.getLastKnownLocation(provider);
+
+		if (location != null) {
+			onLocationChanged(location);
+		}
+		locationManager.requestSingleUpdate(provider,
+				MainViewMapFragment.this, Looper.getMainLooper());
+	}
+
+	private class LoadStopCoordinatesTask extends
+			AsyncTask<String, Void, ArrayList<MarkerOptions>> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected HashMap<String, LatLng> doInBackground(String... args) {
+		protected ArrayList<MarkerOptions> doInBackground(String... args) {
 			try {
 				String stopData = MainModel.getStopToLatLngDictionaryData();
 				if (stopData != null) {
-					routeCoordinates = new JSONObject(stopData);
+					stopCoordinates = new JSONObject(stopData);
 				} else {
-					routeCoordinates = MainModel
+					stopCoordinates = MainModel
 							.getJSONObjectForURL(MainModel.BASE_URL
 									+ "/data/stops/dictionary/latlngs");
-					MainModel.saveStopToLatLngDictionaryData(routeCoordinates
+					MainModel.saveStopToLatLngDictionaryData(stopCoordinates
 							.toString());
 				}
-				return JSONConverter
-						.convertStopLatLngsToHashMap(routeCoordinates);
+				HashMap<String, LatLng> result = JSONConverter
+						.convertStopLatLngsToHashMap(stopCoordinates);
+				if (result == null) {
+					return null;
+				}
+				ArrayList<String> stopNames = new ArrayList<String>(result.keySet());
+				MarkerOptions nextMarkerOptions;
+				ArrayList<MarkerOptions> allMarkerOptions = new ArrayList<MarkerOptions>();
+				for (int i = 0; i < stopNames.size(); i++) {
+					nextMarkerOptions = new MarkerOptions();
+					nextMarkerOptions.position(new LatLng(result.get(stopNames.get(i)).latitude,
+							result.get(stopNames.get(i)).longitude));
+					// .icon(BitmapDescriptorFactory
+					// .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+					nextMarkerOptions.title(stopNames.get(i));
+					allMarkerOptions.add(nextMarkerOptions);
+				}
+				return allMarkerOptions;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -125,21 +149,14 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		}
 
 		@Override
-		protected void onPostExecute(HashMap<String, LatLng> result) {
+		protected void onPostExecute(ArrayList<MarkerOptions> result) {
 			super.onPostExecute(result);
-			if (result == null) {
+			if(result == null) {
 				return;
-			}
-			for (String key : result.keySet()) {
-				// adding the initial marker
-				MarkerOptions markerOptions = new MarkerOptions()
-						.position(new LatLng(result.get(key).latitude, result
-								.get(key).longitude));
-				// .icon(BitmapDescriptorFactory
-				// .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-				markerOptions.title(key);
-
-				gmap.addMarker(markerOptions);
+			} else {
+				for(int i = 0; i < result.size(); i++){
+					gmap.addMarker(result.get(i));
+				}
 			}
 		}
 	}

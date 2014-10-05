@@ -48,7 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
  * @author jterry
  * 
  */
-public class BusDataHandler {
+public class BusDataController {
 	private static final int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 1; // 2
 	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 1; // 4 TODO
 																	// there's
@@ -63,7 +63,7 @@ public class BusDataHandler {
 	private static HashMap<String, LatLng> stopToLatLngs = null;
 	private static HashMap<String, String> stopToTcatIds = null;
 
-	private BusDataHandler() {
+	private BusDataController() {
 	}
 
 	public static void initialize(Context c) {
@@ -74,7 +74,6 @@ public class BusDataHandler {
 			} else {
 				geocoder = null;
 			}
-			initializeStopData();
 			mainDatabaseController = new MainDatabaseController(context);
 		} else {
 			Log.e("ERROR", "MainModel was initialized twice");
@@ -182,6 +181,9 @@ public class BusDataHandler {
 					return null;
 				}
 
+				Log.d("currentlatlng", currentLatLng.toString());
+				Log.d("endlatlng", endLatLng.toString());
+				
 				return getCardsForLatLngsFromTCATServer(
 						new LatLng(currentLocation.getLatitude(),
 								currentLocation.getLongitude()), endLatLng);
@@ -345,7 +347,6 @@ public class BusDataHandler {
 		ArrayList<MainListViewItem> nextResults = new ArrayList<MainListViewItem>();
 		for (int i = 0; i < relevantSearches.size(); i++) {
 			nextSearch = relevantSearches.get(i);
-			Log.d("next search", nextSearch[0] + ", " + nextSearch[1]);
 			if (nextSearch[0].contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
 						nextSearch[1]);
@@ -847,29 +848,60 @@ public class BusDataHandler {
 			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
 		}
 
+		String[] blacklist = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+		int indexToRemove, numberOfCharactersToRemove;
+		String directionLowercase;
+		for(int j = 0; j < directionsUnstripped.size(); j++) {
+			indexToRemove = -1;
+			numberOfCharactersToRemove = 0;
+			directionLowercase = directionsUnstripped.get(j).toLowerCase(Locale.US);
+			for(int i = 0; i < blacklist.length; i++) {
+				indexToRemove = directionLowercase.indexOf((blacklist[i]));
+				if(indexToRemove != -1) {
+					numberOfCharactersToRemove = blacklist[i].length();
+					break;
+				}
+			}
+			if(indexToRemove != -1) {
+				int offsetForSpace = 0;
+				if(directionsUnstripped.get(j).length() > indexToRemove + numberOfCharactersToRemove) {
+					offsetForSpace = 1;
+				}
+				directionsUnstripped.set(j, directionsUnstripped.get(j).substring(0, indexToRemove) + directionsUnstripped.get(j).substring(indexToRemove + numberOfCharactersToRemove + offsetForSpace));
+			}
+		}
+		String[] blacklist2 = {"bound"};
+		for(int j = 0; j < directionsUnstripped.size(); j++) {
+			indexToRemove = -1;
+			numberOfCharactersToRemove = 0;
+			directionLowercase = directionsUnstripped.get(j).toLowerCase(Locale.US);
+			for(int i = 0; i < blacklist2.length; i++) {
+				indexToRemove = directionLowercase.indexOf((blacklist2[i]));
+				
+				// this makes sure we don't remove standalone words
+				if(indexToRemove != 0 && indexToRemove != 1) {
+					if(directionLowercase.charAt(indexToRemove - 1) == ' '){
+						indexToRemove = -1;
+					}
+				}
+				
+				if(indexToRemove != -1) {
+					numberOfCharactersToRemove = blacklist2[i].length();
+					break;
+				}
+			}
+			Log.d("stuff", indexToRemove + ", " + numberOfCharactersToRemove + directionLowercase);
+			if(indexToRemove != -1) {
+				directionsUnstripped.set(j, directionsUnstripped.get(j).substring(0, indexToRemove) + directionsUnstripped.get(j).substring(indexToRemove + numberOfCharactersToRemove));
+			}
+			
+		}
+
 		String result = "";
 		for (int i = 0; i < directionsUnstripped.size(); i++) {
 			if (directionsUnstripped.get(i).length() > 9) {
 				result += directionsUnstripped.get(i).substring(9) + ",";
 			}
-		}
-		
-		String[] blacklist = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
-		int indexToRemove = -1, numberOfCharactersToRemove = 0;
-		String resultLowercase = result.toLowerCase(Locale.US);
-		for(int i = 0; i < blacklist.length; i++) {
-			indexToRemove = resultLowercase.indexOf((blacklist[i]));
-			if(indexToRemove != -1) {
-				numberOfCharactersToRemove = blacklist[i].length();
-				break;
-			}
-		}
-		if(indexToRemove != -1) {
-			int offsetForSpace = 0;
-			if(result.length() > indexToRemove + numberOfCharactersToRemove) {
-				offsetForSpace = 1;
-			}
-			result = result.substring(0, indexToRemove) + result.substring(indexToRemove + numberOfCharactersToRemove + offsetForSpace);
 		}
 		
 		return result.substring(0, result.length() - 1);
