@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,20 +16,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity {
+	private SwipeRefreshLayout swipeLayout;
 	private ListView mainListView;
 	private EditText etDestination, etStart;
 	private View shadowExpanded, shadowRetracted, mainEtDivider;
-	private MainController mainController;
-
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
-	public static FragmentManager fragmentManager;
+	private MainController mainController;
 
 	private Stack<Integer> pageHist;
 	private boolean saveToHistory;
 	private int currentPage;
 
-	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +58,6 @@ public class MainActivity extends FragmentActivity {
 		// swipeLayout = (SwipeRefreshLayout)
 		// findViewById(R.id.swipe_container);
 		// swipeLayout.setOnRefreshListener(this);
-
-		// Map fragment
-		fragmentManager = this.getSupportFragmentManager();
 
 		// Page changer
 		pageHist = new Stack<Integer>();
