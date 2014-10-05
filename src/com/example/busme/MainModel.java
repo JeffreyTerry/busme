@@ -273,8 +273,12 @@ public class MainModel {
 			if (endpoints.length == 2) {
 				ArrayList<MainListViewItem> cards = BusDataController.getCardsForQuery(endpoints[0],
 						endpoints[1]);
-				Collections.sort(cards, MainListViewItem.DEFAULT_COMPARATOR);
-				return cards;
+				if(cards == null) {
+					return null;
+				} else {
+					Collections.sort(cards, MainListViewItem.DEFAULT_COMPARATOR);
+					return cards;
+				}
 			} else {
 				return null;
 			}
