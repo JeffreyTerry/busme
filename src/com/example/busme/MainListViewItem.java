@@ -1,9 +1,25 @@
 package com.example.busme;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.TimeZone;
 
 public class MainListViewItem {
+	public static final Comparator<MainListViewItem> DEFAULT_COMPARATOR = new Comparator<MainListViewItem>(){
+		@Override
+		public int compare(MainListViewItem first, MainListViewItem second) {
+			if(first == MainListViewItem.NULL_ITEM) {
+				return -1;
+			} else if(second == MainListViewItem.NULL_ITEM) {
+				return 1;
+			}
+			int minutesUntilNextBusFirst = (int) first.getMinutesUntilNextBus();
+			int minutesUntilNextBusSecond = (int) second.getMinutesUntilNextBus();
+			int travelTimeFirst = Integer.parseInt(first.getTravelTime());
+			int travelTimeSecond = Integer.parseInt(second.getTravelTime());
+			return (minutesUntilNextBusFirst + travelTimeFirst) - (minutesUntilNextBusSecond + travelTimeSecond);
+		}
+	};
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
 			"01:00 PM", "169", "nowhere", "nowhere", -1, -1, -1, -1, "0");
 	public static final MainListViewItem NO_ROUTE_FOUND_ERROR_ITEM = new MainListViewItem(

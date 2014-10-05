@@ -10,8 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MainDatabaseController {
-	public static final String NULL_START_QUERY = "sdf9832f",
-			NULL_END_QUERY = "sdf9832e";
+	public static final String NULL_QUERY = "sdf9832e";
 
 	private static final String KEY_ROWID = "_id";
 	private static final String KEY_SEARCH_START_QUERY = "start_query";
@@ -65,11 +64,11 @@ public class MainDatabaseController {
 	}
 
 	public long addStartSearch(String start) {
-		return addStartEndSearch(start, null);
+		return addStartEndSearch(start, NULL_QUERY);
 	}
 
 	public long addEndSearch(String end) {
-		return addStartEndSearch(null, end);
+		return addStartEndSearch(NULL_QUERY, end);
 	}
 
 	public long addStartEndSearch(String start, String end) {
@@ -87,16 +86,8 @@ public class MainDatabaseController {
 
 		// then add the new query
 		ContentValues cv = new ContentValues();
-		if (start != null) {
-			cv.put(KEY_SEARCH_START_QUERY, start);
-		} else {
-			cv.put(KEY_SEARCH_START_QUERY, NULL_START_QUERY);
-		}
-		if (end != null) {
-			cv.put(KEY_SEARCH_END_QUERY, end);
-		} else {
-			cv.put(KEY_SEARCH_END_QUERY, NULL_END_QUERY);
-		}
+		cv.put(KEY_SEARCH_START_QUERY, start);
+		cv.put(KEY_SEARCH_END_QUERY, end);
 		return localDatabase.insert(DATABASE_TABLE, null, cv);
 	}
 
@@ -112,8 +103,8 @@ public class MainDatabaseController {
 
 	public void deleteStartEndSearch(String start, String end)
 			throws SQLException {
-		localDatabase.delete(DATABASE_TABLE, KEY_SEARCH_START_QUERY + "="
-				+ start + " AND " + KEY_SEARCH_END_QUERY + "=" + end, null);
+		localDatabase.delete(DATABASE_TABLE, KEY_SEARCH_START_QUERY + "='"
+				+ start + "' AND " + KEY_SEARCH_END_QUERY + "='" + end + "'", null);
 	}
 
 	/**
