@@ -525,7 +525,7 @@ public class BusDataCollector {
 				String built = str.toString();
 
 				Pattern resultSectionPattern = Pattern
-						.compile("Route[\\s\\S]*Scheduled\\s*Arrival[\\s\\S]*<\\/tr>");
+						.compile("(leftColSub)[\\s\\S]*(rightColSub)");
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
 				if (!resultSectionMatcher.find()) {
