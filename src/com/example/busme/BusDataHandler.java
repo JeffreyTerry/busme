@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -40,15 +41,23 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class BusDataCollector {
-	private static Context context;
-	private static Geocoder geocoder;
-	private static HashMap<String, LatLng> stopToLatLngs = null;
-	private static HashMap<String, String> stopToTcatIds = null;
+/**
+ * This class handles all interactions with the TCAT server.
+ * 
+ * @author jterry
+ * 
+ */
+public class BusDataHandler {
 	private static final int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 1; // 2
 	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 3; // 4
+	private static Context context;
+	private static MainDatabaseController mainDatabaseController;
+	private static Geocoder geocoder;
+	private static LatLng currentLatLng;
+	private static HashMap<String, LatLng> stopToLatLngs = null;
+	private static HashMap<String, String> stopToTcatIds = null;
 
-	private BusDataCollector() {
+	private BusDataHandler() {
 	}
 
 	public static void initialize(Context c) {
@@ -59,18 +68,40 @@ public class BusDataCollector {
 			} else {
 				geocoder = null;
 			}
-			try {
-				stopToLatLngs = JSONConverter
-						.convertStopLatLngsToHashMap(new JSONObject(MainModel
-								.getStopToLatLngDictionaryData()));
-				stopToTcatIds = JSONConverter
-						.convertStopIdsToHashMap(new JSONObject(MainModel
-								.getStopToTcatIdDictionaryData()));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			initializeStopData();
+			mainDatabaseController = new MainDatabaseController(context);
 		} else {
 			Log.e("ERROR", "MainModel was initialized twice");
+		}
+	}
+
+	private static boolean initializeStopData() {
+		if (stopToLatLngs != null && stopToTcatIds != null) {
+			return true;
+		}
+		try {
+			String stopToLatLngDictionaryData = MainModel
+					.getStopToLatLngDictionaryData();
+			if (stopToLatLngDictionaryData != null) {
+				stopToLatLngs = JSONConverter
+						.convertStopLatLngsToHashMap(new JSONObject(
+								stopToLatLngDictionaryData));
+			}
+
+			String stopToTcatIdDictionaryData = MainModel
+					.getStopToTcatIdDictionaryData();
+			if (stopToTcatIdDictionaryData != null) {
+				stopToTcatIds = JSONConverter
+						.convertStopIdsToHashMap(new JSONObject(
+								stopToTcatIdDictionaryData));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if (stopToLatLngs != null && stopToTcatIds != null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -78,7 +109,7 @@ public class BusDataCollector {
 	 * This returns a set of cards for different user queries. It should never
 	 * be called on the Main UI thread.
 	 * 
-	 * @param routeStart
+	 * @param routeStartx
 	 *            A string query for the route's starting point. Can be an
 	 *            address, a place in Ithaca, or a bus stop name. If the start
 	 *            is equal to MainModel.LOCATION_UNSPECIFIED, the user's current
@@ -98,11 +129,16 @@ public class BusDataCollector {
 		if (context == null) {
 			return null;
 		}
+		if(!initializeStopData()) {
+			ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
+			results.add(MainListViewItem.STOP_DATA_MISSING_ERROR_ITEM);
+			return results;
+		}
 		if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 			if (routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab the user's default cards from TCAT's
-				// servers, not BusMe's servers TODO
-				return getDefaultCardsFromBusMeServer();
+				// servers
+				return getDefaultCardsFromTCATServer();
 			} else {
 				// this should grab cards based on the current location
 				LocationManager locationManager = (LocationManager) context
@@ -111,6 +147,9 @@ public class BusDataCollector {
 				String provider = locationManager.getBestProvider(crit, true);
 				Location currentLocation = locationManager
 						.getLastKnownLocation(provider);
+
+				currentLatLng = new LatLng(currentLocation.getLatitude(),
+						currentLocation.getLongitude());
 
 				LatLng endLatLng = getLatLngForSearchTerms(routeEnd);
 				if (endLatLng == null) {
@@ -252,6 +291,57 @@ public class BusDataCollector {
 		}
 	}
 
+	private static ArrayList<MainListViewItem> getDefaultCardsFromTCATServer() {
+		if (context == null) {
+			return null;
+		}
+
+		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
+		ArrayList<String[]> relevantSearches;
+		try {
+			mainDatabaseController.open();
+			relevantSearches = mainDatabaseController
+					.getRelevantSearchData();
+			mainDatabaseController.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			mainDatabaseController.close();
+		}
+
+		while (relevantSearches.size() > 5) {
+			relevantSearches.remove(relevantSearches.size() - 1);
+		}
+
+		String[] nextSearch;
+		ArrayList<MainListViewItem> nextResults = new ArrayList<MainListViewItem>();
+		for (int i = 0; i < relevantSearches.size(); i++) {
+			nextSearch = relevantSearches.get(i);
+			if (nextSearch[0] == MainDatabaseController.NULL_START_QUERY) {
+				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED, nextSearch[1]);
+				if(nextResults != null) {
+					results.addAll(nextResults);
+				}
+			} else if (nextSearch[1] == MainDatabaseController.NULL_END_QUERY) {
+				nextResults = getCardsForQuery(nextSearch[0], MainModel.LOCATION_UNSPECIFIED);
+				if(nextResults != null) {
+					results.addAll(nextResults);
+				}
+			} else if(nextSearch[0] != MainDatabaseController.NULL_START_QUERY && nextSearch[1] != MainDatabaseController.NULL_END_QUERY) {
+				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1]);
+				if(nextResults != null) {
+					results.addAll(nextResults);
+				}
+			}
+		}
+
+		if (results.size() == 0) {
+			return null;
+		}
+		return results;
+	}
+
 	/**
 	 * This method queries the TCAT website for multiple route options based on
 	 * the start and end LatLngs
@@ -300,7 +390,12 @@ public class BusDataCollector {
 			return null;
 		} else {
 			now = Calendar.getInstance(easternTime);
-			saveQueryToDatabase(start, end, now);
+			if (start == currentLatLng) {
+				saveEndQueryToDatabase(closestStopsToEnd.get(0));
+			} else {
+				saveStartEndQueryToDatabase(closestStopsToStart.get(0),
+						closestStopsToEnd.get(0));
+			}
 			return new ArrayList<MainListViewItem>(cardsToReturn);
 		}
 	}
@@ -388,7 +483,6 @@ public class BusDataCollector {
 				Log.d("built -- query",
 						start + ", " + end + ", " + date.get(Calendar.MINUTE));
 				if (!resultSectionMatcher.find()) {
-					System.out.println(built);
 					return null;
 				} else {
 					try {
@@ -477,7 +571,7 @@ public class BusDataCollector {
 		if (cardsToReturn.size() == 0) {
 			return null;
 		} else {
-			saveQueryToDatabase(start);
+			saveStartQueryToDatabase(closestStopsToStart.get(0));
 			return new ArrayList<MainListViewItem>(cardsToReturn);
 		}
 	}
@@ -529,7 +623,6 @@ public class BusDataCollector {
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
 				if (!resultSectionMatcher.find()) {
-					System.out.println(built);
 					return null;
 				} else {
 					try {
@@ -540,21 +633,22 @@ public class BusDataCollector {
 								"</strong>");
 						responseBody = responseBody.replaceAll(":<\\/b>",
 								"</b>");
-						
+
 						String nextBusRouteStartTimes = getNextBusRouteStartTimes(responseBody);
 						String nextBusRouteNumbers = getNextBusRouteNumbers(responseBody);
 						String nextBusRouteDirections = getNextBusRouteDirections(responseBody);
 
 						LatLng nextBusStartLatLng = stopToLatLngs.get(start);
 
-						String[] nextStartTimes = nextBusRouteStartTimes.split(",");
+						String[] nextStartTimes = nextBusRouteStartTimes
+								.split(",");
 						String[] nextNumbers = nextBusRouteNumbers.split(",");
-						String[] nextDirections = nextBusRouteDirections.split(",");
+						String[] nextDirections = nextBusRouteDirections
+								.split(",");
 						ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-						for(int i = 0; i < nextStartTimes.length; i++) {
+						for (int i = 0; i < nextStartTimes.length; i++) {
 							results.add(new MainListViewItem(nextStartTimes[i],
-									nextNumbers[i], start,
-									nextDirections[i],
+									nextNumbers[i], start, nextDirections[i],
 									nextBusStartLatLng.latitude,
 									nextBusStartLatLng.longitude,
 									nextBusStartLatLng.latitude,
@@ -578,6 +672,188 @@ public class BusDataCollector {
 		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 		results.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
 		return results;
+	}
+
+	private static String getNextBusStartName(String nextBusStartBody) {
+		Pattern nextBusStartNamePattern = Pattern
+				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
+		Matcher nextBusStartNameMatcher = nextBusStartNamePattern
+				.matcher(nextBusStartBody);
+		nextBusStartNameMatcher.find();
+		String nextBusStartNameUnstripped = nextBusStartNameMatcher.group(0);
+
+		Pattern nextBusStartNameStripperPattern = Pattern
+				.compile(">[(\\S)(\\s)]*<");
+		Matcher nextBusStartNameStripperMatcher = nextBusStartNameStripperPattern
+				.matcher(nextBusStartNameUnstripped);
+		nextBusStartNameStripperMatcher.find();
+		nextBusStartNameUnstripped = nextBusStartNameStripperMatcher.group(0);
+		return nextBusStartNameUnstripped.substring(1,
+				nextBusStartNameUnstripped.length() - 1);
+	}
+
+	private static String getNextBusEndName(String nextBusEndBody) {
+		Pattern nextBusEndNamePattern = Pattern
+				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
+		Matcher nextBusEndNameMatcher = nextBusEndNamePattern
+				.matcher(nextBusEndBody);
+		nextBusEndNameMatcher.find();
+		String nextBusEndNameUnstripped = nextBusEndNameMatcher.group(0);
+
+		Pattern nextBusEndNameStripperPattern = Pattern
+				.compile(">[(\\S)(\\s)]*<");
+		Matcher nextBusEndNameStripperMatcher = nextBusEndNameStripperPattern
+				.matcher(nextBusEndNameUnstripped);
+		nextBusEndNameStripperMatcher.find();
+		nextBusEndNameUnstripped = nextBusEndNameStripperMatcher.group(0);
+		return nextBusEndNameUnstripped.substring(1,
+				nextBusEndNameUnstripped.length() - 1);
+	}
+
+	private static String getNextBusStartTime(String nextBusStartBody) {
+		Pattern getNextBusStartTimePattern = Pattern
+				.compile("(\\d)*:(\\d)*((\\s)*)+((\\bAM\\b)|(\\bPM\\b))");
+		Matcher getNextBusStartTimeMatcher = getNextBusStartTimePattern
+				.matcher(nextBusStartBody);
+		getNextBusStartTimeMatcher.find();
+		String startTime = getNextBusStartTimeMatcher.group(0);
+		if (startTime.indexOf(':') <= 1) {
+			startTime = "0" + startTime;
+		}
+		return startTime;
+	}
+
+	private static String getNextBusRouteNumbers(String nextBusStartBody) {
+		Pattern getNextBusRouteNumbersPattern = Pattern
+				.compile("(Route)(\\s)*(\\d)(\\d)*");
+		Matcher getNextBusRouteNumbersMatcher = getNextBusRouteNumbersPattern
+				.matcher(nextBusStartBody);
+		ArrayList<String> numbersUnstripped = new ArrayList<String>();
+		while (getNextBusRouteNumbersMatcher.find()) {
+			numbersUnstripped.add(getNextBusRouteNumbersMatcher.group(0));
+		}
+
+		Pattern nextBusRouteNumbersStripperPattern = Pattern.compile("(\\d)*$");
+		Matcher nextBusRouteNumbersStripperMatcher;
+		String result = "";
+		for (int i = 0; i < numbersUnstripped.size(); i++) {
+			nextBusRouteNumbersStripperMatcher = nextBusRouteNumbersStripperPattern
+					.matcher(numbersUnstripped.get(i));
+			nextBusRouteNumbersStripperMatcher.find();
+			result += nextBusRouteNumbersStripperMatcher.group(0) + ",";
+		}
+		return result.substring(0, result.length() - 1);
+	}
+
+	private static String getNextBusTravelTime(String travelTime) {
+		Pattern hoursPattern = Pattern.compile("\\d*\\s*hour");
+		Matcher nextBusTravelStartHoursMatcher = hoursPattern
+				.matcher(travelTime);
+		int hours = 0;
+		if (nextBusTravelStartHoursMatcher.find()) {
+			String nextBusTravelStartHours = nextBusTravelStartHoursMatcher
+					.group(0);
+			hours = Integer.parseInt(nextBusTravelStartHours);
+		}
+
+		Pattern minutesPattern = Pattern.compile("\\d*\\s*minutes");
+		Matcher nextBusTravelStartMinutesMatcher = minutesPattern
+				.matcher(travelTime);
+		nextBusTravelStartMinutesMatcher.find();
+		String nextBusTravelStartMinutesUnstripped = nextBusTravelStartMinutesMatcher
+				.group(0);
+		Pattern minutesStripperPattern = Pattern.compile("\\d*");
+		Matcher nextBusTravelStartMinutesStripperMatcher = minutesStripperPattern
+				.matcher(nextBusTravelStartMinutesUnstripped);
+		nextBusTravelStartMinutesStripperMatcher.find();
+		String nextBusTravelStartMinutes = nextBusTravelStartMinutesStripperMatcher
+				.group(0);
+
+		int minutes = Integer.parseInt(nextBusTravelStartMinutes);
+		return "" + (minutes + hours * 60);
+	}
+
+	private static String getNextBusRouteStartTimes(String nextBusStartBody) {
+		Pattern getNextBusRouteStartTimesPattern = Pattern
+				.compile("(\\d)+:\\d\\d\\s*[(PM)|(AM)]*");
+		Matcher getNextBusRouteStartTimesMatcher = getNextBusRouteStartTimesPattern
+				.matcher(nextBusStartBody);
+		ArrayList<String> startTimesUnpadded = new ArrayList<String>();
+		while (getNextBusRouteStartTimesMatcher.find()) {
+			startTimesUnpadded.add(getNextBusRouteStartTimesMatcher.group(0));
+		}
+
+		String result = "";
+		String toAdd = "";
+		for (int i = 0; i < startTimesUnpadded.size(); i++) {
+			if (startTimesUnpadded.get(i).indexOf(":") == 1) {
+				toAdd = "0" + startTimesUnpadded.get(i);
+				if (toAdd.indexOf("AM") == 5 || toAdd.indexOf("PM") == 5) {
+					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
+				}
+			} else {
+				if (toAdd.indexOf("AM") == 5 || toAdd.indexOf("PM") == 5) {
+					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
+				}
+			}
+			result += toAdd + ",";
+		}
+		return result.substring(0, result.length() - 1);
+	}
+
+	private static String getNextBusRouteDirections(String nextBusStartBody) {
+		Pattern getNextBusRouteDirectionsPattern = Pattern
+				.compile("(Route)(\\s)*(\\d)(\\d)*[^<]*");
+		Matcher getNextBusRouteDirectionsMatcher = getNextBusRouteDirectionsPattern
+				.matcher(nextBusStartBody);
+		ArrayList<String> directionsUnstripped = new ArrayList<String>();
+		while (getNextBusRouteDirectionsMatcher.find()) {
+			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
+		}
+
+		String result = "";
+		for (int i = 0; i < directionsUnstripped.size(); i++) {
+			if (directionsUnstripped.get(i).length() > 9) {
+				result += directionsUnstripped.get(i).substring(9) + ",";
+			}
+		}
+		return result.substring(0, result.length() - 1);
+	}
+
+	private static void saveStartQueryToDatabase(String start) {
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.addStartSearch(start);
+			mainDatabaseController.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
+	}
+
+	private static void saveEndQueryToDatabase(String end) {
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.addEndSearch(end);
+			mainDatabaseController.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
+	}
+
+	private static void saveStartEndQueryToDatabase(String start, String end) {
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.addStartEndSearch(start, end);
+			mainDatabaseController.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
 	}
 
 	@Deprecated
@@ -627,175 +903,5 @@ public class BusDataCollector {
 			return null;
 		}
 		return results;
-	}
-
-	private static void saveQueryToDatabase(LatLng start, LatLng end,
-			Calendar date) {
-		// TODO
-	}
-
-	private static void saveQueryToDatabase(LatLng start) {
-		// TODO
-	}
-
-	public static String getNextBusStartName(String nextBusStartBody) {
-		Pattern nextBusStartNamePattern = Pattern
-				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
-		Matcher nextBusStartNameMatcher = nextBusStartNamePattern
-				.matcher(nextBusStartBody);
-		nextBusStartNameMatcher.find();
-		String nextBusStartNameUnstripped = nextBusStartNameMatcher.group(0);
-
-		Pattern nextBusStartNameStripperPattern = Pattern
-				.compile(">[(\\S)(\\s)]*<");
-		Matcher nextBusStartNameStripperMatcher = nextBusStartNameStripperPattern
-				.matcher(nextBusStartNameUnstripped);
-		nextBusStartNameStripperMatcher.find();
-		nextBusStartNameUnstripped = nextBusStartNameStripperMatcher.group(0);
-		return nextBusStartNameUnstripped.substring(1,
-				nextBusStartNameUnstripped.length() - 1);
-	}
-
-	public static String getNextBusEndName(String nextBusEndBody) {
-		Pattern nextBusEndNamePattern = Pattern
-				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
-		Matcher nextBusEndNameMatcher = nextBusEndNamePattern
-				.matcher(nextBusEndBody);
-		nextBusEndNameMatcher.find();
-		String nextBusEndNameUnstripped = nextBusEndNameMatcher.group(0);
-
-		Pattern nextBusEndNameStripperPattern = Pattern
-				.compile(">[(\\S)(\\s)]*<");
-		Matcher nextBusEndNameStripperMatcher = nextBusEndNameStripperPattern
-				.matcher(nextBusEndNameUnstripped);
-		nextBusEndNameStripperMatcher.find();
-		nextBusEndNameUnstripped = nextBusEndNameStripperMatcher.group(0);
-		return nextBusEndNameUnstripped.substring(1,
-				nextBusEndNameUnstripped.length() - 1);
-	}
-
-	public static String getNextBusStartTime(String nextBusStartBody) {
-		Pattern getNextBusStartTimePattern = Pattern
-				.compile("(\\d)*:(\\d)*((\\s)*)+((\\bAM\\b)|(\\bPM\\b))");
-		Matcher getNextBusStartTimeMatcher = getNextBusStartTimePattern
-				.matcher(nextBusStartBody);
-		getNextBusStartTimeMatcher.find();
-		String startTime = getNextBusStartTimeMatcher.group(0);
-		if (startTime.indexOf(':') <= 1) {
-			startTime = "0" + startTime;
-		}
-		return startTime;
-	}
-
-	public static String getNextBusEndTime(String nextBusEndBody) {
-		Pattern getNextBusEndTimePattern = Pattern
-				.compile("(\\d)*:(\\d)*((\\s)*)+((\\bAM\\b)|(\\bPM\\b))");
-		Matcher getNextBusEndTimeMatcher = getNextBusEndTimePattern
-				.matcher(nextBusEndBody);
-		getNextBusEndTimeMatcher.find();
-		Log.d("nextbusendbody", nextBusEndBody);
-
-		String endTime = getNextBusEndTimeMatcher.group(0);
-		if (endTime.indexOf(':') <= 1) {
-			endTime = "0" + endTime;
-		}
-		return endTime;
-	}
-
-	public static String getNextBusRouteNumbers(String nextBusStartBody) {
-		Pattern getNextBusRouteNumbersPattern = Pattern
-				.compile("(Route)(\\s)*(\\d)(\\d)*");
-		Matcher getNextBusRouteNumbersMatcher = getNextBusRouteNumbersPattern
-				.matcher(nextBusStartBody);
-		ArrayList<String> numbersUnstripped = new ArrayList<String>();
-		while (getNextBusRouteNumbersMatcher.find()) {
-			numbersUnstripped.add(getNextBusRouteNumbersMatcher.group(0));
-		}
-
-		Pattern nextBusRouteNumbersStripperPattern = Pattern.compile("(\\d)*$");
-		Matcher nextBusRouteNumbersStripperMatcher;
-		String result = "";
-		for (int i = 0; i < numbersUnstripped.size(); i++) {
-			nextBusRouteNumbersStripperMatcher = nextBusRouteNumbersStripperPattern
-					.matcher(numbersUnstripped.get(i));
-			nextBusRouteNumbersStripperMatcher.find();
-			result += nextBusRouteNumbersStripperMatcher.group(0) + ",";
-		}
-		return result.substring(0, result.length() - 1);
-	}
-
-	public static String getNextBusTravelTime(String travelTime) {
-		Pattern hoursPattern = Pattern.compile("\\d*\\s*hour");
-		Matcher nextBusTravelStartHoursMatcher = hoursPattern
-				.matcher(travelTime);
-		int hours = 0;
-		if (nextBusTravelStartHoursMatcher.find()) {
-			String nextBusTravelStartHours = nextBusTravelStartHoursMatcher
-					.group(0);
-			hours = Integer.parseInt(nextBusTravelStartHours);
-		}
-
-		Pattern minutesPattern = Pattern.compile("\\d*\\s*minutes");
-		Matcher nextBusTravelStartMinutesMatcher = minutesPattern
-				.matcher(travelTime);
-		nextBusTravelStartMinutesMatcher.find();
-		String nextBusTravelStartMinutesUnstripped = nextBusTravelStartMinutesMatcher
-				.group(0);
-		Pattern minutesStripperPattern = Pattern.compile("\\d*");
-		Matcher nextBusTravelStartMinutesStripperMatcher = minutesStripperPattern
-				.matcher(nextBusTravelStartMinutesUnstripped);
-		nextBusTravelStartMinutesStripperMatcher.find();
-		String nextBusTravelStartMinutes = nextBusTravelStartMinutesStripperMatcher
-				.group(0);
-
-		int minutes = Integer.parseInt(nextBusTravelStartMinutes);
-		return "" + (minutes + hours * 60);
-	}
-
-	public static String getNextBusRouteStartTimes(String nextBusStartBody) {
-		Pattern getNextBusRouteStartTimesPattern = Pattern
-				.compile("(\\d)+:\\d\\d\\s*[(PM)|(AM)]*");
-		Matcher getNextBusRouteStartTimesMatcher = getNextBusRouteStartTimesPattern
-				.matcher(nextBusStartBody);
-		ArrayList<String> startTimesUnpadded = new ArrayList<String>();
-		while (getNextBusRouteStartTimesMatcher.find()) {
-			startTimesUnpadded.add(getNextBusRouteStartTimesMatcher.group(0));
-		}
-
-		String result = "";
-		String toAdd = "";
-		for (int i = 0; i < startTimesUnpadded.size(); i++) {
-			if(startTimesUnpadded.get(i).indexOf(":") == 1) {
-				toAdd = "0" + startTimesUnpadded.get(i);
-				if(toAdd.indexOf("AM") == 5 || toAdd.indexOf("PM") == 5) {
-					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
-				}
-			} else {
-				if(toAdd.indexOf("AM") == 5 || toAdd.indexOf("PM") == 5) {
-					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
-				}
-			}
-			result += toAdd + ",";
-		}
-		return result.substring(0, result.length() - 1);
-	}
-	
-	public static String getNextBusRouteDirections(String nextBusStartBody) {
-		Pattern getNextBusRouteDirectionsPattern = Pattern
-				.compile("(Route)(\\s)*(\\d)(\\d)*[^<]*");
-		Matcher getNextBusRouteDirectionsMatcher = getNextBusRouteDirectionsPattern
-				.matcher(nextBusStartBody);
-		ArrayList<String> directionsUnstripped = new ArrayList<String>();
-		while (getNextBusRouteDirectionsMatcher.find()) {
-			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
-		}
-
-		String result = "";
-		for (int i = 0; i < directionsUnstripped.size(); i++) {
-			if(directionsUnstripped.get(i).length() > 9) {
-				result += directionsUnstripped.get(i).substring(9) + ",";
-			}
-		}
-		return result.substring(0, result.length() - 1);
 	}
 }

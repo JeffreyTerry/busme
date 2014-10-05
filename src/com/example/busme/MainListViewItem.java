@@ -10,6 +10,8 @@ public class MainListViewItem {
 			"01:00 PM", "170", "no routes found", "no routes found", -1, -1, -1, -1, "0");
 	public static final MainListViewItem DATA_PARSE_ERROR_ITEM = new MainListViewItem(
 			"01:00 PM", "171", "data parse error", "data parse error", -1, -1, -1, -1, "0");
+	public static final MainListViewItem STOP_DATA_MISSING_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "172", "stop data missing", "stop data missing", -1, -1, -1, -1, "0");
 	public static final String TRAVEL_TIME_UNKNOWN = "0";
 	public static final double NULL_LATITUDE = 0;
 	public static final double NULL_LONGITUDE = 0;

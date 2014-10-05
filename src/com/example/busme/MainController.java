@@ -210,7 +210,7 @@ public class MainController implements
 		protected ArrayList<MainListViewItem> doInBackground(String... args) {
 			try {
 				if (args.length == 2) {
-					return BusDataCollector.getCardsForQuery(args[0], args[1]);
+					return BusDataHandler.getCardsForQuery(args[0], args[1]);
 				} else {
 					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
 					return result;
