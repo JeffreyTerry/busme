@@ -879,7 +879,7 @@ public class BusDataController {
 				indexToRemove = directionLowercase.indexOf((blacklist2[i]));
 				
 				// this makes sure we don't remove standalone words
-				if(indexToRemove != 0 && indexToRemove != 1) {
+				if(indexToRemove != 0 && indexToRemove != -1) {
 					if(directionLowercase.charAt(indexToRemove - 1) == ' '){
 						indexToRemove = -1;
 					}
