@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Criteria;
@@ -17,6 +18,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.widget.TextView;
 
@@ -33,6 +36,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class ListItemDetailActivity extends Activity implements
 		LocationListener {
+	private static final int DEFAULT_CAMERA_ZOOM = 12;
 	private static SparseIntArray routeColors;
 	private GoogleMap gmap;
 	private Bundle extras;
@@ -43,10 +47,10 @@ public class ListItemDetailActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
+		markerPoints = new ArrayList<LatLng>();
+		
 		initializeRouteColors();
 		initializeMapFragment();
-
-		markerPoints = new ArrayList<LatLng>();
 		initializeFonts();
 	}
 
@@ -125,12 +129,11 @@ public class ListItemDetailActivity extends Activity implements
 		// time of arrival
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a",
 				Locale.US);
-		System.out.println("time travel: " + travelTime);
 		try {
 			Date date;
 			date = dateFormatter.parse(startTime);
 			date = new Date(date.getTime() + travelTime * 60 * 1000);
-			if(("" + travelTime).equals(MainListViewItem.TRAVEL_TIME_UNKNOWN)) {
+			if (("" + travelTime).equals(MainListViewItem.TRAVEL_TIME_UNKNOWN)) {
 				dest2.setText(startTime);
 			} else {
 				dest2.setText(dateFormatter.format(date));
@@ -145,23 +148,28 @@ public class ListItemDetailActivity extends Activity implements
 
 		gmap = ((MapFragment) this.getFragmentManager().findFragmentById(
 				R.id.fgmap)).getMap();
-		gmap.setMyLocationEnabled(true);
 
-		LocationManager locationManager = (LocationManager) this
-				.getSystemService(LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
-		String provider = locationManager.getBestProvider(criteria, true);
-		Location location = locationManager.getLastKnownLocation(provider);
-
-		locationManager.requestLocationUpdates(provider, 20000, 0, this);
-
-		LatLng current = new LatLng(location.getLatitude(),
-				location.getLongitude());
 		LatLng startLatLng = new LatLng(extras.getDouble("startLat"),
 				extras.getDouble("startLng"));
 		LatLng destLatLng = new LatLng(extras.getDouble("destLat"),
 				extras.getDouble("destLng"));
 
+		markerPoints.add(startLatLng);
+		markerPoints.add(destLatLng);
+
+		Location location = updateLocation();
+
+		LatLng current = new LatLng(location.getLatitude(),
+				location.getLongitude());
+		
+		synchronized(this) {
+			float[] distance = new float[3];
+			Location.distanceBetween(current.latitude, current.longitude, (startLatLng.latitude + destLatLng.latitude) / 2, (startLatLng.longitude + destLatLng.longitude) / 2, distance);
+			if(distance[0] < 35000){
+				markerPoints.add(current);
+			}
+		}
+		
 		// adding start & destination markers
 		MarkerOptions startOptions = new MarkerOptions().position(startLatLng);
 		MarkerOptions endOptions = new MarkerOptions().position(destLatLng);
@@ -186,17 +194,48 @@ public class ListItemDetailActivity extends Activity implements
 			new GetRouteDataTask().execute(routeNumbers[i]);
 		}
 
-		LatLngBounds.Builder b = new LatLngBounds.Builder();
-		// b.include(current);
-		b.include(startLatLng);
-		b.include(destLatLng);
-		LatLngBounds bounds = b.build();
-
 		CameraUpdate cu = CameraUpdateFactory
-				.newLatLngBounds(bounds, 20, 20, 5);
+				.newLatLngBounds(getDefaultLatLngBounds(), 20, 20, 5);
 		gmap.moveCamera(cu);
-		gmap.animateCamera(CameraUpdateFactory.zoomTo(13));
+		gmap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_CAMERA_ZOOM));
 
+	}
+	
+	public synchronized LatLngBounds getDefaultLatLngBounds() {
+		LatLngBounds.Builder b = new LatLngBounds.Builder();
+		for(int i = 0; i < markerPoints.size(); i++) {
+			b.include(markerPoints.get(i));
+		}
+		return b.build();
+	}
+
+	public Location updateLocation() {
+		LocationManager locationManager = (LocationManager) this
+				.getSystemService(Context.LOCATION_SERVICE);
+		Criteria crit = new Criteria();
+		crit.setAccuracy(Criteria.ACCURACY_FINE);
+		String provider = locationManager.getBestProvider(crit, true);
+		Location location = locationManager.getLastKnownLocation(provider);
+
+		if (location != null) {
+			onLocationChanged(location);
+		}
+		locationManager.requestSingleUpdate(provider, this,
+				Looper.getMainLooper());
+		return location;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		gmap.setMyLocationEnabled(false);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		gmap.setMyLocationEnabled(true);
+		updateLocation();
 	}
 
 	@Override
@@ -215,7 +254,8 @@ public class ListItemDetailActivity extends Activity implements
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
-	private class GetRouteDataTask extends AsyncTask<Integer, Void, ArrayList<LatLng>> {
+	private class GetRouteDataTask extends
+			AsyncTask<Integer, Void, ArrayList<LatLng>> {
 		private int routeNumber;
 
 		@Override
@@ -227,15 +267,19 @@ public class ListItemDetailActivity extends Activity implements
 		protected ArrayList<LatLng> doInBackground(Integer... routeNumbers) {
 			this.routeNumber = routeNumbers[0];
 			try {
-				String routeData = MainModel.getRouteCoordinateData(routeNumber);
+				String routeData = MainModel
+						.getRouteCoordinateData(routeNumber);
 				if (routeData != null) {
 					routeCoordinates = new JSONArray(routeData);
 				} else {
 					routeCoordinates = MainModel
-							.getJSONArrayForURL(MainModel.BASE_URL + "/data/route/" + routeNumber);
-					MainModel.saveRouteCoordinateData(routeCoordinates.toString(), routeNumber);
+							.getJSONArrayForURL(MainModel.BASE_URL
+									+ "/data/route/" + routeNumber);
+					MainModel.saveRouteCoordinateData(
+							routeCoordinates.toString(), routeNumber);
 				}
-				return JSONConverter.convertRouteArrayToHashMap(routeCoordinates);
+				return JSONConverter
+						.convertRouteArrayToHashMap(routeCoordinates);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -245,7 +289,7 @@ public class ListItemDetailActivity extends Activity implements
 		@Override
 		protected void onPostExecute(ArrayList<LatLng> result) {
 			super.onPostExecute(result);
-			if(result == null) {
+			if (result == null) {
 				return;
 			}
 			PolylineOptions plOptions;
