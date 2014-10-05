@@ -56,36 +56,31 @@ public class BusDataController {
 																	// a bug in
 																	// the date
 																	// shifting
-	private static Context context;
-	private static MainDatabaseController mainDatabaseController;
-	private static Geocoder geocoder;
-	private static LatLng currentLatLng;
-	private static HashMap<String, LatLng> stopToLatLngs = null;
-	private static HashMap<String, String> stopToTcatIds = null;
+	private Context context;
+	private MainModel mainModel;
+	private MainDatabaseController mainDatabaseController;
+	private Geocoder geocoder;
+	private LatLng currentLatLng;
+	private HashMap<String, LatLng> stopToLatLngs = null;
+	private HashMap<String, String> stopToTcatIds = null;
 
-	private BusDataController() {
-	}
-
-	public static void initialize(Context c) {
-		if (context == null) {
-			context = c;
-			if (Geocoder.isPresent()) {
-				geocoder = new Geocoder(context);
-			} else {
-				geocoder = null;
-			}
-			mainDatabaseController = new MainDatabaseController(context);
+	public BusDataController(Context c, MainModel m) {
+		context = c;
+		if (Geocoder.isPresent()) {
+			geocoder = new Geocoder(context);
 		} else {
-			Log.e("ERROR", "MainModel was initialized twice");
+			geocoder = null;
 		}
+		mainModel = m;
+		mainDatabaseController = new MainDatabaseController(context);
 	}
 
-	private static boolean initializeStopData() {
+	private boolean initializeStopData() {
 		if (stopToLatLngs != null && stopToTcatIds != null) {
 			return true;
 		}
 		try {
-			String stopToLatLngDictionaryData = MainModel
+			String stopToLatLngDictionaryData = mainModel
 					.getStopToLatLngDictionaryData();
 			if (stopToLatLngDictionaryData != null) {
 				stopToLatLngs = JSONConverter
@@ -93,7 +88,7 @@ public class BusDataController {
 								stopToLatLngDictionaryData));
 			}
 
-			String stopToTcatIdDictionaryData = MainModel
+			String stopToTcatIdDictionaryData = mainModel
 					.getStopToTcatIdDictionaryData();
 			if (stopToTcatIdDictionaryData != null) {
 				stopToTcatIds = JSONConverter
@@ -129,7 +124,7 @@ public class BusDataController {
 	 *            all buses coming to the start stop.
 	 * @return
 	 */
-	public static ArrayList<MainListViewItem> getCardsForQuery(
+	public ArrayList<MainListViewItem> getCardsForQuery(
 			String routeStart, String routeEnd) {
 		if (context == null) {
 			return null;
@@ -181,9 +176,6 @@ public class BusDataController {
 					return null;
 				}
 
-				Log.d("currentlatlng", currentLatLng.toString());
-				Log.d("endlatlng", endLatLng.toString());
-				
 				return getCardsForLatLngsFromTCATServer(
 						new LatLng(currentLocation.getLatitude(),
 								currentLocation.getLongitude()), endLatLng);
@@ -192,6 +184,9 @@ public class BusDataController {
 			// this should grab cards based on all buses coming out of a
 			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
+			if(startLatLng == null) {
+				return null;
+			}
 			return getCardsForStartLatLngFromTCATServer(startLatLng);
 		} else {
 			// this should grab cards based on a start and an end location
@@ -206,7 +201,7 @@ public class BusDataController {
 		}
 	}
 
-	private static LatLng getLatLngForSearchTerms(String query) {
+	private LatLng getLatLngForSearchTerms(String query) {
 		String bestMatch = null;
 		int bestScore = 0;
 
@@ -232,7 +227,7 @@ public class BusDataController {
 		}
 	}
 
-	private static LatLng getGeocodedLatLng(String query) {
+	private LatLng getGeocodedLatLng(String query) {
 		if (geocoder != null) {
 			try {
 				List<Address> results = geocoder.getFromLocationName(query
@@ -249,7 +244,7 @@ public class BusDataController {
 			}
 		} else {
 			try {
-				JSONObject response = MainModel
+				JSONObject response = mainModel
 						.getJSONObjectForURL(getGeocoderUrlForLocationName(query));
 				JSONArray results = response.getJSONArray("results");
 				if (results.length() > 0) {
@@ -268,13 +263,16 @@ public class BusDataController {
 		}
 	}
 
-	private static String getGeocoderUrlForLocationName(String name) {
+	private String getGeocoderUrlForLocationName(String name) {
 		return "http://maps.googleapis.com/maps/api/geocode/json?address="
 				+ name + "&sensor=true";
 	}
 
-	private static ArrayList<String> findClosestStopsToLatLng(LatLng loc,
+	private ArrayList<String> findClosestStopsToLatLng(LatLng loc,
 			int maxResults) {
+		if(loc == null) {
+			return new ArrayList<String>();
+		}
 		// step 1: compute the closest stops using a priority queue
 		PriorityQueue<StopDistancePair> closestPairs = new PriorityQueue<StopDistancePair>();
 		StopDistancePair currentPair;
@@ -296,14 +294,14 @@ public class BusDataController {
 		return results;
 	}
 
-	private static double distanceBetweenLatLngs(LatLng start, LatLng end,
+	private double distanceBetweenLatLngs(LatLng start, LatLng end,
 			float[] results) {
 		Location.distanceBetween(start.latitude, start.longitude, end.latitude,
 				end.longitude, results);
 		return (double) results[0];
 	}
 
-	private static class StopDistancePair implements
+	private class StopDistancePair implements
 			Comparable<StopDistancePair> {
 		public String stop;
 		public double distance;
@@ -321,7 +319,7 @@ public class BusDataController {
 		}
 	}
 
-	private static ArrayList<MainListViewItem> getDefaultCardsFromTCATServer() {
+	private ArrayList<MainListViewItem> getDefaultCardsFromTCATServer() {
 		if (context == null) {
 			return null;
 		}
@@ -391,7 +389,7 @@ public class BusDataController {
 	 * @param end
 	 * @return
 	 */
-	private static ArrayList<MainListViewItem> getCardsForLatLngsFromTCATServer(
+	private ArrayList<MainListViewItem> getCardsForLatLngsFromTCATServer(
 			LatLng start, LatLng end) {
 		// step 1: get the stops to query for
 		ArrayList<String> closestStopsToStart = findClosestStopsToLatLng(start,
@@ -450,7 +448,7 @@ public class BusDataController {
 	 * @param date
 	 * @return
 	 */
-	private static MainListViewItem getCardForStopsFromTCATServer(String start,
+	private MainListViewItem getCardForStopsFromTCATServer(String start,
 			String end, Calendar date) {
 		HttpClient client = new DefaultHttpClient();
 		String postURL = ("http://tcat.nextinsight.com/index.php");
@@ -586,7 +584,7 @@ public class BusDataController {
 				-1, -1, -1, -1, "0");
 	}
 
-	private static ArrayList<MainListViewItem> getCardsForStartLatLngFromTCATServer(
+	private ArrayList<MainListViewItem> getCardsForStartLatLngFromTCATServer(
 			LatLng start) {
 		// step 1: get the stops to query for
 		ArrayList<String> closestStopsToStart = findClosestStopsToLatLng(start,
@@ -622,7 +620,7 @@ public class BusDataController {
 	 * @param date
 	 * @return
 	 */
-	private static ArrayList<MainListViewItem> getCardsForStopFromTCATServer(
+	private ArrayList<MainListViewItem> getCardsForStopFromTCATServer(
 			String start) {
 		HttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet("http://tcat.nextinsight.com/stops/"
@@ -711,7 +709,7 @@ public class BusDataController {
 		return results;
 	}
 
-	private static String getNextBusStartName(String nextBusStartBody) {
+	private String getNextBusStartName(String nextBusStartBody) {
 		Pattern nextBusStartNamePattern = Pattern
 				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
 		Matcher nextBusStartNameMatcher = nextBusStartNamePattern
@@ -729,7 +727,7 @@ public class BusDataController {
 				nextBusStartNameUnstripped.length() - 1);
 	}
 
-	private static String getNextBusEndName(String nextBusEndBody) {
+	private String getNextBusEndName(String nextBusEndBody) {
 		Pattern nextBusEndNamePattern = Pattern
 				.compile("<a\\shref=\"\\/stops\\/(\\w)*\">[^<]*<\\/a>");
 		Matcher nextBusEndNameMatcher = nextBusEndNamePattern
@@ -747,7 +745,7 @@ public class BusDataController {
 				nextBusEndNameUnstripped.length() - 1);
 	}
 
-	private static String getNextBusStartTime(String nextBusStartBody) {
+	private String getNextBusStartTime(String nextBusStartBody) {
 		Pattern getNextBusStartTimePattern = Pattern
 				.compile("(\\d)*:(\\d)*((\\s)*)+((\\bAM\\b)|(\\bPM\\b))");
 		Matcher getNextBusStartTimeMatcher = getNextBusStartTimePattern
@@ -760,7 +758,7 @@ public class BusDataController {
 		return startTime;
 	}
 
-	private static String getNextBusRouteNumbers(String nextBusStartBody) {
+	private String getNextBusRouteNumbers(String nextBusStartBody) {
 		Pattern getNextBusRouteNumbersPattern = Pattern
 				.compile("(Route)(\\s)*(\\d)(\\d)*");
 		Matcher getNextBusRouteNumbersMatcher = getNextBusRouteNumbersPattern
@@ -782,7 +780,7 @@ public class BusDataController {
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static String getNextBusTravelTime(String travelTime) {
+	private String getNextBusTravelTime(String travelTime) {
 		Pattern hoursPattern = Pattern.compile("\\d*\\s*hour");
 		Matcher nextBusTravelStartHoursMatcher = hoursPattern
 				.matcher(travelTime);
@@ -810,7 +808,7 @@ public class BusDataController {
 		return "" + (minutes + hours * 60);
 	}
 
-	private static String getNextBusRouteStartTimes(String nextBusStartBody) {
+	private String getNextBusRouteStartTimes(String nextBusStartBody) {
 		Pattern getNextBusRouteStartTimesPattern = Pattern
 				.compile("(\\d)+:\\d\\d\\s*[(PM)|(AM)]*");
 		Matcher getNextBusRouteStartTimesMatcher = getNextBusRouteStartTimesPattern
@@ -838,7 +836,7 @@ public class BusDataController {
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static String getNextBusRouteDirections(String nextBusStartBody) {
+	private String getNextBusRouteDirections(String nextBusStartBody) {
 		Pattern getNextBusRouteDirectionsPattern = Pattern
 				.compile("(Route)(\\s)*(\\d)(\\d)*[^<]*");
 		Matcher getNextBusRouteDirectionsMatcher = getNextBusRouteDirectionsPattern
@@ -890,7 +888,6 @@ public class BusDataController {
 					break;
 				}
 			}
-			Log.d("stuff", indexToRemove + ", " + numberOfCharactersToRemove + directionLowercase);
 			if(indexToRemove != -1) {
 				directionsUnstripped.set(j, directionsUnstripped.get(j).substring(0, indexToRemove) + directionsUnstripped.get(j).substring(indexToRemove + numberOfCharactersToRemove));
 			}
@@ -907,7 +904,7 @@ public class BusDataController {
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static void saveStartQueryToDatabase(String start) {
+	private void saveStartQueryToDatabase(String start) {
 		try {
 			mainDatabaseController.open();
 			mainDatabaseController.addStartSearch(start);
@@ -919,7 +916,7 @@ public class BusDataController {
 		}
 	}
 
-	private static void saveEndQueryToDatabase(String end) {
+	private void saveEndQueryToDatabase(String end) {
 		try {
 			mainDatabaseController.open();
 			mainDatabaseController.addEndSearch(end);
@@ -931,7 +928,7 @@ public class BusDataController {
 		}
 	}
 
-	private static void saveStartEndQueryToDatabase(String start, String end) {
+	private void saveStartEndQueryToDatabase(String start, String end) {
 		try {
 			mainDatabaseController.open();
 			mainDatabaseController.addStartEndSearch(start, end);
@@ -943,15 +940,15 @@ public class BusDataController {
 		}
 	}
 
-	public static void removeStartQueryFromDatabase(String start) {
+	public void removeStartQueryFromDatabase(String start) {
 		removeStartEndQueryFromDatabase(start, MainDatabaseController.NULL_QUERY);
 	}
 
-	public static void removeEndQueryFromDatabase(String end) {
+	public void removeEndQueryFromDatabase(String end) {
 		removeStartEndQueryFromDatabase(MainDatabaseController.NULL_QUERY, end);
 	}
 	
-	public static void removeStartEndQueryFromDatabase(String start, String end) {
+	public void removeStartEndQueryFromDatabase(String start, String end) {
 		try {
 			mainDatabaseController.open();
 			mainDatabaseController.deleteStartEndSearch(start, end);
@@ -964,7 +961,7 @@ public class BusDataController {
 	}
 
 	
-	private static <E> ArrayList<E> trimArrayListToSize(ArrayList<E> list, int size){
+	private <E> ArrayList<E> trimArrayListToSize(ArrayList<E> list, int size){
 		if(size < 0) {
 			throw new IllegalArgumentException("size must be nonnegative");
 		}

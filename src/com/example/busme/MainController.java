@@ -36,13 +36,14 @@ public class MainController implements OnEditorActionListener,
 	private EditText etStart, etDestination;
 	private MainListViewAdapter mainListViewAdapter;
 	private Context context;
+	private MainModel mainModel;
 	private SwipeDismisserListView swipeDismisserListView;
 	private HashMap<String, LatLng> stopToLatLngs = null;
 	private HashMap<String, String> stopToTcatIds = null;
 	private float x1;
 
 	public MainController(Context c) {
-		MainModel.initialize(c, this);
+		mainModel = new MainModel(c, this);
 
 		context = c;
 		createMainListViewAdapter();
@@ -74,6 +75,10 @@ public class MainController implements OnEditorActionListener,
 	private void createMainListViewAdapter() {
 		mainListViewAdapter = new MainListViewAdapter(context,
 				new ArrayList<MainListViewItem>());
+	}
+	
+	public MainModel getMainModel() {
+		return mainModel;
 	}
 
 	@Override
@@ -179,7 +184,7 @@ public class MainController implements OnEditorActionListener,
 			if (endQuery.contentEquals("")) {
 				endQuery = MainModel.LOCATION_UNSPECIFIED;
 			}
-			MainModel.generateCardsForQuery(startQuery, endQuery);
+			mainModel.generateCardsForQuery(startQuery, endQuery);
 
 			// Must return true here to consume event
 			return true;
@@ -211,7 +216,7 @@ public class MainController implements OnEditorActionListener,
 			return true;
 		}
 		try {
-			String stopToLatLngDictionaryData = MainModel
+			String stopToLatLngDictionaryData = mainModel
 					.getStopToLatLngDictionaryData();
 			if (stopToLatLngDictionaryData != null) {
 				stopToLatLngs = JSONConverter
@@ -219,7 +224,7 @@ public class MainController implements OnEditorActionListener,
 								stopToLatLngDictionaryData));
 			}
 
-			String stopToTcatIdDictionaryData = MainModel
+			String stopToTcatIdDictionaryData = mainModel
 					.getStopToTcatIdDictionaryData();
 			if (stopToTcatIdDictionaryData != null) {
 				stopToTcatIds = JSONConverter
@@ -248,13 +253,23 @@ public class MainController implements OnEditorActionListener,
 			if (cardToRemove == null) {
 				return;
 			} else {
-				if(initializeStopData()){
-					if(stopToTcatIds.containsKey(cardToRemove.getRouteStart()) && stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
-						BusDataController.removeStartEndQueryFromDatabase(cardToRemove.getRouteStart(), cardToRemove.getRouteDestination());
-					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteStart())) {
-						BusDataController.removeStartQueryFromDatabase(cardToRemove.getRouteStart());
-					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
-						BusDataController.removeEndQueryFromDatabase(cardToRemove.getRouteDestination());
+				if (initializeStopData()) {
+					if (stopToTcatIds.containsKey(cardToRemove.getRouteStart())
+							&& stopToTcatIds.containsKey(cardToRemove
+									.getRouteDestination())) {
+						mainModel.removeStartEndQueryFromDatabase(
+								cardToRemove.getRouteStart(),
+								cardToRemove.getRouteDestination());
+					} else if (stopToTcatIds.containsKey(cardToRemove
+							.getRouteStart())) {
+						mainModel
+								.removeStartQueryFromDatabase(cardToRemove
+										.getRouteStart());
+					} else if (stopToTcatIds.containsKey(cardToRemove
+							.getRouteDestination())) {
+						mainModel
+								.removeEndQueryFromDatabase(cardToRemove
+										.getRouteDestination());
 					}
 				}
 			}

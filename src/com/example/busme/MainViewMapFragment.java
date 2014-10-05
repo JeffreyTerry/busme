@@ -28,15 +28,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainViewMapFragment extends Fragment implements LocationListener {
 
-	GoogleMap gmap;
-	FragmentTransaction fragmentTransaction;
+	private GoogleMap gmap;
+	private FragmentTransaction fragmentTransaction;
 	private JSONObject stopCoordinates;
+	private MainModel mainModel;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View android = inflater
 				.inflate(R.layout.mainmap_frag, container, false);
+		
+		mainModel = ((MainActivity) this.getActivity()).getMainController().getMainModel();
 
 		initializeMap();
 
@@ -114,14 +117,14 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		@Override
 		protected ArrayList<MarkerOptions> doInBackground(String... args) {
 			try {
-				String stopData = MainModel.getStopToLatLngDictionaryData();
+				String stopData = mainModel.getStopToLatLngDictionaryData();
 				if (stopData != null) {
 					stopCoordinates = new JSONObject(stopData);
 				} else {
-					stopCoordinates = MainModel
+					stopCoordinates = mainModel
 							.getJSONObjectForURL(MainModel.BASE_URL
 									+ "/data/stops/dictionary/latlngs");
-					MainModel.saveStopToLatLngDictionaryData(stopCoordinates
+					mainModel.saveStopToLatLngDictionaryData(stopCoordinates
 							.toString());
 				}
 				HashMap<String, LatLng> result = JSONConverter
