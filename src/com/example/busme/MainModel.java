@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -42,7 +43,7 @@ public class MainModel {
 															// sync with the
 															// server's data
 	private static Context context = null;
-	private static SharedPreferences sharedPreferences;
+	private static SharedPreferences sharedPreferences = null;
 	private static MainController mainController;
 
 	private MainModel() {
@@ -57,14 +58,10 @@ public class MainModel {
 		if (context == null) {
 			context = c;
 			mainController = mc;
-			BusDataHandler.initialize(c);
+			BusDataController.initialize(c);
 		} else {
 			Log.e("ERROR", "MainModel was instantiated twice");
 		}
-
-		// load shared preferences
-		sharedPreferences = context.getSharedPreferences("com.example.busme",
-				Context.MODE_PRIVATE);
 
 		// check to make sure our device id and stop data is valid
 		new Thread(new DeviceIdChecker()).start();
@@ -274,8 +271,10 @@ public class MainModel {
 		protected ArrayList<MainListViewItem> doInBackground(
 				String... endpoints) {
 			if (endpoints.length == 2) {
-				return BusDataHandler.getCardsForQuery(endpoints[0],
+				ArrayList<MainListViewItem> cards = BusDataController.getCardsForQuery(endpoints[0],
 						endpoints[1]);
+				Collections.sort(cards, MainListViewItem.DEFAULT_COMPARATOR);
+				return cards;
 			} else {
 				return null;
 			}
@@ -315,6 +314,11 @@ public class MainModel {
 		@Override
 		public void run() {
 			try {
+				if(sharedPreferences == null) {
+					sharedPreferences = context.getSharedPreferences("com.example.busme",
+							Context.MODE_PRIVATE);
+				}
+				
 				deviceId = sharedPreferences.getString("device_id", "");
 				if (deviceId.contentEquals("") || !idIsStillValid(deviceId)) {
 					deviceId = getNewDeviceId();
@@ -370,6 +374,11 @@ public class MainModel {
 		@Override
 		public void run() {
 			try {
+				if(sharedPreferences == null) {
+					sharedPreferences = context.getSharedPreferences("com.example.busme",
+							Context.MODE_PRIVATE);
+				}
+				
 				JSONObject stopToLatLngs = null, stopToTCATIds = null;
 				dataVersion = sharedPreferences.getString("data_version", "");
 				dataVersion = "-1";

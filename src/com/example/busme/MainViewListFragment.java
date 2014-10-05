@@ -48,7 +48,6 @@ public class MainViewListFragment extends Fragment {
 		mainActivity.setMainEts(etStart, etDestination, mainEtDivider);
 
 		return layout;
-
 	}
 
 }

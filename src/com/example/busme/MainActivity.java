@@ -53,8 +53,8 @@ public class MainActivity extends FragmentActivity {
 				MainViewMapFragment.class.getName()));
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mFragmentAdapter = new MainFragmentAdapter(
-				this.getSupportFragmentManager(), fragments);
+		mFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(),
+				fragments);
 		mViewPager.setAdapter(mFragmentAdapter);
 
 		// TODO
@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		mainController.resetLocationUpdateCount();
+		// mainController.resetLocationUpdateCount();
 	}
 
 	public void showEtStart(View v) {

@@ -150,10 +150,4 @@ public class MainListViewAdapter extends ArrayAdapter<MainListViewItem> {
 		this.loading = loading;
 		notifyDataSetChanged();
 	}
-
-	@Override
-	public void addAll(Collection<? extends MainListViewItem> collection) {
-		super.addAll(collection);
-		Collections.sort(items, MainListViewItem.DEFAULT_COMPARATOR);
-	}
 }
