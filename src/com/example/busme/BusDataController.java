@@ -38,7 +38,6 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -50,12 +49,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class BusDataController {
 	private static final int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 1; // 2
-	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 1; // 4 TODO
-																	// there's
-																	// currently
-																	// a bug in
-																	// the date
-																	// shifting
+	// TODO there's currently a bug in the date shifting
+	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 1; // 4
 	private Context context;
 	private MainModel mainModel;
 	private MainDatabaseController mainDatabaseController;
@@ -124,8 +119,8 @@ public class BusDataController {
 	 *            all buses coming to the start stop.
 	 * @return
 	 */
-	public ArrayList<MainListViewItem> getCardsForQuery(
-			String routeStart, String routeEnd) {
+	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,
+			String routeEnd) {
 		if (context == null) {
 			return null;
 		}
@@ -184,7 +179,7 @@ public class BusDataController {
 			// this should grab cards based on all buses coming out of a
 			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
-			if(startLatLng == null) {
+			if (startLatLng == null) {
 				return null;
 			}
 			return getCardsForStartLatLngFromTCATServer(startLatLng);
@@ -244,7 +239,7 @@ public class BusDataController {
 			}
 		} else {
 			try {
-				JSONObject response = mainModel
+				JSONObject response = MainModel
 						.getJSONObjectForURL(getGeocoderUrlForLocationName(query));
 				JSONArray results = response.getJSONArray("results");
 				if (results.length() > 0) {
@@ -270,7 +265,7 @@ public class BusDataController {
 
 	private ArrayList<String> findClosestStopsToLatLng(LatLng loc,
 			int maxResults) {
-		if(loc == null) {
+		if (loc == null) {
 			return new ArrayList<String>();
 		}
 		// step 1: compute the closest stops using a priority queue
@@ -301,8 +296,7 @@ public class BusDataController {
 		return (double) results[0];
 	}
 
-	private class StopDistancePair implements
-			Comparable<StopDistancePair> {
+	private class StopDistancePair implements Comparable<StopDistancePair> {
 		public String stop;
 		public double distance;
 
@@ -349,8 +343,10 @@ public class BusDataController {
 				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
 						nextSearch[1]);
 				if (nextResults != null) {
-					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+					Collections.sort(nextResults,
+							MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults,
+							numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			} else if (nextSearch[1]
@@ -358,8 +354,10 @@ public class BusDataController {
 				nextResults = getCardsForQuery(nextSearch[0],
 						MainModel.LOCATION_UNSPECIFIED);
 				if (nextResults != null) {
-					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+					Collections.sort(nextResults,
+							MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults,
+							numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			} else if (!nextSearch[0]
@@ -368,8 +366,10 @@ public class BusDataController {
 							.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1]);
 				if (nextResults != null) {
-					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+					Collections.sort(nextResults,
+							MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults,
+							numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			}
@@ -846,52 +846,67 @@ public class BusDataController {
 			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
 		}
 
-		String[] blacklist = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+		String[] blacklist = { "sunday", "monday", "tuesday", "wednesday",
+				"thursday", "friday", "saturday" };
 		int indexToRemove, numberOfCharactersToRemove;
 		String directionLowercase;
-		for(int j = 0; j < directionsUnstripped.size(); j++) {
+		for (int j = 0; j < directionsUnstripped.size(); j++) {
 			indexToRemove = -1;
 			numberOfCharactersToRemove = 0;
-			directionLowercase = directionsUnstripped.get(j).toLowerCase(Locale.US);
-			for(int i = 0; i < blacklist.length; i++) {
+			directionLowercase = directionsUnstripped.get(j).toLowerCase(
+					Locale.US);
+			for (int i = 0; i < blacklist.length; i++) {
 				indexToRemove = directionLowercase.indexOf((blacklist[i]));
-				if(indexToRemove != -1) {
+				if (indexToRemove != -1) {
 					numberOfCharactersToRemove = blacklist[i].length();
 					break;
 				}
 			}
-			if(indexToRemove != -1) {
+			if (indexToRemove != -1) {
 				int offsetForSpace = 0;
-				if(directionsUnstripped.get(j).length() > indexToRemove + numberOfCharactersToRemove) {
+				if (directionsUnstripped.get(j).length() > indexToRemove
+						+ numberOfCharactersToRemove) {
 					offsetForSpace = 1;
 				}
-				directionsUnstripped.set(j, directionsUnstripped.get(j).substring(0, indexToRemove) + directionsUnstripped.get(j).substring(indexToRemove + numberOfCharactersToRemove + offsetForSpace));
+				directionsUnstripped.set(
+						j,
+						directionsUnstripped.get(j).substring(0, indexToRemove)
+								+ directionsUnstripped.get(j).substring(
+										indexToRemove
+												+ numberOfCharactersToRemove
+												+ offsetForSpace));
 			}
 		}
-		String[] blacklist2 = {"bound"};
-		for(int j = 0; j < directionsUnstripped.size(); j++) {
+		String[] blacklist2 = { "bound" };
+		for (int j = 0; j < directionsUnstripped.size(); j++) {
 			indexToRemove = -1;
 			numberOfCharactersToRemove = 0;
-			directionLowercase = directionsUnstripped.get(j).toLowerCase(Locale.US);
-			for(int i = 0; i < blacklist2.length; i++) {
+			directionLowercase = directionsUnstripped.get(j).toLowerCase(
+					Locale.US);
+			for (int i = 0; i < blacklist2.length; i++) {
 				indexToRemove = directionLowercase.indexOf((blacklist2[i]));
-				
+
 				// this makes sure we don't remove standalone words
-				if(indexToRemove != 0 && indexToRemove != -1) {
-					if(directionLowercase.charAt(indexToRemove - 1) == ' '){
+				if (indexToRemove != 0 && indexToRemove != -1) {
+					if (directionLowercase.charAt(indexToRemove - 1) == ' ') {
 						indexToRemove = -1;
 					}
 				}
-				
-				if(indexToRemove != -1) {
+
+				if (indexToRemove != -1) {
 					numberOfCharactersToRemove = blacklist2[i].length();
 					break;
 				}
 			}
-			if(indexToRemove != -1) {
-				directionsUnstripped.set(j, directionsUnstripped.get(j).substring(0, indexToRemove) + directionsUnstripped.get(j).substring(indexToRemove + numberOfCharactersToRemove));
+			if (indexToRemove != -1) {
+				directionsUnstripped.set(
+						j,
+						directionsUnstripped.get(j).substring(0, indexToRemove)
+								+ directionsUnstripped.get(j).substring(
+										indexToRemove
+												+ numberOfCharactersToRemove));
 			}
-			
+
 		}
 
 		String result = "";
@@ -900,7 +915,7 @@ public class BusDataController {
 				result += directionsUnstripped.get(i).substring(9) + ",";
 			}
 		}
-		
+
 		return result.substring(0, result.length() - 1);
 	}
 
@@ -941,13 +956,14 @@ public class BusDataController {
 	}
 
 	public void removeStartQueryFromDatabase(String start) {
-		removeStartEndQueryFromDatabase(start, MainDatabaseController.NULL_QUERY);
+		removeStartEndQueryFromDatabase(start,
+				MainDatabaseController.NULL_QUERY);
 	}
 
 	public void removeEndQueryFromDatabase(String end) {
 		removeStartEndQueryFromDatabase(MainDatabaseController.NULL_QUERY, end);
 	}
-	
+
 	public void removeStartEndQueryFromDatabase(String start, String end) {
 		try {
 			mainDatabaseController.open();
@@ -960,9 +976,8 @@ public class BusDataController {
 		}
 	}
 
-	
-	private <E> ArrayList<E> trimArrayListToSize(ArrayList<E> list, int size){
-		if(size < 0) {
+	private <E> ArrayList<E> trimArrayListToSize(ArrayList<E> list, int size) {
+		if (size < 0) {
 			throw new IllegalArgumentException("size must be nonnegative");
 		}
 		while (list.size() > size) {

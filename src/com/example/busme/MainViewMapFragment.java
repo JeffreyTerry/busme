@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainViewMapFragment extends Fragment implements LocationListener {
-
 	private GoogleMap gmap;
-	private FragmentTransaction fragmentTransaction;
 	private JSONObject stopCoordinates;
 	private MainModel mainModel;
 
@@ -121,7 +118,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 				if (stopData != null) {
 					stopCoordinates = new JSONObject(stopData);
 				} else {
-					stopCoordinates = mainModel
+					stopCoordinates = MainModel
 							.getJSONObjectForURL(MainModel.BASE_URL
 									+ "/data/stops/dictionary/latlngs");
 					mainModel.saveStopToLatLngDictionaryData(stopCoordinates
