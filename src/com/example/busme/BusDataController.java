@@ -350,18 +350,18 @@ public class BusDataController {
 			if (nextSearch[0].contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
 						nextSearch[1]);
-				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 				if (nextResults != null) {
+					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			} else if (nextSearch[1]
 					.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0],
 						MainModel.LOCATION_UNSPECIFIED);
-				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 				if (nextResults != null) {
+					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			} else if (!nextSearch[0]
@@ -369,9 +369,9 @@ public class BusDataController {
 					&& !nextSearch[1]
 							.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1]);
-				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
-				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 				if (nextResults != null) {
+					Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+					nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
 					results.addAll(nextResults);
 				}
 			}
