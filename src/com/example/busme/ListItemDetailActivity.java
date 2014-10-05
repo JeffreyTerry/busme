@@ -125,11 +125,16 @@ public class ListItemDetailActivity extends Activity implements
 		// time of arrival
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm a",
 				Locale.US);
+		System.out.println("time travel: " + travelTime);
 		try {
 			Date date;
 			date = dateFormatter.parse(startTime);
 			date = new Date(date.getTime() + travelTime * 60 * 1000);
-			dest2.setText(dateFormatter.format(date));
+			if(("" + travelTime).equals(MainListViewItem.TRAVEL_TIME_UNKNOWN)) {
+				dest2.setText(startTime);
+			} else {
+				dest2.setText(dateFormatter.format(date));
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

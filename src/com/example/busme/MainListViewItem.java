@@ -5,7 +5,14 @@ import java.util.TimeZone;
 
 public class MainListViewItem {
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
-			"01:00 PM", "69", "nowhere", "nowhere", -1, -1, -1, -1, "0");
+			"01:00 PM", "169", "nowhere", "nowhere", -1, -1, -1, -1, "0");
+	public static final MainListViewItem NO_ROUTE_FOUND_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "170", "no routes found", "no routes found", -1, -1, -1, -1, "0");
+	public static final MainListViewItem DATA_PARSE_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "171", "data parse error", "data parse error", -1, -1, -1, -1, "0");
+	public static final String TRAVEL_TIME_UNKNOWN = "0";
+	public static final double NULL_LATITUDE = 0;
+	public static final double NULL_LONGITUDE = 0;
 	private String nextBusTimeString;
 	private int[] routeNumbers;
 	private double start_lat;
