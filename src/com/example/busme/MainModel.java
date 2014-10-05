@@ -37,28 +37,19 @@ public class MainModel {
 	private static final String STOP_TO_ID_DATA_FILE = "stop_ids";
 	private static final String NULL_DEVICE_ID = "9876";
 	private static final String NULL_DATA_VERSION = "-1";
-	private static String deviceId = NULL_DEVICE_ID;
-	private static String dataVersion = NULL_DATA_VERSION; // used to keep the
-															// app's data in
-															// sync with the
-															// server's data
-	private static Context context = null;
-	private static SharedPreferences sharedPreferences = null;
-	private static MainController mainController;
+	private String deviceId = NULL_DEVICE_ID;
+	// used to keep the app's data in sync with the server's data
+	private String dataVersion = NULL_DATA_VERSION;
+	private Context context = null;
+	private SharedPreferences sharedPreferences = null;
+	private MainController mainController;
+	private BusDataController busDataController;
 
-	private MainModel() {
-	}
-
-	/**
-	 * This must be called before the model is used
-	 * 
-	 * @param c
-	 */
-	public static void initialize(Context c, MainController mc) {
+	public MainModel(Context c, MainController mc) {
 		if (context == null) {
 			context = c;
 			mainController = mc;
-			BusDataController.initialize(c);
+			busDataController = new BusDataController(context, this);
 		} else {
 			Log.e("ERROR", "MainModel was instantiated twice");
 		}
@@ -75,9 +66,6 @@ public class MainModel {
 	 * @return
 	 */
 	public static JSONObject getJSONObjectForURL(String url) {
-		if (context == null) {
-			return null;
-		}
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(url);
@@ -141,7 +129,7 @@ public class MainModel {
 	 * @param data
 	 * @param filename
 	 */
-	public static void saveToFile(String data, String filename) {
+	public void saveToFile(String data, String filename) {
 		if (context == null) {
 			return;
 		}
@@ -155,7 +143,7 @@ public class MainModel {
 		}
 	}
 
-	public static String readFromFile(String filename) {
+	public String readFromFile(String filename) {
 		if (context == null) {
 			return null;
 		}
@@ -177,41 +165,30 @@ public class MainModel {
 		}
 	}
 
-	public static String getRouteCoordinateData(int routeNumber) {
-		String data = readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
-				+ routeNumber);
-		return data;
-	}
-
-	public static void saveRouteCoordinateData(String data, int routeNumber) {
-		MainModel.saveToFile(data, MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
-				+ routeNumber);
-	}
-
-	public static String getStopToLatLngDictionaryData() {
+	public String getStopToLatLngDictionaryData() {
 		String data = readFromFile(STOP_TO_LOCATION_DATA_FILE);
 		return data;
 	}
 
-	public static void saveStopToLatLngDictionaryData(String data) {
-		MainModel.saveToFile(data, STOP_TO_LOCATION_DATA_FILE);
+	public void saveStopToLatLngDictionaryData(String data) {
+		saveToFile(data, STOP_TO_LOCATION_DATA_FILE);
 	}
 
-	public static String getStopToTcatIdDictionaryData() {
+	public String getStopToTcatIdDictionaryData() {
 		String data = readFromFile(STOP_TO_ID_DATA_FILE);
 		return data;
 	}
 
-	public static void saveStopToTcatIdDictionaryData(String data) {
-		MainModel.saveToFile(data, STOP_TO_ID_DATA_FILE);
+	public void saveStopToTcatIdDictionaryData(String data) {
+		saveToFile(data, STOP_TO_ID_DATA_FILE);
 	}
 
-	public static String getDeviceId() {
+	public String getDeviceId() {
 		return deviceId;
 	}
 
 	// ////// CARD STUFF ///////
-	private static void sendCardsToController(ArrayList<MainListViewItem> cards) {
+	private void sendCardsToController(ArrayList<MainListViewItem> cards) {
 		if (cards != null) {
 			sendCardsToController(cards, null);
 		} else {
@@ -224,8 +201,18 @@ public class MainModel {
 	 * 
 	 * @param cardsJSON
 	 */
-	private static void sendCardsToController(
-			ArrayList<MainListViewItem> cards, String errorCode) {
+	public void removeStartEndQueryFromDatabase(String start, String end) {
+		busDataController.removeStartEndQueryFromDatabase(start, end);
+	}
+	public void removeStartQueryFromDatabase(String start) {
+		busDataController.removeStartQueryFromDatabase(start);
+	}
+	public void removeEndQueryFromDatabase(String end) {
+		busDataController.removeEndQueryFromDatabase(end);
+	}
+	
+	private void sendCardsToController(ArrayList<MainListViewItem> cards,
+			String errorCode) {
 		if (mainController == null) {
 			return;
 		}
@@ -240,7 +227,7 @@ public class MainModel {
 	/**
 	 * This generates a new set of cards and then sends them to the controller
 	 */
-	public static void generateDefaultCards() {
+	public void generateDefaultCards() {
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				new CardGenerator().execute(LOCATION_UNSPECIFIED,
@@ -249,7 +236,7 @@ public class MainModel {
 		});
 	}
 
-	public static void generateCardsForQuery(String start, String destination) {
+	public void generateCardsForQuery(String start, String destination) {
 		final String finalStart = start;
 		final String finalDestination = destination;
 		((Activity) context).runOnUiThread(new Runnable() {
@@ -259,7 +246,7 @@ public class MainModel {
 		});
 	}
 
-	private static class CardGenerator extends
+	private class CardGenerator extends
 			AsyncTask<String, Void, ArrayList<MainListViewItem>> {
 		@Override
 		protected void onPreExecute() {
@@ -271,12 +258,13 @@ public class MainModel {
 		protected ArrayList<MainListViewItem> doInBackground(
 				String... endpoints) {
 			if (endpoints.length == 2) {
-				ArrayList<MainListViewItem> cards = BusDataController.getCardsForQuery(endpoints[0],
-						endpoints[1]);
-				if(cards == null) {
+				ArrayList<MainListViewItem> cards = busDataController
+						.getCardsForQuery(endpoints[0], endpoints[1]);
+				if (cards == null) {
 					return null;
 				} else {
-					Collections.sort(cards, MainListViewItem.DEFAULT_COMPARATOR);
+					Collections
+							.sort(cards, MainListViewItem.DEFAULT_COMPARATOR);
 					return cards;
 				}
 			} else {
@@ -293,7 +281,7 @@ public class MainModel {
 	}
 
 	// ///////////// STARTUP CHECKS ////////////////
-	private static class DeviceIdChecker implements Runnable {
+	private class DeviceIdChecker implements Runnable {
 		private String getNewDeviceId() {
 			try {
 				return getJSONObjectForURL(BASE_URL + "/getdeviceid")
@@ -318,11 +306,11 @@ public class MainModel {
 		@Override
 		public void run() {
 			try {
-				if(sharedPreferences == null) {
-					sharedPreferences = context.getSharedPreferences("com.example.busme",
-							Context.MODE_PRIVATE);
+				if (sharedPreferences == null) {
+					sharedPreferences = context.getSharedPreferences(
+							"com.example.busme", Context.MODE_PRIVATE);
 				}
-				
+
 				deviceId = sharedPreferences.getString("device_id", "");
 				if (deviceId.contentEquals("") || !idIsStillValid(deviceId)) {
 					deviceId = getNewDeviceId();
@@ -336,7 +324,7 @@ public class MainModel {
 		}
 	}
 
-	private static class DataVersionChecker implements Runnable {
+	private class DataVersionChecker implements Runnable {
 		private JSONObject getNewStopToLatLngDictionary() {
 			return getJSONObjectForURL(BASE_URL
 					+ "/data/stops/dictionary/latlngs");
@@ -378,11 +366,11 @@ public class MainModel {
 		@Override
 		public void run() {
 			try {
-				if(sharedPreferences == null) {
-					sharedPreferences = context.getSharedPreferences("com.example.busme",
-							Context.MODE_PRIVATE);
+				if (sharedPreferences == null) {
+					sharedPreferences = context.getSharedPreferences(
+							"com.example.busme", Context.MODE_PRIVATE);
 				}
-				
+
 				JSONObject stopToLatLngs = null, stopToTCATIds = null;
 				dataVersion = sharedPreferences.getString("data_version", "");
 				dataVersion = "-1";

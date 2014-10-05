@@ -1,5 +1,9 @@
 package com.example.busme;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +23,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.widget.TextView;
 
@@ -40,15 +43,16 @@ public class ListItemDetailActivity extends Activity implements
 	private static SparseIntArray routeColors;
 	private GoogleMap gmap;
 	private Bundle extras;
-	ArrayList<LatLng> markerPoints;
+	private ArrayList<LatLng> markerPoints;
 	private JSONArray routeCoordinates;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.map_activity);
+
 		markerPoints = new ArrayList<LatLng>();
-		
+
 		initializeRouteColors();
 		initializeMapFragment();
 		initializeFonts();
@@ -161,15 +165,18 @@ public class ListItemDetailActivity extends Activity implements
 
 		LatLng current = new LatLng(location.getLatitude(),
 				location.getLongitude());
-		
-		synchronized(this) {
+
+		synchronized (this) {
 			float[] distance = new float[3];
-			Location.distanceBetween(current.latitude, current.longitude, (startLatLng.latitude + destLatLng.latitude) / 2, (startLatLng.longitude + destLatLng.longitude) / 2, distance);
-			if(distance[0] < 35000){
+			Location.distanceBetween(current.latitude, current.longitude,
+					(startLatLng.latitude + destLatLng.latitude) / 2,
+					(startLatLng.longitude + destLatLng.longitude) / 2,
+					distance);
+			if (distance[0] < 35000) {
 				markerPoints.add(current);
 			}
 		}
-		
+
 		// adding start & destination markers
 		MarkerOptions startOptions = new MarkerOptions().position(startLatLng);
 		MarkerOptions endOptions = new MarkerOptions().position(destLatLng);
@@ -194,16 +201,16 @@ public class ListItemDetailActivity extends Activity implements
 			new GetRouteDataTask().execute(routeNumbers[i]);
 		}
 
-		CameraUpdate cu = CameraUpdateFactory
-				.newLatLngBounds(getDefaultLatLngBounds(), 20, 20, 5);
+		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(
+				getDefaultLatLngBounds(), 20, 20, 5);
 		gmap.moveCamera(cu);
 		gmap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_CAMERA_ZOOM));
 
 	}
-	
+
 	public synchronized LatLngBounds getDefaultLatLngBounds() {
 		LatLngBounds.Builder b = new LatLngBounds.Builder();
-		for(int i = 0; i < markerPoints.size(); i++) {
+		for (int i = 0; i < markerPoints.size(); i++) {
 			b.include(markerPoints.get(i));
 		}
 		return b.build();
@@ -254,6 +261,55 @@ public class ListItemDetailActivity extends Activity implements
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
+	public String getRouteCoordinateData(int routeNumber) {
+		String data = readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber);
+		return data;
+	}
+
+	public void saveRouteCoordinateData(String data, int routeNumber) {
+		saveToFile(data, MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME + routeNumber);
+	}
+
+	/**
+	 * Stolen from MainModel
+	 * @param data
+	 * @param filename
+	 */
+	public void saveToFile(String data, String filename) {
+		try {
+			FileOutputStream fos = this.openFileOutput(filename,
+					Context.MODE_PRIVATE);
+			fos.write(data.getBytes());
+			fos.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * Stolen from MainModel
+	 * @param filename
+	 */
+	public String readFromFile(String filename) {
+		try {
+			BufferedReader bis = new BufferedReader(new InputStreamReader(
+					this.openFileInput(filename)));
+			String next;
+			String result = "";
+			while ((next = bis.readLine()) != null) {
+				result += next;
+			}
+			if (result.contentEquals("")) {
+				return null;
+			} else {
+				return result;
+			}
+		} catch (IOException e1) {
+			return null;
+		}
+	}
+
+
 	private class GetRouteDataTask extends
 			AsyncTask<Integer, Void, ArrayList<LatLng>> {
 		private int routeNumber;
@@ -267,16 +323,15 @@ public class ListItemDetailActivity extends Activity implements
 		protected ArrayList<LatLng> doInBackground(Integer... routeNumbers) {
 			this.routeNumber = routeNumbers[0];
 			try {
-				String routeData = MainModel
-						.getRouteCoordinateData(routeNumber);
+				String routeData = getRouteCoordinateData(routeNumber);
 				if (routeData != null) {
 					routeCoordinates = new JSONArray(routeData);
 				} else {
 					routeCoordinates = MainModel
 							.getJSONArrayForURL(MainModel.BASE_URL
 									+ "/data/route/" + routeNumber);
-					MainModel.saveRouteCoordinateData(
-							routeCoordinates.toString(), routeNumber);
+					saveRouteCoordinateData(routeCoordinates.toString(),
+							routeNumber);
 				}
 				return JSONConverter
 						.convertRouteArrayToHashMap(routeCoordinates);
