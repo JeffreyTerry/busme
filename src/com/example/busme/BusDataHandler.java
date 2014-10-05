@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,12 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class BusDataHandler {
 	private static final int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 1; // 2
-	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 3; // 4
+	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 1; // 4 TODO
+																	// there's
+																	// currently
+																	// a bug in
+																	// the date
+																	// shifting
 	private static Context context;
 	private static MainDatabaseController mainDatabaseController;
 	private static Geocoder geocoder;
@@ -129,18 +135,38 @@ public class BusDataHandler {
 		if (context == null) {
 			return null;
 		}
-		if(!initializeStopData()) {
+		if (!initializeStopData()) {
 			ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 			results.add(MainListViewItem.STOP_DATA_MISSING_ERROR_ITEM);
 			return results;
 		}
-		if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
-			if (routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
+		if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)
+				|| routeStart.contentEquals(MainModel.LOCATION_CURRENT)) {
+			if (routeStart.contentEquals(MainModel.LOCATION_UNSPECIFIED)
+					&& routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab the user's default cards from TCAT's
 				// servers
 				return getDefaultCardsFromTCATServer();
+			} else if (routeStart.contentEquals(MainModel.LOCATION_CURRENT)
+					&& routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
+				// this should grab cards based on all buses coming out of the
+				// user's current location
+				LocationManager locationManager = (LocationManager) context
+						.getSystemService(Context.LOCATION_SERVICE);
+				Criteria crit = new Criteria();
+				String provider = locationManager.getBestProvider(crit, true);
+				Location currentLocation = locationManager
+						.getLastKnownLocation(provider);
+
+				currentLatLng = new LatLng(currentLocation.getLatitude(),
+						currentLocation.getLongitude());
+
+				return getCardsForStartLatLngFromTCATServer(new LatLng(
+						currentLocation.getLatitude(),
+						currentLocation.getLongitude()));
 			} else {
-				// this should grab cards based on the current location
+				// this should grab cards based on the current location and a
+				// specific destination
 				LocationManager locationManager = (LocationManager) context
 						.getSystemService(Context.LOCATION_SERVICE);
 				Criteria crit = new Criteria();
@@ -161,6 +187,8 @@ public class BusDataHandler {
 								currentLocation.getLongitude()), endLatLng);
 			}
 		} else if (routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
+			// this should grab cards based on all buses coming out of a
+			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
 			return getCardsForStartLatLngFromTCATServer(startLatLng);
 		} else {
@@ -300,37 +328,49 @@ public class BusDataHandler {
 		ArrayList<String[]> relevantSearches;
 		try {
 			mainDatabaseController.open();
-			relevantSearches = mainDatabaseController
-					.getRelevantSearchData();
+			relevantSearches = mainDatabaseController.getRelevantSearchData();
 			mainDatabaseController.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			mainDatabaseController.close();
 		}
 
-		while (relevantSearches.size() > 5) {
-			relevantSearches.remove(relevantSearches.size() - 1);
-		}
+		// TODO remove these results based on relevance (date, location, etc...)
+		relevantSearches = trimArrayListToSize(relevantSearches, 5);
 
+		int numberOfResultsToKeepForEachQuery = 1;
 		String[] nextSearch;
 		ArrayList<MainListViewItem> nextResults = new ArrayList<MainListViewItem>();
 		for (int i = 0; i < relevantSearches.size(); i++) {
 			nextSearch = relevantSearches.get(i);
-			if (nextSearch[0] == MainDatabaseController.NULL_START_QUERY) {
-				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED, nextSearch[1]);
-				if(nextResults != null) {
+			Log.d("next search", nextSearch[0] + ", " + nextSearch[1]);
+			if (nextSearch[0].contentEquals(MainDatabaseController.NULL_QUERY)) {
+				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
+						nextSearch[1]);
+				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+				if (nextResults != null) {
 					results.addAll(nextResults);
 				}
-			} else if (nextSearch[1] == MainDatabaseController.NULL_END_QUERY) {
-				nextResults = getCardsForQuery(nextSearch[0], MainModel.LOCATION_UNSPECIFIED);
-				if(nextResults != null) {
+			} else if (nextSearch[1]
+					.contentEquals(MainDatabaseController.NULL_QUERY)) {
+				nextResults = getCardsForQuery(nextSearch[0],
+						MainModel.LOCATION_UNSPECIFIED);
+				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+				if (nextResults != null) {
 					results.addAll(nextResults);
 				}
-			} else if(nextSearch[0] != MainDatabaseController.NULL_START_QUERY && nextSearch[1] != MainDatabaseController.NULL_END_QUERY) {
+			} else if (!nextSearch[0]
+					.contentEquals(MainDatabaseController.NULL_QUERY)
+					&& !nextSearch[1]
+							.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1]);
-				if(nextResults != null) {
+				Collections.sort(nextResults, MainListViewItem.DEFAULT_COMPARATOR);
+				nextResults = trimArrayListToSize(nextResults, numberOfResultsToKeepForEachQuery);
+				if (nextResults != null) {
 					results.addAll(nextResults);
 				}
 			}
@@ -480,8 +520,6 @@ public class BusDataHandler {
 						.compile("(leftColSub)[\\s\\S]*(rightColSub)");
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
-				Log.d("built -- query",
-						start + ", " + end + ", " + date.get(Calendar.MINUTE));
 				if (!resultSectionMatcher.find()) {
 					return null;
 				} else {
@@ -524,8 +562,6 @@ public class BusDataHandler {
 								.get(nextBusStartName);
 						LatLng nextBusEndLatLng = stopToLatLngs
 								.get(nextBusEndName);
-						Log.d("parsed -- query", start + ", " + end + ", "
-								+ date.get(Calendar.MINUTE));
 						return new MainListViewItem(nextBusStartTime,
 								nextBusRouteNumbers, nextBusStartName,
 								nextBusEndName, nextBusStartLatLng.latitude,
@@ -817,6 +853,25 @@ public class BusDataHandler {
 				result += directionsUnstripped.get(i).substring(9) + ",";
 			}
 		}
+		
+		String[] blacklist = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+		int indexToRemove = -1, numberOfCharactersToRemove = 0;
+		String resultLowercase = result.toLowerCase(Locale.US);
+		for(int i = 0; i < blacklist.length; i++) {
+			indexToRemove = resultLowercase.indexOf((blacklist[i]));
+			if(indexToRemove != -1) {
+				numberOfCharactersToRemove = blacklist[i].length();
+				break;
+			}
+		}
+		if(indexToRemove != -1) {
+			int offsetForSpace = 0;
+			if(result.length() > indexToRemove + numberOfCharactersToRemove) {
+				offsetForSpace = 1;
+			}
+			result = result.substring(0, indexToRemove) + result.substring(indexToRemove + numberOfCharactersToRemove + offsetForSpace);
+		}
+		
 		return result.substring(0, result.length() - 1);
 	}
 
@@ -825,7 +880,7 @@ public class BusDataHandler {
 			mainDatabaseController.open();
 			mainDatabaseController.addStartSearch(start);
 			mainDatabaseController.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			mainDatabaseController.close();
@@ -837,7 +892,7 @@ public class BusDataHandler {
 			mainDatabaseController.open();
 			mainDatabaseController.addEndSearch(end);
 			mainDatabaseController.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			mainDatabaseController.close();
@@ -849,59 +904,41 @@ public class BusDataHandler {
 			mainDatabaseController.open();
 			mainDatabaseController.addStartEndSearch(start, end);
 			mainDatabaseController.close();
-		} catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			mainDatabaseController.close();
 		}
 	}
 
-	@Deprecated
-	private static ArrayList<MainListViewItem> getDefaultCardsFromBusMeServer() {
-		if (context == null) {
-			return null;
-		}
-		LocationManager locationManager = (LocationManager) context
-				.getSystemService(Context.LOCATION_SERVICE);
-		Criteria crit = new Criteria();
-		String provider = locationManager.getBestProvider(crit, true);
-		Location loc = locationManager.getLastKnownLocation(provider);
+	public static void removeStartQueryFromDatabase(String start) {
+		removeStartEndQueryFromDatabase(start, MainDatabaseController.NULL_QUERY);
+	}
 
-		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-		// This should query the database for the user's default suggestions
-		JSONArray buses = MainModel.getJSONArrayForURL(MainModel.BASE_URL
-				+ "/routes/default/" + MainModel.getDeviceId() + "/"
-				+ loc.getLatitude() + "/" + loc.getLongitude() + "/");
+	public static void removeEndQueryFromDatabase(String end) {
+		removeStartEndQueryFromDatabase(MainDatabaseController.NULL_QUERY, end);
+	}
+	
+	public static void removeStartEndQueryFromDatabase(String start, String end) {
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.deleteStartEndSearch(start, end);
+			mainDatabaseController.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
+	}
 
-		if (buses == null) {
-			return null;
+	
+	private static <E> ArrayList<E> trimArrayListToSize(ArrayList<E> list, int size){
+		if(size < 0) {
+			throw new IllegalArgumentException("size must be nonnegative");
 		}
-		JSONObject currentRoute;
-		for (int i = 0; i < buses.length(); i++) {
-			try {
-				currentRoute = buses.getJSONObject(i);
-				if (currentRoute.has("err")) {
-					// Toast.makeText(c, "hello", Toast.LENGTH_SHORT).show(); //
-					// test this
-					return null;
-				}
-				results.add(new MainListViewItem(
-						currentRoute.getString("next_bus"),
-						currentRoute.getString("route_numbers"),
-						currentRoute.getString("start"),
-						currentRoute.getString("destination"),
-						Double.parseDouble(currentRoute.getString("start_lat")),
-						Double.parseDouble(currentRoute.getString("start_lng")),
-						Double.parseDouble(currentRoute.getString("dest_lat")),
-						Double.parseDouble(currentRoute.getString("dest_lng")),
-						currentRoute.getString("travel_time")));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		while (list.size() > size) {
+			list.remove(list.size() - 1);
 		}
-		if (results.size() == 0) {
-			return null;
-		}
-		return results;
+		return list;
 	}
 }

@@ -2,12 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_gravity="center_vertical|center"
+    android:gravity="center"
+    android:orientation="horizontal" >
 
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center"
+        android:paddingLeft="5dp"
+        android:paddingRight="25dp"
+        android:text="Searching TCAT Data"
+        android:textColor="#646464"
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -27,6 +27,7 @@ public class MainModel {
 	public static final String NEW_CARDS_BROADCAST = "com.example.busme.newcards";
 	public static final String ERROR_EXTRA = "error";
 	public static final String CARD_ERROR_NO_ROUTES = "No routes found";
+	public static final String LOCATION_CURRENT = "jdksCurrentLOcation";
 	public static final String LOCATION_UNSPECIFIED = "";
 	public static final String BASE_URL = "http://www.theseedok.com/api";
 	public static final String ROUTE_LINE_DATA_FILE_BASE_NAME = "route_lines_";

@@ -1,6 +1,12 @@
 package com.example.busme;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,32 +24,34 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class MainController implements
-		OnEditorActionListener, OnItemClickListener,
-		SwipeDismisserListView.DismissCallbacks, OnTouchListener {
-//	public static final long LOCATION_UPDATE_FREQUENCY = 120000L;
-//	public static final long TWO_HOURS = 7200000L;
-//	public static final long LOCATION_UPDATE_TIMEOUT = TWO_HOURS
-//			/ LOCATION_UPDATE_FREQUENCY;
-//	public static final int ALARM_REQUEST_CODE = 984375;
-//	public static final double BUS_SPEED_THRESHOLD = 5.0;
-	public EditText etStart, etDestination;
+public class MainController implements OnEditorActionListener,
+		OnItemClickListener, SwipeDismisserListView.DismissCallbacks,
+		OnTouchListener {
+	// public static final long LOCATION_UPDATE_FREQUENCY = 120000L;
+	// public static final long TWO_HOURS = 7200000L;
+	// public static final long LOCATION_UPDATE_TIMEOUT = TWO_HOURS
+	// / LOCATION_UPDATE_FREQUENCY;
+	// public static final int ALARM_REQUEST_CODE = 984375;
+	// public static final double BUS_SPEED_THRESHOLD = 5.0;
+	// private int numberOfLocationUpdates;
+	private EditText etStart, etDestination;
 	private MainListViewAdapter mainListViewAdapter;
 	private Context context;
-//	private int numberOfLocationUpdates;
 	private SwipeDismisserListView swipeDismisserListView;
+	private HashMap<String, LatLng> stopToLatLngs = null;
+	private HashMap<String, String> stopToTcatIds = null;
 	private float x1;
 
 	public MainController(Context c) {
 		MainModel.initialize(c, this);
-		
+
 		context = c;
 		createMainListViewAdapter();
 
-//		numberOfLocationUpdates = 1;
-//		c.registerReceiver(this,
-//				LocationTracker.getLocationBroadcastIntentFilter());
-//		startAlarmBroadcaster();
+		// numberOfLocationUpdates = 1;
+		// c.registerReceiver(this,
+		// LocationTracker.getLocationBroadcastIntentFilter());
+		// startAlarmBroadcaster();
 	}
 
 	public void setEtStart(EditText etStart) {
@@ -97,16 +105,18 @@ public class MainController implements
 	public boolean canDismiss(int position) {
 		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
 	}
-	
+
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-		MainListViewItem itemDismissed;
+		MainListViewItem itemDismissed = null;
 		for (int position : reverseSortedPositions) {
 			if (position != 0 && position != mainListViewAdapter.getCount() - 1) {
 				itemDismissed = mainListViewAdapter.getItem(position + 1);
 				mainListViewAdapter.remove(itemDismissed);
 			}
 		}
+		new Thread(new DatabaseCardRemovalTask(itemDismissed)).start();
+
 		mainListViewAdapter.notifyDataSetChanged();
 	}
 
@@ -116,7 +126,7 @@ public class MainController implements
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
 		MainListViewItem item = mainListViewAdapter.getItem(position + 1);
-		if(item == MainListViewItem.NULL_ITEM) {
+		if (item == MainListViewItem.NULL_ITEM) {
 			return;
 		}
 		Intent i = new Intent(context, ListItemDetailActivity.class);
@@ -163,8 +173,15 @@ public class MainController implements
 				break;
 			}
 
-			MainModel.generateCardsForQuery(etStart.getText().toString(), etDestination.getText()
-					.toString());
+			String startQuery = etStart.getText().toString();
+			if (startQuery.contentEquals("")) {
+				startQuery = MainModel.LOCATION_CURRENT;
+			}
+			String endQuery = etDestination.getText().toString();
+			if (endQuery.contentEquals("")) {
+				endQuery = MainModel.LOCATION_UNSPECIFIED;
+			}
+			MainModel.generateCardsForQuery(startQuery, endQuery);
 
 			// Must return true here to consume event
 			return true;
@@ -172,121 +189,123 @@ public class MainController implements
 		}
 		return false;
 	}
-	
+
 	public void setCardsLoading(boolean loading) {
 		mainListViewAdapter.setLoading(loading);
 	}
-	
+
 	public void setCards(ArrayList<MainListViewItem> cards) {
 		mainListViewAdapter.clear();
 		mainListViewAdapter.addAll(cards);
 	}
-	
+
 	public void makeError(String errorCode) {
 		Toast.makeText(context, errorCode, Toast.LENGTH_SHORT).show();
 	}
-	
-	
-	
-	
-	
 
-	
-	
-	
 	/**
-	 * This asynchronously queries the server for data
+	 * Stolen from BusDataHandler
+	 * 
+	 * @return
 	 */
-	@Deprecated
-	private class QueryTask extends
-			AsyncTask<String, Void, ArrayList<MainListViewItem>> {
-		@Override
-		protected void onPreExecute() {
-			mainListViewAdapter.setLoading(true);
-			super.onPreExecute();
+	private boolean initializeStopData() {
+		if (stopToLatLngs != null && stopToTcatIds != null) {
+			return true;
+		}
+		try {
+			String stopToLatLngDictionaryData = MainModel
+					.getStopToLatLngDictionaryData();
+			if (stopToLatLngDictionaryData != null) {
+				stopToLatLngs = JSONConverter
+						.convertStopLatLngsToHashMap(new JSONObject(
+								stopToLatLngDictionaryData));
+			}
+
+			String stopToTcatIdDictionaryData = MainModel
+					.getStopToTcatIdDictionaryData();
+			if (stopToTcatIdDictionaryData != null) {
+				stopToTcatIds = JSONConverter
+						.convertStopIdsToHashMap(new JSONObject(
+								stopToTcatIdDictionaryData));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if (stopToLatLngs != null && stopToTcatIds != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private class DatabaseCardRemovalTask implements Runnable {
+		MainListViewItem cardToRemove = null;
+
+		public DatabaseCardRemovalTask(MainListViewItem card) {
+			cardToRemove = card;
 		}
 
 		@Override
-		protected ArrayList<MainListViewItem> doInBackground(String... args) {
-			try {
-				if (args.length == 2) {
-					return BusDataHandler.getCardsForQuery(args[0], args[1]);
-				} else {
-					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-					return result;
+		public void run() {
+			if (cardToRemove == null) {
+				return;
+			} else {
+				if(initializeStopData()){
+					if(stopToTcatIds.containsKey(cardToRemove.getRouteStart()) && stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
+						BusDataHandler.removeStartEndQueryFromDatabase(cardToRemove.getRouteStart(), cardToRemove.getRouteDestination());
+					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteStart())) {
+						BusDataHandler.removeStartQueryFromDatabase(cardToRemove.getRouteStart());
+					} else if(stopToTcatIds.containsKey(cardToRemove.getRouteDestination())) {
+						BusDataHandler.removeEndQueryFromDatabase(cardToRemove.getRouteDestination());
+					}
 				}
-			} catch (Exception e) {
-				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
-				return result;
 			}
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<MainListViewItem> results) {
-			if(results == null){
-				mainListViewAdapter.clear();
-				mainListViewAdapter.setLoading(false);
-				Toast.makeText(context, "Network Error", Toast.LENGTH_LONG).show();
-			} else if(results.size() == 0){
-				mainListViewAdapter.clear();
-				mainListViewAdapter.setLoading(false);
-				Toast.makeText(context, "No routes found", Toast.LENGTH_LONG).show();
-			} else{
-				mainListViewAdapter.clear();
-				mainListViewAdapter.setLoading(false);
-				mainListViewAdapter.addAll(results);
-			}
-			super.onPostExecute(results);
 		}
 	}
 
-	@Deprecated
-	public void fetchNewCards(String start, String dest) {
-		QueryTask q = new QueryTask();
-		q.execute(start, dest);
-	}
-//	private void resetLocationUpdateCount() {
-//		numberOfLocationUpdates = 0;
-//		startAlarmBroadcaster();
-//	}
-//
-//	private void startAlarmBroadcaster() {
-//		AlarmManager am = (AlarmManager) context
-//				.getSystemService(Context.ALARM_SERVICE);
-//		Intent i = new Intent(context, LocationTracker.class);
-//		PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
-//				context, ALARM_REQUEST_CODE, i,
-//				PendingIntent.FLAG_CANCEL_CURRENT);
-//		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-//				+ LOCATION_UPDATE_FREQUENCY, LOCATION_UPDATE_FREQUENCY,
-//				updateLocationIntent);
-//	}
-//
-//	private void stopAlarmBroadcaster() {
-//		AlarmManager am = (AlarmManager) context
-//				.getSystemService(Context.ALARM_SERVICE);
-//		Intent i = new Intent(context, LocationTracker.class);
-//		PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
-//				context, ALARM_REQUEST_CODE, i,
-//				PendingIntent.FLAG_CANCEL_CURRENT);
-//		
-//		am.cancel(updateLocationIntent);
-//	}
-//	/**
-//	 * This pushes location updates to our server if the phone is believed to be
-//	 * on a bus
-//	 */
-//	@Override
-//	public void onReceive(Context context, Intent intent) {
-//		numberOfLocationUpdates++;
-//		if (numberOfLocationUpdates > LOCATION_UPDATE_TIMEOUT) {
-//			stopAlarmBroadcaster();
-//			return;
-//		}
-//		Location location = (Location) intent
-//				.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
-//		if (location.getSpeed() >= BUS_SPEED_THRESHOLD) {
-//			// TODO send this location to the server
-//		}
-//	}
+	// private void resetLocationUpdateCount() {
+	// numberOfLocationUpdates = 0;
+	// startAlarmBroadcaster();
+	// }
+	//
+	// private void startAlarmBroadcaster() {
+	// AlarmManager am = (AlarmManager) context
+	// .getSystemService(Context.ALARM_SERVICE);
+	// Intent i = new Intent(context, LocationTracker.class);
+	// PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
+	// context, ALARM_REQUEST_CODE, i,
+	// PendingIntent.FLAG_CANCEL_CURRENT);
+	// am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+	// + LOCATION_UPDATE_FREQUENCY, LOCATION_UPDATE_FREQUENCY,
+	// updateLocationIntent);
+	// }
+	//
+	// private void stopAlarmBroadcaster() {
+	// AlarmManager am = (AlarmManager) context
+	// .getSystemService(Context.ALARM_SERVICE);
+	// Intent i = new Intent(context, LocationTracker.class);
+	// PendingIntent updateLocationIntent = PendingIntent.getBroadcast(
+	// context, ALARM_REQUEST_CODE, i,
+	// PendingIntent.FLAG_CANCEL_CURRENT);
+	//
+	// am.cancel(updateLocationIntent);
+	// }
+	// /**
+	// * This pushes location updates to our server if the phone is believed to
+	// be
+	// * on a bus
+	// */
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// numberOfLocationUpdates++;
+	// if (numberOfLocationUpdates > LOCATION_UPDATE_TIMEOUT) {
+	// stopAlarmBroadcaster();
+	// return;
+	// }
+	// Location location = (Location) intent
+	// .getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
+	// if (location.getSpeed() >= BUS_SPEED_THRESHOLD) {
+	// // TODO send this location to the server
+	// }
+	// }
 }
