@@ -56,7 +56,7 @@ public class MainModel {
 		if (context == null) {
 			context = c;
 			mainController = mc;
-			BusDataCollector.initialize(c);
+			BusDataHandler.initialize(c);
 		} else {
 			Log.e("ERROR", "MainModel was instantiated twice");
 		}
@@ -182,25 +182,17 @@ public class MainModel {
 	public static String getRouteCoordinateData(int routeNumber) {
 		String data = readFromFile(MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
 				+ routeNumber);
-		if (data == null) {
-			return null;
-		} else {
-			return data;
-		}
+		return data;
 	}
 
-	public static void saveRouteData(String data, int routeNumber) {
+	public static void saveRouteCoordinateData(String data, int routeNumber) {
 		MainModel.saveToFile(data, MainModel.ROUTE_LINE_DATA_FILE_BASE_NAME
 				+ routeNumber);
 	}
 
 	public static String getStopToLatLngDictionaryData() {
 		String data = readFromFile(STOP_TO_LOCATION_DATA_FILE);
-		if (data.contentEquals("")) {
-			return null;
-		} else {
-			return data;
-		}
+		return data;
 	}
 
 	public static void saveStopToLatLngDictionaryData(String data) {
@@ -209,11 +201,7 @@ public class MainModel {
 
 	public static String getStopToTcatIdDictionaryData() {
 		String data = readFromFile(STOP_TO_ID_DATA_FILE);
-		if (data.contentEquals("")) {
-			return null;
-		} else {
-			return data;
-		}
+		return data;
 	}
 
 	public static void saveStopToTcatIdDictionaryData(String data) {
@@ -285,7 +273,7 @@ public class MainModel {
 		protected ArrayList<MainListViewItem> doInBackground(
 				String... endpoints) {
 			if (endpoints.length == 2) {
-				return BusDataCollector.getCardsForQuery(endpoints[0],
+				return BusDataHandler.getCardsForQuery(endpoints[0],
 						endpoints[1]);
 			} else {
 				return null;
@@ -341,7 +329,8 @@ public class MainModel {
 
 	private static class DataVersionChecker implements Runnable {
 		private JSONObject getNewStopToLatLngDictionary() {
-			return getJSONObjectForURL(BASE_URL + "/data/stops/dictionary/latlngs");
+			return getJSONObjectForURL(BASE_URL
+					+ "/data/stops/dictionary/latlngs");
 		}
 
 		private JSONObject getNewStopToTCATIdDictionary() {
