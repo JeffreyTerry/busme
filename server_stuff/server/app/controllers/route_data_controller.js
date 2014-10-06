@@ -2,7 +2,7 @@ var fs = require('fs');
 
 // change this to make the android app download new data.
 // always make later data versions bigger numbers by convention.
-var CURRENT_DATA_VERSION = '0';
+var CURRENT_DATA_VERSION = '1';
 
 module.exports = {
     getRouteLatLngs: function(route_name, res) {

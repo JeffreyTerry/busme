@@ -38,6 +38,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -124,6 +125,7 @@ public class BusDataController {
 		if (context == null) {
 			return null;
 		}
+		System.out.println(routeStart + ", " + routeEnd);
 		if (!initializeStopData()) {
 			ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 			results.add(MainListViewItem.STOP_DATA_MISSING_ERROR_ITEM);
@@ -179,6 +181,7 @@ public class BusDataController {
 			// this should grab cards based on all buses coming out of a
 			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
+			System.out.println(routeStart + ", " + startLatLng);
 			if (startLatLng == null) {
 				return null;
 			}
@@ -594,6 +597,7 @@ public class BusDataController {
 		ArrayList<MainListViewItem> currentCards;
 		HashSet<MainListViewItem> cardsToReturn = new HashSet<MainListViewItem>();
 		for (int i = 0; i < closestStopsToStart.size(); i++) {
+			System.out.println("YOOOOOO: " + closestStopsToStart.get(0));
 			currentCards = getCardsForStopFromTCATServer(closestStopsToStart
 					.get(i));
 			if (currentCards != null) {
@@ -623,6 +627,10 @@ public class BusDataController {
 	private ArrayList<MainListViewItem> getCardsForStopFromTCATServer(
 			String start) {
 		HttpClient client = new DefaultHttpClient();
+		if(!stopToTcatIds.containsKey(start)) {
+			Log.i("Data error", start + " not found in stop to tcat id dictionary");
+			return null;
+		}
 		HttpGet get = new HttpGet("http://tcat.nextinsight.com/stops/"
 				+ stopToTcatIds.get(start));
 		try {
@@ -658,6 +666,9 @@ public class BusDataController {
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
 				if (!resultSectionMatcher.find()) {
+					System.out.println("this" + built);
+					ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
+					results.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
 					return null;
 				} else {
 					try {
@@ -668,6 +679,8 @@ public class BusDataController {
 								"</strong>");
 						responseBody = responseBody.replaceAll(":<\\/b>",
 								"</b>");
+						
+						System.out.println("response body: " + responseBody);
 
 						String nextBusRouteStartTimes = getNextBusRouteStartTimes(responseBody);
 						String nextBusRouteNumbers = getNextBusRouteNumbers(responseBody);
@@ -833,7 +846,12 @@ public class BusDataController {
 			}
 			result += toAdd + ",";
 		}
-		return result.substring(0, result.length() - 1);
+		if(result.length() == 0) {
+			System.out.println("THIISDII");
+			return "00:00 AM";
+		} else {
+			return result.substring(0, result.length() - 1);
+		}
 	}
 
 	private String getNextBusRouteDirections(String nextBusStartBody) {
