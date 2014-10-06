@@ -64,6 +64,7 @@ public class MainDatabaseController {
 	}
 
 	public long addStartSearch(String start) {
+		System.out.println("yeah" + start);
 		return addStartEndSearch(start, NULL_QUERY);
 	}
 
@@ -127,6 +128,7 @@ public class MainDatabaseController {
 		int indexStart = cursor.getColumnIndex(KEY_SEARCH_START_QUERY);
 		int indexEnd = cursor.getColumnIndex(KEY_SEARCH_END_QUERY);
 
+		System.out.println("results maybe?");
 		ArrayList<String[]> results = new ArrayList<String[]>();
 		String[] nextResult;
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -139,6 +141,7 @@ public class MainDatabaseController {
 			if(nextResult[1].contentEquals(NULL_QUERY)) {
 				nextResult[1] = MainModel.LOCATION_UNSPECIFIED;
 			}
+			System.out.println(nextResult[0] + ", " + nextResult[1]);
 			results.add(nextResult);
 		}
 
