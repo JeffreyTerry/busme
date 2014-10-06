@@ -15,8 +15,7 @@ public class MainViewListFragment extends Fragment {
 
 	private MainController mainController;
 	private ListView mainListView;
-	private EditText etDestination, etStart;
-	private View shadowExpanded, shadowRetracted, mainEtDivider;
+	private EditText etSearchFrom, etSearchTo;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -27,25 +26,19 @@ public class MainViewListFragment extends Fragment {
 		MainActivity mainActivity = (MainActivity) this.getActivity();
 		mainController = mainActivity.getMainController();
 
-		etStart = (EditText) layout.findViewById(R.id.etStart);
-		etDestination = (EditText) layout.findViewById(R.id.etDestination);
-		shadowExpanded = layout.findViewById(R.id.shadowExpanded);
-		shadowRetracted = layout.findViewById(R.id.shadowRetracted);
-		mainEtDivider = layout.findViewById(R.id.mainEtDivider);
+		etSearchFrom = (EditText) layout.findViewById(R.id.etSearchFrom);
+		etSearchTo = (EditText) layout.findViewById(R.id.etSearchTo);
 		mainListView = (ListView) layout.findViewById(R.id.lvMain);
 
 		// hide the keyboard
-		etStart.clearFocus();
-		etDestination.clearFocus();
+		etSearchFrom.clearFocus();
+		etSearchTo.clearFocus();
 		mainActivity.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		mainController.setEtStart(etStart);
-		mainController.setEtDestination(etDestination);
-		mainController.setListView(mainListView);
-
-		mainActivity.setShadows(shadowExpanded, shadowRetracted);
-		mainActivity.setMainEts(etStart, etDestination, mainEtDivider);
+		mainController.setMainActivityEtSearchFrom(etSearchFrom);
+		mainController.setMainActivityEtSearchTo(etSearchTo);
+		mainController.setMainActivityListView(mainListView);
 
 		return layout;
 	}

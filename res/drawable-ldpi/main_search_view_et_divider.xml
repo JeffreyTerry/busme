@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <shape android:shape="rectangle" >
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+    <item
+        android:left="@dimen/activity_horizontal_margin"
+        android:right="@dimen/activity_horizontal_margin">
+        <shape android:shape="rectangle" >
+            <solid android:color="@android:color/darker_gray" />
+        </shape>
+    </item>
+
+    <!-- <item> -->
+    <!-- <shape -->
+    <!-- android:left="@dimen/activity_horizontal_margin" -->
+    <!-- android:right="@dimen/activity_horizontal_margin" -->
+    <!-- android:shape="rectangle" > -->
+    <!-- <gradient -->
+    <!-- android:angle="0" -->
+    <!-- android:centerColor="@android:color/darker_gray" -->
+    <!-- android:endColor="@android:color/transparent" -->
+    <!-- android:startColor="@android:color/transparent" -->
+    <!-- android:type="linear" > -->
+    <!-- </gradient> -->
+    <!-- </shape> -->
+    <!-- </item> -->
+
+</layer-list>

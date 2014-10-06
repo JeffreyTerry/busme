@@ -1,0 +1,97 @@
+<!--
+ TODO <android.support.v4.widget.SwipeRefreshLayout
+	    	xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:id="@+id/swipe_container"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent" >
+-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fmainList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gray_background"
+    tools:context="com.example.busme.MainActivity" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" >
+    </View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <EditText
+            android:id="@+id/etStartQuery"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:hint="From current location"
+            android:imeOptions="actionSearch"
+            android:inputType="textNoSuggestions"
+            android:nextFocusDown="@+id/etDestinationQuery"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColorHint="#6599FF" >
+        </EditText>
+
+        <ImageView
+            android:id="@+id/mainEtDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/etStartQuery"
+            android:background="@drawable/main_search_view_et_divider"
+            android:contentDescription="main edit text divider" />
+
+        <EditText
+            android:id="@id/etDestinationQuery"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/mainEtDivider"
+            android:background="@android:color/white"
+            android:cursorVisible="false"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:hint="To anywhere"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:nextFocusDown="@+id/lvSearchMain"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
+        </EditText>
+
+        <ListView
+            android:id="@id/lvSearchMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/etDestinationQuery"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/list_background"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12sp" >
+        </ListView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/shadowExpanded"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_shadow_height"
+        android:layout_gravity="top"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/gradient_down" >
+    </View>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_shadow_height"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient_up" >
+    </View>
+
+</FrameLayout>

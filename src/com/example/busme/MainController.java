@@ -6,10 +6,9 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +22,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class MainController implements OnEditorActionListener,
 		OnItemClickListener, SwipeDismisserListView.DismissCallbacks,
 		OnTouchListener {
@@ -33,17 +34,29 @@ public class MainController implements OnEditorActionListener,
 	// public static final int ALARM_REQUEST_CODE = 984375;
 	// public static final double BUS_SPEED_THRESHOLD = 5.0;
 	// private int numberOfLocationUpdates;
-	private EditText etStart, etDestination;
-	private MainListViewAdapter mainListViewAdapter;
+	public static final String ET_SEARCH_FROM_EXTRA = "search_from_et";
+	public static final String ET_SEARCH_TO_EXTRA = "search_to_et";
+
+	// These elements belong to MainActivity
+	private ListView mainActivityListView = null;
+	private EditText etSearchFrom, etSearchTo;
+	private SwipeDismisserListView swipeDismisserListView;
+
+	// These elements belong to SearchActivity
+	private ListView searchActivityListView = null;
+	private EditText etStartQuery, etDestinationQuery;
+
+	// These elements are present in both MainActivity and SearchActivity
+	private MainListViewAdapter listViewAdapter;
+
 	private Context context;
 	private MainModel mainModel;
-	private SwipeDismisserListView swipeDismisserListView;
 	private HashMap<String, LatLng> stopToLatLngs = null;
 	private HashMap<String, String> stopToTcatIds = null;
 	private float x1;
 
-	public MainController(Context c) {
-		mainModel = new MainModel(c, this);
+	public MainController(Context c, boolean loadDefaultCards) {
+		mainModel = new MainModel(c, this, loadDefaultCards);
 
 		context = c;
 		createMainListViewAdapter();
@@ -54,39 +67,77 @@ public class MainController implements OnEditorActionListener,
 		// startAlarmBroadcaster();
 	}
 
-	public void setEtStart(EditText etStart) {
-		this.etStart = etStart;
-		this.etStart.setOnEditorActionListener(this);
+	public void setSearchActivityEtStart(EditText etStart) {
+		this.etStartQuery = etStart;
+		this.etStartQuery.setOnEditorActionListener(this);
 	}
 
-	public void setEtDestination(EditText etDestination) {
-		this.etDestination = etDestination;
-		this.etDestination.setOnEditorActionListener(this);
+	public void setSearchActivityEtDestination(EditText etDestination) {
+		this.etDestinationQuery = etDestination;
+		this.etDestinationQuery.setOnEditorActionListener(this);
 	}
 
-	public void setListView(ListView v) {
-		v.setAdapter(mainListViewAdapter);
-		v.setOnItemClickListener(this);
-		swipeDismisserListView = new SwipeDismisserListView(v, this);
-		v.setOnTouchListener(this);
-		v.setOnScrollListener(swipeDismisserListView.makeScrollListener());
+	public void setSearchActivityListView(ListView v) {
+		searchActivityListView = v;
+		searchActivityListView.setAdapter(listViewAdapter);
+		searchActivityListView.setOnItemClickListener(this);
+	}
+
+	public void setMainActivityEtSearchFrom(EditText etSearchFrom) {
+		this.etSearchFrom = etSearchFrom;
+		this.etSearchFrom.setOnTouchListener(this);
+	}
+
+	public void setMainActivityEtSearchTo(EditText etSearchTo) {
+		this.etSearchTo = etSearchTo;
+		this.etSearchTo.setOnTouchListener(this);
+	}
+
+	public void setMainActivityListView(ListView v) {
+		mainActivityListView = v;
+		mainActivityListView.setAdapter(listViewAdapter);
+		mainActivityListView.setOnItemClickListener(this);
+		swipeDismisserListView = new SwipeDismisserListView(
+				mainActivityListView, this);
+		mainActivityListView.setOnTouchListener(this);
+		mainActivityListView.setOnScrollListener(swipeDismisserListView
+				.makeScrollListener());
 	}
 
 	private void createMainListViewAdapter() {
-		mainListViewAdapter = new MainListViewAdapter(context,
+		listViewAdapter = new MainListViewAdapter(context,
 				new ArrayList<MainListViewItem>());
 	}
-	
+
 	public MainModel getMainModel() {
 		return mainModel;
+	}
+
+	private void launchSearchActivity(String launchButtonSource) {
+		Intent i = new Intent(context, MainSearchActivity.class);
+		i.putExtra("launch_button_source", launchButtonSource);
+		context.startActivity(i);
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			x1 = event.getX();
-			swipeDismisserListView.onTouch(v, event);
+
+			switch (v.getId()) {
+			case R.id.etSearchFrom:
+				Log.d("yolo", "yaya");
+				launchSearchActivity(ET_SEARCH_FROM_EXTRA);
+				break;
+			case R.id.etSearchTo:
+				Log.d("yolo", "yayeeee");
+				launchSearchActivity(ET_SEARCH_TO_EXTRA);
+				break;
+			default:
+				x1 = event.getX();
+				swipeDismisserListView.onTouch(v, event);
+				break;
+			}
 		case MotionEvent.ACTION_UP:
 			swipeDismisserListView.onTouch(v, event);
 			break;
@@ -106,21 +157,21 @@ public class MainController implements OnEditorActionListener,
 
 	@Override
 	public boolean canDismiss(int position) {
-		return !(position == 0 || position == mainListViewAdapter.getCount() - 1);
+		return !(position == 0 || position == listViewAdapter.getCount() - 1);
 	}
 
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
 		MainListViewItem itemDismissed = null;
 		for (int position : reverseSortedPositions) {
-			if (position != 0 && position != mainListViewAdapter.getCount() - 1) {
-				itemDismissed = mainListViewAdapter.getItem(position + 1);
-				mainListViewAdapter.remove(itemDismissed);
+			if (position != 0 && position != listViewAdapter.getCount() - 1) {
+				itemDismissed = listViewAdapter.getItem(position + 1);
+				listViewAdapter.remove(itemDismissed);
 			}
 		}
 		new Thread(new DatabaseCardRemovalTask(itemDismissed)).start();
 
-		mainListViewAdapter.notifyDataSetChanged();
+		listViewAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -128,7 +179,7 @@ public class MainController implements OnEditorActionListener,
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> av, View v, int position, long l) {
-		MainListViewItem item = mainListViewAdapter.getItem(position + 1);
+		MainListViewItem item = listViewAdapter.getItem(position + 1);
 		if (item == MainListViewItem.NULL_ITEM) {
 			return;
 		}
@@ -159,32 +210,26 @@ public class MainController implements OnEditorActionListener,
 			v.clearFocus();
 			View nextView;
 			switch (v.getId()) {
-			case R.id.etStart:
+			case R.id.etStartQuery:
 				nextView = v.focusSearch(View.FOCUS_DOWN).focusSearch(
 						View.FOCUS_DOWN);
 				if (nextView != null) {
 					nextView.requestFocus();
 				}
+
+				makeSearchQuery();
 				break;
-			case R.id.etDestination:
+			case R.id.etDestinationQuery:
 				nextView = v.focusSearch(View.FOCUS_DOWN);
 				if (nextView != null) {
 					nextView.requestFocus();
 				}
+
+				makeSearchQuery();
 				break;
 			default:
 				break;
 			}
-
-			String startQuery = etStart.getText().toString();
-			if (startQuery.contentEquals("")) {
-				startQuery = MainModel.LOCATION_CURRENT;
-			}
-			String endQuery = etDestination.getText().toString();
-			if (endQuery.contentEquals("")) {
-				endQuery = MainModel.LOCATION_UNSPECIFIED;
-			}
-			mainModel.generateCardsForQuery(startQuery, endQuery);
 
 			// Must return true here to consume event
 			return true;
@@ -193,13 +238,25 @@ public class MainController implements OnEditorActionListener,
 		return false;
 	}
 
+	private void makeSearchQuery() {
+		String startQuery = etStartQuery.getText().toString();
+		if (startQuery.contentEquals("")) {
+			startQuery = MainModel.LOCATION_CURRENT;
+		}
+		String endQuery = etDestinationQuery.getText().toString();
+		if (endQuery.contentEquals("")) {
+			endQuery = MainModel.LOCATION_UNSPECIFIED;
+		}
+		mainModel.generateCardsForQuery(startQuery, endQuery);
+	}
+
 	public void setCardsLoading(boolean loading) {
-		mainListViewAdapter.setLoading(loading);
+		listViewAdapter.setLoading(loading);
 	}
 
 	public void setCards(ArrayList<MainListViewItem> cards) {
-		mainListViewAdapter.clear();
-		mainListViewAdapter.addAll(cards);
+		listViewAdapter.clear();
+		listViewAdapter.addAll(cards);
 	}
 
 	public void makeError(String errorCode) {
@@ -262,14 +319,12 @@ public class MainController implements OnEditorActionListener,
 								cardToRemove.getRouteDestination());
 					} else if (stopToTcatIds.containsKey(cardToRemove
 							.getRouteStart())) {
-						mainModel
-								.removeStartQueryFromDatabase(cardToRemove
-										.getRouteStart());
+						mainModel.removeStartQueryFromDatabase(cardToRemove
+								.getRouteStart());
 					} else if (stopToTcatIds.containsKey(cardToRemove
 							.getRouteDestination())) {
-						mainModel
-								.removeEndQueryFromDatabase(cardToRemove
-										.getRouteDestination());
+						mainModel.removeEndQueryFromDatabase(cardToRemove
+								.getRouteDestination());
 					}
 				}
 			}
