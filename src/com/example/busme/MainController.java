@@ -126,11 +126,9 @@ public class MainController implements OnEditorActionListener,
 
 			switch (v.getId()) {
 			case R.id.etSearchFrom:
-				Log.d("yolo", "yaya");
 				launchSearchActivity(ET_SEARCH_FROM_EXTRA);
 				break;
 			case R.id.etSearchTo:
-				Log.d("yolo", "yayeeee");
 				launchSearchActivity(ET_SEARCH_TO_EXTRA);
 				break;
 			default:

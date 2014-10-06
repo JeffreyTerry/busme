@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.SQLException;
 import android.location.Address;
@@ -39,6 +40,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -49,7 +51,7 @@ import com.google.android.gms.maps.model.LatLng;
  * 
  */
 public class BusDataController {
-	private static final int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 1; // 2
+	private int NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT = 2; // 2
 	// TODO there's currently a bug in the date shifting
 	private static final int NUMBER_OF_FUTURE_DATES_TO_QUERY = 1; // 4
 	private Context context;
@@ -125,7 +127,6 @@ public class BusDataController {
 		if (context == null) {
 			return null;
 		}
-		System.out.println(routeStart + ", " + routeEnd);
 		if (!initializeStopData()) {
 			ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
 			results.add(MainListViewItem.STOP_DATA_MISSING_ERROR_ITEM);
@@ -137,7 +138,10 @@ public class BusDataController {
 					&& routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab the user's default cards from TCAT's
 				// servers
-				return getDefaultCardsFromTCATServer();
+				NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT--;
+				ArrayList<MainListViewItem> result = getDefaultCardsFromTCATServer();
+				NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT++;
+				return result;
 			} else if (routeStart.contentEquals(MainModel.LOCATION_CURRENT)
 					&& routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 				// this should grab cards based on all buses coming out of the
@@ -173,15 +177,25 @@ public class BusDataController {
 					return null;
 				}
 
-				return getCardsForLatLngsFromTCATServer(
+				ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(
 						new LatLng(currentLocation.getLatitude(),
 								currentLocation.getLongitude()), endLatLng);
+
+				if(result == null) {
+					((Activity) context).runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(context, "Specific route not found.\nSearching similar routes...", Toast.LENGTH_LONG).show();
+						}
+					});
+					return getCardsForQuery(routeStart, MainModel.LOCATION_UNSPECIFIED);
+				} else {
+					return result;
+				}
 			}
 		} else if (routeEnd.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
 			// this should grab cards based on all buses coming out of a
 			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
-			System.out.println(routeStart + ", " + startLatLng);
 			if (startLatLng == null) {
 				return null;
 			}
@@ -195,7 +209,17 @@ public class BusDataController {
 				return null;
 			}
 
-			return getCardsForLatLngsFromTCATServer(startLatLng, endLatLng);
+			ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(startLatLng, endLatLng);
+			if(result == null) {
+				((Activity) context).runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(context, "Specific route not found.\nSearching similar routes...", Toast.LENGTH_LONG).show();
+					}
+				});
+				return getCardsForQuery(routeStart, MainModel.LOCATION_UNSPECIFIED);
+			} else {
+				return result;
+			}
 		}
 	}
 
@@ -350,7 +374,11 @@ public class BusDataController {
 							MainListViewItem.DEFAULT_COMPARATOR);
 					nextResults = trimArrayListToSize(nextResults,
 							numberOfResultsToKeepForEachQuery);
-					results.addAll(nextResults);
+					for (int j = 0; j < nextResults.size(); j++) {
+						if (!results.contains(nextResults.get(j))) {
+							results.add(nextResults.get(j));
+						}
+					}
 				}
 			} else if (nextSearch[1]
 					.contentEquals(MainDatabaseController.NULL_QUERY)) {
@@ -361,7 +389,11 @@ public class BusDataController {
 							MainListViewItem.DEFAULT_COMPARATOR);
 					nextResults = trimArrayListToSize(nextResults,
 							numberOfResultsToKeepForEachQuery);
-					results.addAll(nextResults);
+					for (int j = 0; j < nextResults.size(); j++) {
+						if (!results.contains(nextResults.get(j))) {
+							results.add(nextResults.get(j));
+						}
+					}
 				}
 			} else if (!nextSearch[0]
 					.contentEquals(MainDatabaseController.NULL_QUERY)
@@ -373,7 +405,11 @@ public class BusDataController {
 							MainListViewItem.DEFAULT_COMPARATOR);
 					nextResults = trimArrayListToSize(nextResults,
 							numberOfResultsToKeepForEachQuery);
-					results.addAll(nextResults);
+					for (int j = 0; j < nextResults.size(); j++) {
+						if (!results.contains(nextResults.get(j))) {
+							results.add(nextResults.get(j));
+						}
+					}
 				}
 			}
 		}
@@ -597,7 +633,6 @@ public class BusDataController {
 		ArrayList<MainListViewItem> currentCards;
 		HashSet<MainListViewItem> cardsToReturn = new HashSet<MainListViewItem>();
 		for (int i = 0; i < closestStopsToStart.size(); i++) {
-			System.out.println("YOOOOOO: " + closestStopsToStart.get(0));
 			currentCards = getCardsForStopFromTCATServer(closestStopsToStart
 					.get(i));
 			if (currentCards != null) {
@@ -627,8 +662,9 @@ public class BusDataController {
 	private ArrayList<MainListViewItem> getCardsForStopFromTCATServer(
 			String start) {
 		HttpClient client = new DefaultHttpClient();
-		if(!stopToTcatIds.containsKey(start)) {
-			Log.i("Data error", start + " not found in stop to tcat id dictionary");
+		if (!stopToTcatIds.containsKey(start)) {
+			Log.i("Data error", start
+					+ " not found in stop to tcat id dictionary");
 			return null;
 		}
 		HttpGet get = new HttpGet("http://tcat.nextinsight.com/stops/"
@@ -662,13 +698,15 @@ public class BusDataController {
 				String built = str.toString();
 
 				Pattern resultSectionPattern = Pattern
-						.compile("(leftColSub)[\\s\\S]*(rightColSub)");
+						.compile("(leftColSub)[\\s\\S]*(<div\\s*id=\"rightColSub\">\\s*<h1>\\s*More\\s*info...\\s*<\\/h1>)");
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
-				if (!resultSectionMatcher.find()) {
-					System.out.println("this" + built);
-					ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-					results.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
+
+				Pattern noResultPattern = Pattern
+						.compile("There are no more arrivals at this stop today");
+				Matcher noResultMatcher = noResultPattern.matcher(built);
+
+				if (noResultMatcher.find() || !resultSectionMatcher.find()) {
 					return null;
 				} else {
 					try {
@@ -679,14 +717,15 @@ public class BusDataController {
 								"</strong>");
 						responseBody = responseBody.replaceAll(":<\\/b>",
 								"</b>");
-						
-						System.out.println("response body: " + responseBody);
 
 						String nextBusRouteStartTimes = getNextBusRouteStartTimes(responseBody);
 						String nextBusRouteNumbers = getNextBusRouteNumbers(responseBody);
 						String nextBusRouteDirections = getNextBusRouteDirections(responseBody);
 
-						LatLng nextBusStartLatLng = stopToLatLngs.get(start);
+						LatLng nextBusStartLatLng = new LatLng(0, 0);
+						if (stopToLatLngs.containsKey(start)) {
+							nextBusStartLatLng = stopToLatLngs.get(start);
+						}
 
 						String[] nextStartTimes = nextBusRouteStartTimes
 								.split(",");
@@ -790,6 +829,7 @@ public class BusDataController {
 			nextBusRouteNumbersStripperMatcher.find();
 			result += nextBusRouteNumbersStripperMatcher.group(0) + ",";
 		}
+
 		return result.substring(0, result.length() - 1);
 	}
 
@@ -801,6 +841,12 @@ public class BusDataController {
 		if (nextBusTravelStartHoursMatcher.find()) {
 			String nextBusTravelStartHours = nextBusTravelStartHoursMatcher
 					.group(0);
+
+			Pattern hoursStripperPattern = Pattern.compile("\\d*");
+			Matcher hoursStripperMatcher = hoursStripperPattern
+					.matcher(nextBusTravelStartHours);
+			hoursStripperMatcher.find();
+			nextBusTravelStartHours = hoursStripperMatcher.group(0);
 			hours = Integer.parseInt(nextBusTravelStartHours);
 		}
 
@@ -840,18 +886,15 @@ public class BusDataController {
 					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
 				}
 			} else {
+				toAdd = startTimesUnpadded.get(i);
 				if (toAdd.indexOf("AM") == 5 || toAdd.indexOf("PM") == 5) {
 					toAdd = toAdd.substring(0, 5) + " " + toAdd.substring(5);
 				}
 			}
 			result += toAdd + ",";
 		}
-		if(result.length() == 0) {
-			System.out.println("THIISDII");
-			return "00:00 AM";
-		} else {
-			return result.substring(0, result.length() - 1);
-		}
+
+		return result.substring(0, result.length() - 1);
 	}
 
 	private String getNextBusRouteDirections(String nextBusStartBody) {
@@ -864,37 +907,46 @@ public class BusDataController {
 			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
 		}
 
-		String[] blacklist = { "sunday", "monday", "tuesday", "wednesday",
-				"thursday", "friday", "saturday" };
-		int indexToRemove, numberOfCharactersToRemove;
+		String[] blacklist = { "express", "sunday", "monday", "tuesday", "wednesday",
+				"thursday", "friday", "saturday", "weekdays", "weekends", "-" };
+		ArrayList<Integer> indicesToRemove = new ArrayList<Integer>();
+		ArrayList<Integer> numbersOfCharactersToRemove = new ArrayList<Integer>();
 		String directionLowercase;
+		int currentIndex;
 		for (int j = 0; j < directionsUnstripped.size(); j++) {
-			indexToRemove = -1;
-			numberOfCharactersToRemove = 0;
+			indicesToRemove.clear();
+			numbersOfCharactersToRemove.clear();
 			directionLowercase = directionsUnstripped.get(j).toLowerCase(
 					Locale.US);
 			for (int i = 0; i < blacklist.length; i++) {
-				indexToRemove = directionLowercase.indexOf((blacklist[i]));
-				if (indexToRemove != -1) {
-					numberOfCharactersToRemove = blacklist[i].length();
-					break;
+				currentIndex = directionLowercase.indexOf((blacklist[i]));
+				if (currentIndex != -1
+						&& (!blacklist[i].contentEquals("-") || indicesToRemove
+								.size() >= 2)) {
+					indicesToRemove.add(currentIndex);
+					numbersOfCharactersToRemove.add(blacklist[i].length() + 1); // +1
+																				// for
+																				// spaces
 				}
 			}
-			if (indexToRemove != -1) {
-				int offsetForSpace = 0;
-				if (directionsUnstripped.get(j).length() > indexToRemove
-						+ numberOfCharactersToRemove) {
-					offsetForSpace = 1;
+			for (int i = 0; i < indicesToRemove.size(); i++) {
+				for (int k = i + 1; k < indicesToRemove.size(); k++) {
+					if (indicesToRemove.get(k) > indicesToRemove.get(k - 1)) {
+						indicesToRemove.set(k, indicesToRemove.get(k)
+								- numbersOfCharactersToRemove.get(k - 1));
+					}
 				}
 				directionsUnstripped.set(
 						j,
-						directionsUnstripped.get(j).substring(0, indexToRemove)
+						directionsUnstripped.get(j).substring(0,
+								indicesToRemove.get(i))
 								+ directionsUnstripped.get(j).substring(
-										indexToRemove
-												+ numberOfCharactersToRemove
-												+ offsetForSpace));
+										indicesToRemove.get(i)
+												+ numbersOfCharactersToRemove
+														.get(i)));
 			}
 		}
+		int indexToRemove, numberOfCharactersToRemove;
 		String[] blacklist2 = { "bound" };
 		for (int j = 0; j < directionsUnstripped.size(); j++) {
 			indexToRemove = -1;

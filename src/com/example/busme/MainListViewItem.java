@@ -171,5 +171,9 @@ public class MainListViewItem {
 		return result;
 	}
 	
+
+	public String toString(){
+		return "{Next Bus Time: " + nextBusTimeString + ", First Route Number: " + routeNumbers[0] + ", Start: " + routeStart  + ", Destination: " + routeDestination + "}";
+	}
 	
 }
