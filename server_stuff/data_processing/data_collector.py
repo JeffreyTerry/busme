@@ -7,10 +7,11 @@ from pyquery import PyQuery as pq
 
 # some bus stops have inconsistent names across data sources
 # we deal with that here
-juice_list = {'Goldwin Smith': 'Goldwin Smith Hall'}
+juice_list = {'Goldwin Smith': 'Goldwin Smith Hall', 'Newfield Main St. @ Elmira Rd.': 'Newfield Main St @ Elmira Rd.'}
 def replace_juiced(juiced):
     for k, v in juice_list.iteritems():
-        juiced = juiced.replace(k, v)
+        if k in juiced:
+            juiced = juiced.replace(k, v)
     return juiced
 
 def replace_blaze(juiced):

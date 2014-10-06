@@ -40,6 +40,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="10"
                 android:background="@android:color/white"
+                android:cursorVisible="false"
                 android:drawableLeft="@drawable/abc_ic_search_api_holo_light"
                 android:drawablePadding="10dp"
                 android:focusable="false"

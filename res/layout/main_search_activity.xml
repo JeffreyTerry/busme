@@ -31,7 +31,7 @@
             android:background="@android:color/white"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:hint="From current location"
+            android:hint="CURRENT LOCATION"
             android:imeOptions="actionSearch"
             android:inputType="textNoSuggestions"
             android:nextFocusDown="@+id/etDestinationQuery"
@@ -54,15 +54,15 @@
             android:layout_height="50dp"
             android:layout_below="@id/mainEtDivider"
             android:background="@android:color/white"
-            android:cursorVisible="false"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:hint="To anywhere"
+            android:hint="ANYWHERE"
             android:imeOptions="actionSearch"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:nextFocusDown="@+id/lvSearchMain"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp" >
+            android:paddingRight="15dp"
+            android:textColorHint="#6599FF" >
         </EditText>
 
         <ListView
