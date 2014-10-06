@@ -102,6 +102,11 @@ public class BusDataController {
 			return false;
 		}
 	}
+	
+	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,
+			String routeEnd) {
+		return getCardsForQuery(routeStart, routeEnd, false);
+	}
 
 	/**
 	 * This returns a set of cards for different user queries. It should never
@@ -123,7 +128,7 @@ public class BusDataController {
 	 * @return
 	 */
 	public ArrayList<MainListViewItem> getCardsForQuery(String routeStart,
-			String routeEnd) {
+			String routeEnd, boolean grabbingDefaultCards) {
 		if (context == null) {
 			return null;
 		}
@@ -182,16 +187,18 @@ public class BusDataController {
 								currentLocation.getLongitude()), endLatLng);
 
 				if (result == null) {
-					((Activity) context).runOnUiThread(new Runnable() {
-						public void run() {
-							Toast.makeText(
-									context,
-									"Specific route not found.\nSearching similar routes...",
-									Toast.LENGTH_LONG).show();
-						}
-					});
+					if(!grabbingDefaultCards) {
+						((Activity) context).runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(
+										context,
+										"Specific route not found.\nSearching similar routes...",
+										Toast.LENGTH_LONG).show();
+							}
+						});
+					}
 					return getCardsForQuery(routeStart,
-							MainModel.LOCATION_UNSPECIFIED);
+							MainModel.LOCATION_UNSPECIFIED, grabbingDefaultCards);
 				} else {
 					return result;
 				}
@@ -225,7 +232,7 @@ public class BusDataController {
 					}
 				});
 				return getCardsForQuery(routeStart,
-						MainModel.LOCATION_UNSPECIFIED);
+						MainModel.LOCATION_UNSPECIFIED, grabbingDefaultCards);
 			} else {
 				return result;
 			}
@@ -410,7 +417,7 @@ public class BusDataController {
 			nextSearch = relevantSearches.get(i);
 			if (nextSearch[0].contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
-						nextSearch[1]);
+						nextSearch[1], true);
 				if (nextResults != null) {
 					Collections.sort(nextResults,
 							MainListViewItem.DEFAULT_COMPARATOR);
@@ -425,7 +432,7 @@ public class BusDataController {
 			} else if (nextSearch[1]
 					.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0],
-						MainModel.LOCATION_UNSPECIFIED);
+						MainModel.LOCATION_UNSPECIFIED, true);
 				if (nextResults != null) {
 					Collections.sort(nextResults,
 							MainListViewItem.DEFAULT_COMPARATOR);
@@ -441,7 +448,7 @@ public class BusDataController {
 					.contentEquals(MainDatabaseController.NULL_QUERY)
 					&& !nextSearch[1]
 							.contentEquals(MainDatabaseController.NULL_QUERY)) {
-				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1]);
+				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1], true);
 				if (nextResults != null) {
 					Collections.sort(nextResults,
 							MainListViewItem.DEFAULT_COMPARATOR);
@@ -1049,8 +1056,9 @@ public class BusDataController {
 
 	private void saveStartQueryToDatabase(String start) {
 		try {
+			System.out.println("H:i " + start + ", " + stopToTcatIds.get(start) + ", " + stopToTcatIds.containsValue(start));
 			mainDatabaseController.open();
-			if (stopToTcatIds.containsValue(start)) {
+			if (stopToTcatIds.containsKey(start)) {
 				mainDatabaseController.addStartSearch(stopToTcatIds.get(start));
 			}
 			mainDatabaseController.close();
@@ -1064,7 +1072,7 @@ public class BusDataController {
 	private void saveEndQueryToDatabase(String end) {
 		try {
 			mainDatabaseController.open();
-			if (stopToTcatIds.containsValue(end)) {
+			if (stopToTcatIds.containsKey(end)) {
 				mainDatabaseController.addEndSearch(stopToTcatIds.get(end));
 			}
 			mainDatabaseController.close();
@@ -1078,8 +1086,8 @@ public class BusDataController {
 	private void saveStartEndQueryToDatabase(String start, String end) {
 		try {
 			mainDatabaseController.open();
-			if (stopToTcatIds.containsValue(start)
-					&& stopToTcatIds.containsValue(end)) {
+			if (stopToTcatIds.containsKey(start)
+					&& stopToTcatIds.containsKey(end)) {
 				mainDatabaseController.addStartEndSearch(
 						stopToTcatIds.get(start), stopToTcatIds.get(end));
 			}
@@ -1091,10 +1099,10 @@ public class BusDataController {
 		}
 	}
 
-	public void removeStartQueryFromDatabase(String start) {
+	public void removeStartQueryFromDatabase(String startid) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.deleteStartSearch(start);
+			mainDatabaseController.deleteStartSearch(startid);
 			mainDatabaseController.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1103,10 +1111,10 @@ public class BusDataController {
 		}
 	}
 
-	public void removeEndQueryFromDatabase(String end) {
+	public void removeEndQueryFromDatabase(String endid) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.deleteEndSearch(end);
+			mainDatabaseController.deleteEndSearch(endid);
 			mainDatabaseController.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1115,10 +1123,10 @@ public class BusDataController {
 		}
 	}
 
-	public void removeStartEndQueryFromDatabase(String start, String end) {
+	public void removeStartEndQueryFromDatabase(String startid, String endid) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.deleteStartEndSearch(start, end);
+			mainDatabaseController.deleteStartEndSearch(startid, endid);
 			mainDatabaseController.close();
 		} catch (Exception e) {
 			e.printStackTrace();

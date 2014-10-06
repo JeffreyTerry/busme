@@ -201,16 +201,16 @@ public class MainModel {
 	 * 
 	 * @param cardsJSON
 	 */
-	public void removeStartEndQueryFromDatabase(String start, String end) {
-		busDataController.removeStartEndQueryFromDatabase(start, end);
+	public void removeStartEndQueryFromDatabase(String startid, String endid) {
+		busDataController.removeStartEndQueryFromDatabase(startid, endid);
 	}
 
-	public void removeStartQueryFromDatabase(String start) {
-		busDataController.removeStartQueryFromDatabase(start);
+	public void removeStartQueryFromDatabase(String startid) {
+		busDataController.removeStartQueryFromDatabase(startid);
 	}
 
-	public void removeEndQueryFromDatabase(String end) {
-		busDataController.removeEndQueryFromDatabase(end);
+	public void removeEndQueryFromDatabase(String endid) {
+		busDataController.removeEndQueryFromDatabase(endid);
 	}
 
 	private void sendCardsToController(ArrayList<MainListViewItem> cards,
