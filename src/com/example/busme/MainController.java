@@ -309,20 +309,21 @@ public class MainController implements OnEditorActionListener,
 				return;
 			} else {
 				if (initializeStopData()) {
-					if (stopToTcatIds.containsKey(cardToRemove.getRouteStart())
-							&& stopToTcatIds.containsKey(cardToRemove
-									.getRouteDestination())) {
+					if (stopToTcatIds.containsValue(cardToRemove
+							.getAssociatedTcatIdStart())
+							&& stopToTcatIds.containsValue(cardToRemove
+									.getAssociatedTcatIdDestination())) {
 						mainModel.removeStartEndQueryFromDatabase(
-								cardToRemove.getRouteStart(),
-								cardToRemove.getRouteDestination());
-					} else if (stopToTcatIds.containsKey(cardToRemove
-							.getRouteStart())) {
+								cardToRemove.getAssociatedTcatIdStart(),
+								cardToRemove.getAssociatedTcatIdDestination());
+					} else if (stopToTcatIds.containsValue(cardToRemove
+							.getAssociatedTcatIdStart())) {
 						mainModel.removeStartQueryFromDatabase(cardToRemove
-								.getRouteStart());
-					} else if (stopToTcatIds.containsKey(cardToRemove
-							.getRouteDestination())) {
+								.getAssociatedTcatIdStart());
+					} else if (stopToTcatIds.containsValue(cardToRemove
+							.getAssociatedTcatIdDestination())) {
 						mainModel.removeEndQueryFromDatabase(cardToRemove
-								.getRouteDestination());
+								.getAssociatedTcatIdDestination());
 					}
 				}
 			}

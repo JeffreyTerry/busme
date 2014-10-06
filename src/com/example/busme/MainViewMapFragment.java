@@ -54,7 +54,7 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 				location.getLongitude());
 
 		gmap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-		gmap.animateCamera(CameraUpdateFactory.zoomTo(17));
+		gmap.animateCamera(CameraUpdateFactory.zoomTo(16));
 	}
 
 	@Override
