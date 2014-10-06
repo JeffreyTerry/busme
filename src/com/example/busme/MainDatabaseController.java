@@ -103,6 +103,11 @@ public class MainDatabaseController {
 
 	public void deleteStartEndSearch(String start, String end)
 			throws SQLException {
+		if(start == null || start.contentEquals(NULL_QUERY)) {
+			deleteEndSearch(end);
+		} else if(end == null || end.contentEquals(NULL_QUERY)) {
+			deleteStartSearch(start);
+		}
 		localDatabase.delete(DATABASE_TABLE, KEY_SEARCH_START_QUERY + "='"
 				+ start + "' AND " + KEY_SEARCH_END_QUERY + "='" + end + "'", null);
 	}
@@ -113,7 +118,7 @@ public class MainDatabaseController {
 	 * @return An ArrayList<String[]> with each start query data at index 0 and
 	 *         each end query data at index 1
 	 */
-	public ArrayList<String[]> getRelevantSearchData() {
+	public ArrayList<String[]> getRelevantSearchStopIds() {
 		String[] columns = new String[] { KEY_ROWID, KEY_SEARCH_START_QUERY,
 				KEY_SEARCH_END_QUERY };
 		Cursor cursor = localDatabase.query(DATABASE_TABLE, columns, null,
@@ -128,6 +133,12 @@ public class MainDatabaseController {
 			nextResult = new String[2];
 			nextResult[0] = cursor.getString(indexStart);
 			nextResult[1] = cursor.getString(indexEnd);
+			if(nextResult[0].contentEquals(NULL_QUERY)) {
+				nextResult[0] = MainModel.LOCATION_UNSPECIFIED;
+			}
+			if(nextResult[1].contentEquals(NULL_QUERY)) {
+				nextResult[1] = MainModel.LOCATION_UNSPECIFIED;
+			}
 			results.add(nextResult);
 		}
 

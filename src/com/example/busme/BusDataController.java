@@ -181,13 +181,17 @@ public class BusDataController {
 						new LatLng(currentLocation.getLatitude(),
 								currentLocation.getLongitude()), endLatLng);
 
-				if(result == null) {
+				if (result == null) {
 					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
-							Toast.makeText(context, "Specific route not found.\nSearching similar routes...", Toast.LENGTH_LONG).show();
+							Toast.makeText(
+									context,
+									"Specific route not found.\nSearching similar routes...",
+									Toast.LENGTH_LONG).show();
 						}
 					});
-					return getCardsForQuery(routeStart, MainModel.LOCATION_UNSPECIFIED);
+					return getCardsForQuery(routeStart,
+							MainModel.LOCATION_UNSPECIFIED);
 				} else {
 					return result;
 				}
@@ -209,14 +213,19 @@ public class BusDataController {
 				return null;
 			}
 
-			ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(startLatLng, endLatLng);
-			if(result == null) {
+			ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(
+					startLatLng, endLatLng);
+			if (result == null) {
 				((Activity) context).runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(context, "Specific route not found.\nSearching similar routes...", Toast.LENGTH_LONG).show();
+						Toast.makeText(
+								context,
+								"Specific route not found.\nSearching similar routes...",
+								Toast.LENGTH_LONG).show();
 					}
 				});
-				return getCardsForQuery(routeStart, MainModel.LOCATION_UNSPECIFIED);
+				return getCardsForQuery(routeStart,
+						MainModel.LOCATION_UNSPECIFIED);
 			} else {
 				return result;
 			}
@@ -346,16 +355,49 @@ public class BusDataController {
 		}
 
 		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-		ArrayList<String[]> relevantSearches;
+		ArrayList<String[]> relevantSearches = new ArrayList<String[]>();
+		ArrayList<String[]> relevantSearchStopIds;
 		try {
 			mainDatabaseController.open();
-			relevantSearches = mainDatabaseController.getRelevantSearchData();
+			relevantSearchStopIds = mainDatabaseController
+					.getRelevantSearchStopIds();
 			mainDatabaseController.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			mainDatabaseController.close();
+		}
+		if (relevantSearchStopIds == null) {
+			return null;
+		} else {
+			String currentStartId, currentEndId;
+			String[] nextRelevantSearch;
+			for (int i = 0; i < relevantSearchStopIds.size(); i++) {
+				currentStartId = relevantSearchStopIds.get(i)[0];
+				currentEndId = relevantSearchStopIds.get(i)[1];
+				nextRelevantSearch = new String[2];
+				if (currentStartId
+						.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
+					nextRelevantSearch[0] = currentStartId;
+				}
+				if (currentEndId.contentEquals(MainModel.LOCATION_UNSPECIFIED)) {
+					nextRelevantSearch[1] = currentEndId;
+				}
+				for (String stopName : stopToTcatIds.keySet()) {
+					if (stopToTcatIds.get(stopName).contentEquals(
+							currentStartId)) {
+						nextRelevantSearch[0] = stopName;
+					} else if (stopToTcatIds.get(stopName).contentEquals(
+							currentEndId)) {
+						nextRelevantSearch[1] = stopName;
+					}
+				}
+				if (nextRelevantSearch[0] != null
+						&& nextRelevantSearch[1] != null) {
+					relevantSearches.add(nextRelevantSearch);
+				}
+			}
 		}
 
 		// TODO remove these results based on relevance (date, location, etc...)
@@ -605,7 +647,9 @@ public class BusDataController {
 								nextBusEndName, nextBusStartLatLng.latitude,
 								nextBusStartLatLng.longitude,
 								nextBusEndLatLng.latitude,
-								nextBusEndLatLng.longitude, nextBusTravelTime);
+								nextBusEndLatLng.longitude, nextBusTravelTime,
+								stopToTcatIds.get(start),
+								stopToTcatIds.get(end));
 					} catch (Exception e) {
 						e.printStackTrace();
 						return null;
@@ -619,8 +663,7 @@ public class BusDataController {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		return new MainListViewItem("01:30 PM", "69", "somewhere", "somewhere",
-				-1, -1, -1, -1, "0");
+		return null;
 	}
 
 	private ArrayList<MainListViewItem> getCardsForStartLatLngFromTCATServer(
@@ -740,7 +783,9 @@ public class BusDataController {
 									nextBusStartLatLng.longitude,
 									nextBusStartLatLng.latitude,
 									nextBusStartLatLng.longitude,
-									MainListViewItem.TRAVEL_TIME_UNKNOWN));
+									MainListViewItem.TRAVEL_TIME_UNKNOWN,
+									stopToTcatIds.get(start),
+									MainDatabaseController.NULL_QUERY));
 						}
 						return results;
 					} catch (Exception e) {
@@ -907,44 +952,57 @@ public class BusDataController {
 			directionsUnstripped.add(getNextBusRouteDirectionsMatcher.group(0));
 		}
 
-		String[] blacklist = { "express", "sunday", "monday", "tuesday", "wednesday",
-				"thursday", "friday", "saturday", "weekdays", "weekends", "-" };
+		String[] blacklist = { "express", "sunday", "monday", "tuesday",
+				"wednesday", "thursday", "friday", "saturday", "weekdays",
+				"weekends", "am", "pm", "-" };
 		ArrayList<Integer> indicesToRemove = new ArrayList<Integer>();
 		ArrayList<Integer> numbersOfCharactersToRemove = new ArrayList<Integer>();
-		String directionLowercase;
+		String directionLowercase, nextDirectionsUnstripped;
 		int currentIndex;
 		for (int j = 0; j < directionsUnstripped.size(); j++) {
 			indicesToRemove.clear();
 			numbersOfCharactersToRemove.clear();
-			directionLowercase = directionsUnstripped.get(j).toLowerCase(
-					Locale.US);
+			nextDirectionsUnstripped = directionsUnstripped.get(j);
+			if (nextDirectionsUnstripped.indexOf("-") > 0
+					&& directionsUnstripped.get(j).charAt(
+							nextDirectionsUnstripped.indexOf("-") - 1) != ' ') {
+				nextDirectionsUnstripped = nextDirectionsUnstripped.substring(
+						0, nextDirectionsUnstripped.indexOf("-"))
+						+ " - "
+						+ nextDirectionsUnstripped
+								.substring(nextDirectionsUnstripped
+										.indexOf("-") + 1);
+			}
+			directionLowercase = nextDirectionsUnstripped
+					.toLowerCase(Locale.US);
 			for (int i = 0; i < blacklist.length; i++) {
 				currentIndex = directionLowercase.indexOf((blacklist[i]));
 				if (currentIndex != -1
 						&& (!blacklist[i].contentEquals("-") || indicesToRemove
 								.size() >= 2)) {
 					indicesToRemove.add(currentIndex);
-					numbersOfCharactersToRemove.add(blacklist[i].length() + 1); // +1
-																				// for
-																				// spaces
+					numbersOfCharactersToRemove.add(blacklist[i].length() + 1);
 				}
 			}
 			for (int i = 0; i < indicesToRemove.size(); i++) {
 				for (int k = i + 1; k < indicesToRemove.size(); k++) {
-					if (indicesToRemove.get(k) > indicesToRemove.get(k - 1)) {
+					if (indicesToRemove.get(k) > indicesToRemove.get(i)) {
 						indicesToRemove.set(k, indicesToRemove.get(k)
-								- numbersOfCharactersToRemove.get(k - 1));
+								- numbersOfCharactersToRemove.get(i));
 					}
 				}
-				directionsUnstripped.set(
-						j,
-						directionsUnstripped.get(j).substring(0,
+				// System.out.println(nextDirectionsUnstripped + ", "
+				// + indicesToRemove.get(i) + ", "
+				// + numbersOfCharactersToRemove.get(i));
+				nextDirectionsUnstripped = new String(
+						nextDirectionsUnstripped.substring(0,
 								indicesToRemove.get(i))
-								+ directionsUnstripped.get(j).substring(
-										indicesToRemove.get(i)
+								+ nextDirectionsUnstripped
+										.substring(indicesToRemove.get(i)
 												+ numbersOfCharactersToRemove
 														.get(i)));
 			}
+			directionsUnstripped.set(j, nextDirectionsUnstripped);
 		}
 		int indexToRemove, numberOfCharactersToRemove;
 		String[] blacklist2 = { "bound" };
@@ -992,7 +1050,9 @@ public class BusDataController {
 	private void saveStartQueryToDatabase(String start) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.addStartSearch(start);
+			if (stopToTcatIds.containsValue(start)) {
+				mainDatabaseController.addStartSearch(stopToTcatIds.get(start));
+			}
 			mainDatabaseController.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1004,7 +1064,9 @@ public class BusDataController {
 	private void saveEndQueryToDatabase(String end) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.addEndSearch(end);
+			if (stopToTcatIds.containsValue(end)) {
+				mainDatabaseController.addEndSearch(stopToTcatIds.get(end));
+			}
 			mainDatabaseController.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1016,7 +1078,11 @@ public class BusDataController {
 	private void saveStartEndQueryToDatabase(String start, String end) {
 		try {
 			mainDatabaseController.open();
-			mainDatabaseController.addStartEndSearch(start, end);
+			if (stopToTcatIds.containsValue(start)
+					&& stopToTcatIds.containsValue(end)) {
+				mainDatabaseController.addStartEndSearch(
+						stopToTcatIds.get(start), stopToTcatIds.get(end));
+			}
 			mainDatabaseController.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1026,12 +1092,27 @@ public class BusDataController {
 	}
 
 	public void removeStartQueryFromDatabase(String start) {
-		removeStartEndQueryFromDatabase(start,
-				MainDatabaseController.NULL_QUERY);
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.deleteStartSearch(start);
+			mainDatabaseController.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
 	}
 
 	public void removeEndQueryFromDatabase(String end) {
-		removeStartEndQueryFromDatabase(MainDatabaseController.NULL_QUERY, end);
+		try {
+			mainDatabaseController.open();
+			mainDatabaseController.deleteEndSearch(end);
+			mainDatabaseController.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			mainDatabaseController.close();
+		}
 	}
 
 	public void removeStartEndQueryFromDatabase(String start, String end) {
@@ -1039,7 +1120,7 @@ public class BusDataController {
 			mainDatabaseController.open();
 			mainDatabaseController.deleteStartEndSearch(start, end);
 			mainDatabaseController.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			mainDatabaseController.close();

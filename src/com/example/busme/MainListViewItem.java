@@ -21,13 +21,13 @@ public class MainListViewItem {
 		}
 	};
 	public static final MainListViewItem NULL_ITEM = new MainListViewItem(
-			"01:00 PM", "169", "nowhere", "nowhere", -1, -1, -1, -1, "0");
+			"01:00 PM", "169", "nowhere", "nowhere", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final MainListViewItem NO_ROUTE_FOUND_ERROR_ITEM = new MainListViewItem(
-			"01:00 PM", "170", "no routes found", "no routes found", -1, -1, -1, -1, "0");
+			"01:00 PM", "170", "no routes found", "no routes found", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final MainListViewItem DATA_PARSE_ERROR_ITEM = new MainListViewItem(
-			"01:00 PM", "171", "data parse error", "data parse error", -1, -1, -1, -1, "0");
+			"01:00 PM", "171", "data parse error", "data parse error", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final MainListViewItem STOP_DATA_MISSING_ERROR_ITEM = new MainListViewItem(
-			"01:00 PM", "172", "stop data missing", "stop data missing", -1, -1, -1, -1, "0");
+			"01:00 PM", "172", "stop data missing", "stop data missing", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final String TRAVEL_TIME_UNKNOWN = "0";
 	public static final double NULL_LATITUDE = 0;
 	public static final double NULL_LONGITUDE = 0;
@@ -45,6 +45,10 @@ public class MainListViewItem {
 	private int hoursNext, minutesNext;
 	private String amOrPm;
 	
+	// these variables help the database keep track of search history
+	private String associatedTcatIdStart;
+	private String associatedTcatIdDestination;
+	
 
 	/**
 	 * 
@@ -60,7 +64,7 @@ public class MainListViewItem {
 	 */
 	public MainListViewItem(String nextBusTimeString, String routeNumberCSV, String start,
 			String destination, double start_lat, double start_lng,
-			double dest_lat, double dest_lng, String travel_time) {
+			double dest_lat, double dest_lng, String travel_time, String associatedStartId, String associatedDestId) {
 		this.nextBusTimeString = nextBusTimeString;
 		String[] routeNumberStrings = routeNumberCSV.split(",");
 		if(routeNumberStrings.length == 0) {
@@ -79,6 +83,8 @@ public class MainListViewItem {
 		this.dest_lat = dest_lat;
 		this.dest_lng = dest_lng;
 		this.travel_time = travel_time;
+		associatedTcatIdStart = associatedStartId;
+		associatedTcatIdDestination = associatedDestId;
 
 		easternTime = TimeZone.getTimeZone("GMT-4:00");
 		try {
@@ -141,6 +147,14 @@ public class MainListViewItem {
 	public String getTravelTime() {
 		return travel_time;
 	}
+	
+	public String getAssociatedTcatIdStart() {
+		return associatedTcatIdStart;
+	}
+	
+	public String getAssociatedTcatIdDestination() {
+		return associatedTcatIdDestination;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -173,7 +187,7 @@ public class MainListViewItem {
 	
 
 	public String toString(){
-		return "{Next Bus Time: " + nextBusTimeString + ", First Route Number: " + routeNumbers[0] + ", Start: " + routeStart  + ", Destination: " + routeDestination + "}";
+		return "{Next Bus Time: " + nextBusTimeString + ", First Route Number: " + routeNumbers[0] + ", Start: " + routeStart  + ", Destination: " + routeDestination + ", Associated Start Id: " + associatedTcatIdStart + ", Associated End Id: " + associatedTcatIdDestination + "}";
 	}
 	
 }
