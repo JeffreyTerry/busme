@@ -43,6 +43,12 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <activity
+            android:name=".MainSearchActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
 <!--         <receiver android:name=".LocationTracker"></receiver> -->
 <!--         <receiver android:name=".MainController"></receiver> -->
 

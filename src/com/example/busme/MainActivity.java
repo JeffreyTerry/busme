@@ -11,15 +11,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity {
 	private SwipeRefreshLayout swipeLayout;
-	private ListView mainListView;
-	private EditText etDestination, etStart;
-	private View shadowExpanded, shadowRetracted, mainEtDivider;
+	private ListView mainActivityListView;
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
 	private MainController mainController;
@@ -28,14 +24,14 @@ public class MainActivity extends FragmentActivity {
 	private boolean saveToHistory;
 	private int currentPage;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mainController = new MainController(this);
+		mainController = new MainController(this, true);
 
 		setContentView(R.layout.viewpager_main);
 		initializePages();
+		initializeSwipeLayout();
 	}
 
 	public MainController getMainController() {
@@ -53,11 +49,6 @@ public class MainActivity extends FragmentActivity {
 		mFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(),
 				fragments);
 		mViewPager.setAdapter(mFragmentAdapter);
-
-		// TODO
-		// swipeLayout = (SwipeRefreshLayout)
-		// findViewById(R.id.swipe_container);
-		// swipeLayout.setOnRefreshListener(this);
 
 		// Page changer
 		pageHist = new Stack<Integer>();
@@ -80,16 +71,10 @@ public class MainActivity extends FragmentActivity {
 		saveToHistory = true;
 	}
 
-	public void setShadows(View shadowExpanded, View shadowRetracted) {
-		this.shadowExpanded = shadowExpanded;
-		this.shadowRetracted = shadowRetracted;
-	}
-
-	public void setMainEts(EditText etStart, EditText etDestination,
-			View mainEtDivider) {
-		this.etStart = etStart;
-		this.etDestination = etDestination;
-		this.mainEtDivider = mainEtDivider;
+	private void initializeSwipeLayout() { // TODO
+		// swipeLayout = (SwipeRefreshLayout)
+		// findViewById(R.id.swipe_container);
+		// swipeLayout.setOnRefreshListener(this);
 	}
 
 	public void onBackPressed() {
@@ -108,14 +93,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		// mainController.resetLocationUpdateCount();
-	}
-
-	public void showEtStart(View v) {
-		shadowRetracted.setVisibility(View.INVISIBLE);
-		shadowExpanded.setVisibility(View.VISIBLE);
-		etStart.setVisibility(View.VISIBLE);
-		mainEtDivider.setVisibility(View.VISIBLE);
-		etDestination.setCursorVisible(true);
 	}
 
 	/*

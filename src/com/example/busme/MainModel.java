@@ -45,7 +45,7 @@ public class MainModel {
 	private MainController mainController;
 	private BusDataController busDataController;
 
-	public MainModel(Context c, MainController mc) {
+	public MainModel(Context c, MainController mc, boolean loadDefaultCards) {
 		if (context == null) {
 			context = c;
 			mainController = mc;
@@ -56,7 +56,7 @@ public class MainModel {
 
 		// check to make sure our device id and stop data is valid
 		new Thread(new DeviceIdChecker()).start();
-		new Thread(new DataVersionChecker()).start();
+		new Thread(new DataVersionChecker(loadDefaultCards)).start();
 	}
 
 	/**
@@ -204,13 +204,15 @@ public class MainModel {
 	public void removeStartEndQueryFromDatabase(String start, String end) {
 		busDataController.removeStartEndQueryFromDatabase(start, end);
 	}
+
 	public void removeStartQueryFromDatabase(String start) {
 		busDataController.removeStartQueryFromDatabase(start);
 	}
+
 	public void removeEndQueryFromDatabase(String end) {
 		busDataController.removeEndQueryFromDatabase(end);
 	}
-	
+
 	private void sendCardsToController(ArrayList<MainListViewItem> cards,
 			String errorCode) {
 		if (mainController == null) {
@@ -325,6 +327,12 @@ public class MainModel {
 	}
 
 	private class DataVersionChecker implements Runnable {
+		private boolean loadDefaultCards;
+
+		public DataVersionChecker(boolean loadDefaultCards) {
+			this.loadDefaultCards = loadDefaultCards;
+		}
+
 		private JSONObject getNewStopToLatLngDictionary() {
 			return getJSONObjectForURL(BASE_URL
 					+ "/data/stops/dictionary/latlngs");
@@ -391,7 +399,11 @@ public class MainModel {
 						e.printStackTrace();
 					}
 				}
-				generateDefaultCards();
+				if (loadDefaultCards) {
+					generateDefaultCards();
+				} else {
+					generateCardsForQuery(MainModel.LOCATION_CURRENT, MainModel.LOCATION_UNSPECIFIED);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
