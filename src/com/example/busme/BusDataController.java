@@ -223,14 +223,16 @@ public class BusDataController {
 			ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(
 					startLatLng, endLatLng);
 			if (result == null) {
-				((Activity) context).runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(
-								context,
-								"Specific route not found.\nSearching similar routes...",
-								Toast.LENGTH_LONG).show();
-					}
-				});
+				if(!grabbingDefaultCards) {
+					((Activity) context).runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(
+									context,
+									"Specific route not found.\nSearching similar routes...",
+									Toast.LENGTH_LONG).show();
+						}
+					});
+				}
 				return getCardsForQuery(routeStart,
 						MainModel.LOCATION_UNSPECIFIED, grabbingDefaultCards);
 			} else {
