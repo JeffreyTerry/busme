@@ -158,6 +158,12 @@ public class BusDataController {
 				Location currentLocation = locationManager
 						.getLastKnownLocation(provider);
 
+				if(currentLocation == null) {
+					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+					result.add(MainListViewItem.LOCATION_NOT_FOUND_ERROR_ITEM);
+					return result;
+				}
+				
 				currentLatLng = new LatLng(currentLocation.getLatitude(),
 						currentLocation.getLongitude());
 
@@ -179,7 +185,9 @@ public class BusDataController {
 
 				LatLng endLatLng = getLatLngForSearchTerms(routeEnd);
 				if (endLatLng == null) {
-					return null;
+					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+					result.add(MainListViewItem.DESTINATION_NOT_RECOGNIZED_ERROR_ITEM);
+					return result;
 				}
 
 				ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(
@@ -208,7 +216,9 @@ public class BusDataController {
 			// specified start location
 			LatLng startLatLng = getLatLngForSearchTerms(routeStart);
 			if (startLatLng == null) {
-				return null;
+				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+				result.add(MainListViewItem.START_NOT_RECOGNIZED_ERROR_ITEM);
+				return result;
 			}
 			return getCardsForStartLatLngFromTCATServer(startLatLng);
 		} else {
@@ -217,7 +227,14 @@ public class BusDataController {
 			LatLng endLatLng = getLatLngForSearchTerms(routeEnd);
 
 			if (startLatLng == null || endLatLng == null) {
-				return null;
+				ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+				if(startLatLng == null) {
+					result.add(MainListViewItem.START_NOT_RECOGNIZED_ERROR_ITEM);
+				}
+				if(endLatLng == null) {
+					result.add(MainListViewItem.DESTINATION_NOT_RECOGNIZED_ERROR_ITEM);
+				}
+				return result;
 			}
 
 			ArrayList<MainListViewItem> result = getCardsForLatLngsFromTCATServer(
@@ -378,7 +395,9 @@ public class BusDataController {
 			mainDatabaseController.close();
 		}
 		if (relevantSearchStopIds == null) {
-			return null;
+			ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+			result.add(MainListViewItem.NO_SEARCH_HISTORY_ERROR_ITEM);
+			return result;
 		} else {
 			String currentStartId, currentEndId;
 			String[] nextRelevantSearch;
@@ -413,7 +432,7 @@ public class BusDataController {
 		relevantSearches = trimArrayListToSize(relevantSearches, 5);
 
 		int numberOfResultsToKeepForEachQuery = 1;
-		String[] nextSearch;
+		String[] nextSearch;  // this is basically a tuple: [startStopName, endStopName]
 		ArrayList<MainListViewItem> nextResults = new ArrayList<MainListViewItem>();
 		for (int i = 0; i < relevantSearches.size(); i++) {
 			nextSearch = relevantSearches.get(i);
@@ -421,13 +440,15 @@ public class BusDataController {
 				nextResults = getCardsForQuery(MainModel.LOCATION_UNSPECIFIED,
 						nextSearch[1], true);
 				if (nextResults != null) {
-					Collections.sort(nextResults,
-							MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults,
-							numberOfResultsToKeepForEachQuery);
-					for (int j = 0; j < nextResults.size(); j++) {
-						if (!results.contains(nextResults.get(j))) {
-							results.add(nextResults.get(j));
+					if(!(nextResults.size() == 1 && nextResults.get(0).equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM))) {
+						Collections.sort(nextResults,
+								MainListViewItem.DEFAULT_COMPARATOR);
+						nextResults = trimArrayListToSize(nextResults,
+								numberOfResultsToKeepForEachQuery);
+						for (int j = 0; j < nextResults.size(); j++) {
+							if (!results.contains(nextResults.get(j))) {
+								results.add(nextResults.get(j));
+							}
 						}
 					}
 				}
@@ -436,13 +457,15 @@ public class BusDataController {
 				nextResults = getCardsForQuery(nextSearch[0],
 						MainModel.LOCATION_UNSPECIFIED, true);
 				if (nextResults != null) {
-					Collections.sort(nextResults,
-							MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults,
-							numberOfResultsToKeepForEachQuery);
-					for (int j = 0; j < nextResults.size(); j++) {
-						if (!results.contains(nextResults.get(j))) {
-							results.add(nextResults.get(j));
+					if(!(nextResults.size() == 1 && nextResults.get(0).equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM))) {
+						Collections.sort(nextResults,
+								MainListViewItem.DEFAULT_COMPARATOR);
+						nextResults = trimArrayListToSize(nextResults,
+								numberOfResultsToKeepForEachQuery);
+						for (int j = 0; j < nextResults.size(); j++) {
+							if (!results.contains(nextResults.get(j))) {
+								results.add(nextResults.get(j));
+							}
 						}
 					}
 				}
@@ -452,13 +475,15 @@ public class BusDataController {
 							.contentEquals(MainDatabaseController.NULL_QUERY)) {
 				nextResults = getCardsForQuery(nextSearch[0], nextSearch[1], true);
 				if (nextResults != null) {
-					Collections.sort(nextResults,
-							MainListViewItem.DEFAULT_COMPARATOR);
-					nextResults = trimArrayListToSize(nextResults,
-							numberOfResultsToKeepForEachQuery);
-					for (int j = 0; j < nextResults.size(); j++) {
-						if (!results.contains(nextResults.get(j))) {
-							results.add(nextResults.get(j));
+					if(!(nextResults.size() == 1 && nextResults.get(0).equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM))) {
+						Collections.sort(nextResults,
+								MainListViewItem.DEFAULT_COMPARATOR);
+						nextResults = trimArrayListToSize(nextResults,
+								numberOfResultsToKeepForEachQuery);
+						for (int j = 0; j < nextResults.size(); j++) {
+							if (!results.contains(nextResults.get(j))) {
+								results.add(nextResults.get(j));
+							}
 						}
 					}
 				}
@@ -466,7 +491,9 @@ public class BusDataController {
 		}
 
 		if (results.size() == 0) {
-			return null;
+			ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+			result.add(MainListViewItem.NO_DEFAULT_ROUTES_FOUND_ERROR_ITEM);
+			return result;
 		}
 		return results;
 	}
@@ -506,7 +533,7 @@ public class BusDataController {
 					currentCard = getCardForStopsFromTCATServer(
 							closestStopsToStart.get(i),
 							closestStopsToEnd.get(j), datesToQuery[k]);
-					if (currentCard != null) {
+					if (currentCard != null && !currentCard.equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM)) {
 						cardsToReturn.add(currentCard);
 					}
 				}
@@ -516,7 +543,9 @@ public class BusDataController {
 		// step 4: return the cards and save the search to the user history on
 		// the server
 		if (cardsToReturn.size() == 0) {
-			return null;
+			ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+			result.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
+			return result;
 		} else {
 			now = Calendar.getInstance(easternTime);
 			if (start == currentLatLng) {
@@ -609,8 +638,13 @@ public class BusDataController {
 						.compile("(leftColSub)[\\s\\S]*(rightColSub)");
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
-				if (!resultSectionMatcher.find()) {
-					return null;
+				
+				Pattern noResultPattern = Pattern
+						.compile("There are no matches for your search criteria");
+				Matcher noResultMatcher = noResultPattern.matcher(built);
+
+				if (noResultMatcher.find() || !resultSectionMatcher.find()) {
+					return MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM;
 				} else {
 					try {
 						String responseBody = resultSectionMatcher.group(0);
@@ -661,7 +695,7 @@ public class BusDataController {
 								stopToTcatIds.get(end));
 					} catch (Exception e) {
 						e.printStackTrace();
-						return null;
+						return MainListViewItem.DATA_PARSE_ERROR_ITEM;
 					}
 				}
 			}
@@ -672,7 +706,7 @@ public class BusDataController {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		return null;
+		return MainListViewItem.DATA_QUERY_ERROR_ITEM;
 	}
 
 	private ArrayList<MainListViewItem> getCardsForStartLatLngFromTCATServer(
@@ -688,14 +722,18 @@ public class BusDataController {
 			currentCards = getCardsForStopFromTCATServer(closestStopsToStart
 					.get(i));
 			if (currentCards != null) {
-				cardsToReturn.addAll(currentCards);
+				if (!(currentCards.size() == 1 && currentCards.get(0).equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM))) {
+					cardsToReturn.addAll(currentCards);
+				}
 			}
 		}
 
 		// step 3: return the cards and save the search to the user history on
 		// the server
 		if (cardsToReturn.size() == 0) {
-			return null;
+			ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+			result.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
+			return result;
 		} else {
 			saveStartQueryToDatabase(closestStopsToStart.get(0));
 			return new ArrayList<MainListViewItem>(cardsToReturn);
@@ -707,7 +745,6 @@ public class BusDataController {
 	 * data
 	 * 
 	 * @param start
-	 * @param end
 	 * @param date
 	 * @return
 	 */
@@ -717,7 +754,9 @@ public class BusDataController {
 		if (!stopToTcatIds.containsKey(start)) {
 			Log.i("Data error", start
 					+ " not found in stop to tcat id dictionary");
-			return null;
+			ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+			result.add(MainListViewItem.START_NOT_RECOGNIZED_ERROR_ITEM);
+			return result;
 		}
 		HttpGet get = new HttpGet("http://tcat.nextinsight.com/stops/"
 				+ stopToTcatIds.get(start));
@@ -759,7 +798,9 @@ public class BusDataController {
 				Matcher noResultMatcher = noResultPattern.matcher(built);
 
 				if (noResultMatcher.find() || !resultSectionMatcher.find()) {
-					return null;
+					ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+					result.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
+					return result;
 				} else {
 					try {
 						String responseBody = resultSectionMatcher.group(0);
@@ -799,7 +840,9 @@ public class BusDataController {
 						return results;
 					} catch (Exception e) {
 						e.printStackTrace();
-						return null;
+						ArrayList<MainListViewItem> result = new ArrayList<MainListViewItem>();
+						result.add(MainListViewItem.DATA_PARSE_ERROR_ITEM);
+						return result;
 					}
 				}
 			}
@@ -811,7 +854,7 @@ public class BusDataController {
 			ioe.printStackTrace();
 		}
 		ArrayList<MainListViewItem> results = new ArrayList<MainListViewItem>();
-		results.add(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM);
+		results.add(MainListViewItem.DATA_QUERY_ERROR_ITEM);
 		return results;
 	}
 

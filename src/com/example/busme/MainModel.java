@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -25,9 +26,18 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class MainModel {
+	public static final String UNKNOWN_INTERNAL_ERROR = "Unknown internal error. Email us about this plz";
+	public static final String NO_ROUTE_FOUND_ERROR = "No routes were found for this query";
+	public static final String DATA_PARSE_ERROR = "There was an error parsing the TCAT data";
+	public static final String DATA_QUERY_ERROR = "There was an error communicating with the TCAT website";
+	public static final String STOP_DATA_MISSING_ERROR = "There was an error communicating with the BusMe server";
+	public static final String LOCATION_NOT_FOUND_ERROR = "We were unable to determine your location.";
+	public static final String START_NOT_RECOGNIZED_ERROR = "Unknown starting location. Please modify your search.";
+	public static final String DESTINATION_NOT_RECOGNIZED_ERROR = "Unknown end location. Please modify your search.";
+	public static final String NO_SEARCH_HISTORY_ERROR = "Click the top to start searching.";
+	public static final String NO_DEFAULT_ROUTES_FOUND_ERROR = "No suggested routes found at this time.";
+	
 	public static final String NEW_CARDS_BROADCAST = "com.example.busme.newcards";
-	public static final String ERROR_EXTRA = "error";
-	public static final String CARD_ERROR_NO_ROUTES = "No routes found";
 	public static final String LOCATION_CURRENT = "jdksCurrentLOcation";
 	public static final String LOCATION_UNSPECIFIED = "";
 	public static final String BASE_URL = "http://www.theseedok.com/api";
@@ -44,12 +54,14 @@ public class MainModel {
 	private SharedPreferences sharedPreferences = null;
 	private MainController mainController;
 	private BusDataController busDataController;
+	private HashMap<Long, Boolean> threadShouldExecute;
 
 	public MainModel(Context c, MainController mc, boolean loadDefaultCards) {
 		if (context == null) {
 			context = c;
 			mainController = mc;
 			busDataController = new BusDataController(context, this);
+			threadShouldExecute = new HashMap<Long, Boolean>();
 		} else {
 			Log.e("ERROR", "MainModel was instantiated twice");
 		}
@@ -189,30 +201,60 @@ public class MainModel {
 
 	// ////// CARD STUFF ///////
 	private void sendCardsToController(ArrayList<MainListViewItem> cards) {
-		if (cards != null) {
+		boolean foundError = false;
+		if (cards == null) {
+			sendCardsToController(cards, UNKNOWN_INTERNAL_ERROR);
+			foundError = true;
+		} else if(cards.size() == 1) {
+			MainListViewItem item = cards.get(0);
+			System.out.println(item);
+			if(item.equals(MainListViewItem.DATA_PARSE_ERROR_ITEM)) {
+				sendCardsToController(null, DATA_PARSE_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.DATA_QUERY_ERROR_ITEM)) {
+				sendCardsToController(null, DATA_QUERY_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.NO_ROUTE_FOUND_ERROR_ITEM)) {
+				sendCardsToController(null, NO_ROUTE_FOUND_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.STOP_DATA_MISSING_ERROR_ITEM)) {
+				sendCardsToController(null, STOP_DATA_MISSING_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.LOCATION_NOT_FOUND_ERROR_ITEM)) {
+				sendCardsToController(null, LOCATION_NOT_FOUND_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.START_NOT_RECOGNIZED_ERROR_ITEM)) {
+				sendCardsToController(null, START_NOT_RECOGNIZED_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.DESTINATION_NOT_RECOGNIZED_ERROR_ITEM)) {
+				sendCardsToController(null, DESTINATION_NOT_RECOGNIZED_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.NO_SEARCH_HISTORY_ERROR_ITEM)) {
+				sendCardsToController(null, NO_SEARCH_HISTORY_ERROR);
+				foundError = true;
+			}
+			if(item.equals(MainListViewItem.NO_DEFAULT_ROUTES_FOUND_ERROR_ITEM)) {
+				sendCardsToController(null, NO_DEFAULT_ROUTES_FOUND_ERROR);
+				foundError = true;
+			}
+		}
+		if(!foundError) {
 			sendCardsToController(cards, null);
-		} else {
-			sendCardsToController(cards, CARD_ERROR_NO_ROUTES);
 		}
 	}
-
+	
 	/**
-	 * This method sends a JSONArray of cards to the controller
+	 * This method sends a JSONArray of cards to the controller. If the cards represent an error, the error will be shown instead.
 	 * 
 	 * @param cardsJSON
 	 */
-	public void removeStartEndQueryFromDatabase(String startid, String endid) {
-		busDataController.removeStartEndQueryFromDatabase(startid, endid);
-	}
-
-	public void removeStartQueryFromDatabase(String startid) {
-		busDataController.removeStartQueryFromDatabase(startid);
-	}
-
-	public void removeEndQueryFromDatabase(String endid) {
-		busDataController.removeEndQueryFromDatabase(endid);
-	}
-
 	private void sendCardsToController(ArrayList<MainListViewItem> cards,
 			String errorCode) {
 		if (mainController == null) {
@@ -226,10 +268,24 @@ public class MainModel {
 		}
 	}
 
+	public void removeStartEndQueryFromDatabase(String startid, String endid) {
+		busDataController.removeStartEndQueryFromDatabase(startid, endid);
+	}
+
+	public void removeStartQueryFromDatabase(String startid) {
+		busDataController.removeStartQueryFromDatabase(startid);
+	}
+
+	public void removeEndQueryFromDatabase(String endid) {
+		busDataController.removeEndQueryFromDatabase(endid);
+	}
+
+
 	/**
 	 * This generates a new set of cards and then sends them to the controller
 	 */
 	public void generateDefaultCards() {
+		stopAllCurrentCardGenerators();
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				new CardGenerator().execute(LOCATION_UNSPECIFIED,
@@ -239,6 +295,7 @@ public class MainModel {
 	}
 
 	public void generateCardsForQuery(String start, String destination) {
+		stopAllCurrentCardGenerators();
 		final String finalStart = start;
 		final String finalDestination = destination;
 		((Activity) context).runOnUiThread(new Runnable() {
@@ -247,9 +304,17 @@ public class MainModel {
 			}
 		});
 	}
+	
+	public void stopAllCurrentCardGenerators() {
+		for(Long threadId: threadShouldExecute.keySet()) {
+			threadShouldExecute.put(threadId, false);
+		}
+	}
 
 	private class CardGenerator extends
 			AsyncTask<String, Void, ArrayList<MainListViewItem>> {
+		Long currentThreadId;
+		
 		@Override
 		protected void onPreExecute() {
 			mainController.setCardsLoading(true);
@@ -259,6 +324,9 @@ public class MainModel {
 		@Override
 		protected ArrayList<MainListViewItem> doInBackground(
 				String... endpoints) {
+			currentThreadId = Thread.currentThread().getId();
+			threadShouldExecute.put(currentThreadId, true);
+			
 			if (endpoints.length == 2) {
 				ArrayList<MainListViewItem> cards = busDataController
 						.getCardsForQuery(endpoints[0], endpoints[1]);
@@ -277,7 +345,10 @@ public class MainModel {
 		@Override
 		protected void onPostExecute(ArrayList<MainListViewItem> cards) {
 			mainController.setCardsLoading(false);
-			sendCardsToController(cards);
+			if(threadShouldExecute.get(currentThreadId)) {
+				sendCardsToController(cards);
+			}
+			threadShouldExecute.remove(currentThreadId);
 			super.onPostExecute(cards);
 		}
 	}
