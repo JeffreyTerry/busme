@@ -126,9 +126,11 @@ public class MainController implements OnEditorActionListener,
 
 			switch (v.getId()) {
 			case R.id.etSearchFrom:
+				mainModel.stopAllCurrentCardGenerators();
 				launchSearchActivity(ET_SEARCH_FROM_EXTRA);
 				break;
 			case R.id.etSearchTo:
+				mainModel.stopAllCurrentCardGenerators();
 				launchSearchActivity(ET_SEARCH_TO_EXTRA);
 				break;
 			default:
@@ -258,7 +260,7 @@ public class MainController implements OnEditorActionListener,
 	}
 
 	public void makeError(String errorCode) {
-		Toast.makeText(context, errorCode, Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, errorCode, Toast.LENGTH_LONG).show();
 	}
 
 	/**

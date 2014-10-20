@@ -28,6 +28,19 @@ public class MainListViewItem {
 			"01:00 PM", "171", "data parse error", "data parse error", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final MainListViewItem STOP_DATA_MISSING_ERROR_ITEM = new MainListViewItem(
 			"01:00 PM", "172", "stop data missing", "stop data missing", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem LOCATION_NOT_FOUND_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "173", "location not found", "location not found", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem START_NOT_RECOGNIZED_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "174", "start not recognized", "start not recognized", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem DESTINATION_NOT_RECOGNIZED_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "175", "destination not recognized", "destination not recognized", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem NO_SEARCH_HISTORY_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "176", "no search history", "no search history", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem NO_DEFAULT_ROUTES_FOUND_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "177", "no suggested routes found", "no suggested routes found", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem DATA_QUERY_ERROR_ITEM = new MainListViewItem(
+			"01:00 PM", "178", "problem querying tcat server", "problem querying tcat server", -1, -1, -1, -1, "0", "-1", "-1");
+	
 	public static final String TRAVEL_TIME_UNKNOWN = "0";
 	public static final double NULL_LATITUDE = 0;
 	public static final double NULL_LONGITUDE = 0;

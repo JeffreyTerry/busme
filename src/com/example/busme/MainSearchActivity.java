@@ -28,10 +28,8 @@ public class MainSearchActivity extends Activity {
 
 		if(getIntent().hasExtra("launch_button_source")) {
 			if(getIntent().getStringExtra("launch_button_source").contentEquals(MainController.ET_SEARCH_TO_EXTRA)) {
-				Log.d("et destination", "yeah");
 				etDestinationQuery.requestFocus();
 			} else {
-				Log.d("et start", "yeah");
 				etStartQuery.requestFocus();
 			}
 		}
