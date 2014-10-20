@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,6 +37,7 @@ public class MainModel {
 	public static final String DESTINATION_NOT_RECOGNIZED_ERROR = "Unknown end location. Please modify your search.";
 	public static final String NO_SEARCH_HISTORY_ERROR = "Click the top to start searching.";
 	public static final String NO_DEFAULT_ROUTES_FOUND_ERROR = "No suggested routes found at this time.";
+	public static final String PROBABLY_NETWORK_ERROR = "An error occurred. Perhaps you should check your network connection before you wreck your network connection.";
 	
 	public static final String NEW_CARDS_BROADCAST = "com.example.busme.newcards";
 	public static final String LOCATION_CURRENT = "jdksCurrentLOcation";
@@ -207,7 +209,6 @@ public class MainModel {
 			foundError = true;
 		} else if(cards.size() == 1) {
 			MainListViewItem item = cards.get(0);
-			System.out.println(item);
 			if(item.equals(MainListViewItem.DATA_PARSE_ERROR_ITEM)) {
 				sendCardsToController(null, DATA_PARSE_ERROR);
 				foundError = true;
@@ -246,7 +247,17 @@ public class MainModel {
 			}
 		}
 		if(!foundError) {
-			sendCardsToController(cards, null);
+			try {
+				if(cards.size() >= 1 && cards.get(0).getRouteNumbers()[0] > 168) {
+					sendCardsToController(null, PROBABLY_NETWORK_ERROR);
+					foundError = true;
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			if(!foundError) {
+				sendCardsToController(cards, null);
+			}
 		}
 	}
 	
