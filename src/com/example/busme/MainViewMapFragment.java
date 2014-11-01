@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,17 +30,20 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 	private GoogleMap gmap;
 	private JSONObject stopCoordinates;
 	private MainModel mainModel;
+	private TextView tvMapTutorial;
+	private MainActivity mainActivity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View android = inflater
 				.inflate(R.layout.mainmap_frag, container, false);
-		
-		mainModel = ((MainActivity) this.getActivity()).getMainController().getMainModel();
 
+		mainActivity = (MainActivity) getActivity();
+		mainModel = mainActivity.getMainController().getMainModel();
 		initializeMap();
-
+		tvMapTutorial = (TextView) android.findViewById(R.id.tvMapTutorial);
+		
 		return android;
 	}
 
@@ -75,6 +79,11 @@ public class MainViewMapFragment extends Fragment implements LocationListener {
 		gmap.setMyLocationEnabled(true);
 		initializeStopCoordinates();
 		updateLocation();
+		if(mainActivity.shouldPlayTutorial()) {
+			tvMapTutorial.setVisibility(View.VISIBLE);
+		} else {
+			tvMapTutorial.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

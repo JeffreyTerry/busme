@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.SparseIntArray;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -163,18 +164,22 @@ public class ListItemDetailActivity extends Activity implements
 
 		Location location = updateLocation();
 
-		LatLng current = new LatLng(location.getLatitude(),
-				location.getLongitude());
+		if(location != null) {
+			LatLng current = new LatLng(location.getLatitude(),
+					location.getLongitude());
 
-		synchronized (this) {
-			float[] distance = new float[3];
-			Location.distanceBetween(current.latitude, current.longitude,
-					(startLatLng.latitude + destLatLng.latitude) / 2,
-					(startLatLng.longitude + destLatLng.longitude) / 2,
-					distance);
-			if (distance[0] < 35000) {
-				markerPoints.add(current);
+			synchronized (this) {
+				float[] distance = new float[3];
+				Location.distanceBetween(current.latitude, current.longitude,
+						(startLatLng.latitude + destLatLng.latitude) / 2,
+						(startLatLng.longitude + destLatLng.longitude) / 2,
+						distance);
+				if (distance[0] < 35000) {
+					markerPoints.add(current);
+				}
 			}
+		} else {
+			Toast.makeText(this, "We were unable to determine your location", Toast.LENGTH_SHORT).show();
 		}
 
 		// adding start & destination markers

@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +40,7 @@ public class MainController implements OnEditorActionListener,
 	private ListView mainActivityListView = null;
 	private EditText etSearchFrom, etSearchTo;
 	private SwipeDismisserListView swipeDismisserListView;
+	private TextView[] tvTutorialDialogs;
 
 	// These elements belong to SearchActivity
 	private ListView searchActivityListView = null;
@@ -53,7 +53,9 @@ public class MainController implements OnEditorActionListener,
 	private MainModel mainModel;
 	private HashMap<String, LatLng> stopToLatLngs = null;
 	private HashMap<String, String> stopToTcatIds = null;
-	private float x1;
+	private float lastSwipeX;
+	private int currentTutorialStep;
+	private boolean tutorialIsRunning;
 
 	public MainController(Context c, boolean loadDefaultCards) {
 		mainModel = new MainModel(c, this, loadDefaultCards);
@@ -123,18 +125,23 @@ public class MainController implements OnEditorActionListener,
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-
 			switch (v.getId()) {
 			case R.id.etSearchFrom:
+				if(tutorialIsRunning && currentTutorialStep == 4) {
+					advanceTutorial();
+				}
 				mainModel.stopAllCurrentCardGenerators();
 				launchSearchActivity(ET_SEARCH_FROM_EXTRA);
 				break;
 			case R.id.etSearchTo:
+				if(tutorialIsRunning && currentTutorialStep == 4) {
+					advanceTutorial();
+				}
 				mainModel.stopAllCurrentCardGenerators();
 				launchSearchActivity(ET_SEARCH_TO_EXTRA);
 				break;
 			default:
-				x1 = event.getX();
+				lastSwipeX = event.getX();
 				swipeDismisserListView.onTouch(v, event);
 				break;
 			}
@@ -142,12 +149,12 @@ public class MainController implements OnEditorActionListener,
 			swipeDismisserListView.onTouch(v, event);
 			break;
 		case MotionEvent.ACTION_MOVE:
-			if (event.getX() > x1) {
+			if (event.getX() > lastSwipeX) {
 				swipeDismisserListView.onTouch(v, event);
 			}
 			break;
 		case MotionEvent.ACTION_CANCEL:
-			if (event.getX() > x1) {
+			if (event.getX() > lastSwipeX) {
 				swipeDismisserListView.onTouch(v, event);
 			}
 			break;
@@ -162,6 +169,10 @@ public class MainController implements OnEditorActionListener,
 
 	/* When a card is dismissed, notify server */
 	public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+		if(tutorialIsRunning) {
+			advanceTutorial();
+		}
+		
 		MainListViewItem itemDismissed = null;
 		for (int position : reverseSortedPositions) {
 			if (position != 0 && position != listViewAdapter.getCount() - 1) {
@@ -194,6 +205,18 @@ public class MainController implements OnEditorActionListener,
 		i.putExtra("destLng", item.getDestLng());
 		i.putExtra("travelTime", item.getTravelTime());
 		context.startActivity(i);
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(00L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(tutorialIsRunning && currentTutorialStep == 1) {
+					advanceTutorial();
+				}
+			}
+		}).run();
 	}
 
 	/**
@@ -261,6 +284,39 @@ public class MainController implements OnEditorActionListener,
 
 	public void makeError(String errorCode) {
 		Toast.makeText(context, errorCode, Toast.LENGTH_LONG).show();
+	}
+
+	public void setTutorialInfoDialogs(TextView...dialogs) {
+		tvTutorialDialogs = dialogs;
+	}
+	
+	public void playTutorial() {
+		tutorialIsRunning = true;
+		listViewAdapter.add(MainListViewItem.EXAMPLE_ITEM);
+		currentTutorialStep = 0;
+		advanceTutorial();
+	}
+	
+	public void advanceTutorial() {
+		if(currentTutorialStep > 0) {
+			tvTutorialDialogs[currentTutorialStep - 1].setVisibility(View.GONE);
+		}
+		if(currentTutorialStep == tvTutorialDialogs.length){
+			listViewAdapter.clear();
+			tutorialIsRunning = false;
+			((MainActivity) context).setTutorialFinished();
+		} else {
+			tvTutorialDialogs[currentTutorialStep].setVisibility(View.VISIBLE);
+			++currentTutorialStep;
+		}
+	}
+	
+	public int getCurrentTutorialStep() {
+		return currentTutorialStep;
+	}
+	
+	public boolean tutorialIsRunning() {
+		return tutorialIsRunning;
 	}
 
 	/**
