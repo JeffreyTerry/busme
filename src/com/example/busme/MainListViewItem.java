@@ -40,6 +40,8 @@ public class MainListViewItem {
 			"01:00 PM", "177", "no suggested routes found", "no suggested routes found", -1, -1, -1, -1, "0", "-1", "-1");
 	public static final MainListViewItem DATA_QUERY_ERROR_ITEM = new MainListViewItem(
 			"01:00 PM", "178", "problem querying tcat server", "problem querying tcat server", -1, -1, -1, -1, "0", "-1", "-1");
+	public static final MainListViewItem EXAMPLE_ITEM = new MainListViewItem(
+			"01:00 PM", "179", "Goldwin Smith", "Dairy Bar", -1, -1, -1, -1, "7", "-1", "-1");
 	
 	public static final String TRAVEL_TIME_UNKNOWN = "0";
 	public static final double NULL_LATITUDE = 0;
@@ -112,6 +114,10 @@ public class MainListViewItem {
 	}
 
 	public long getMinutesUntilNextBus() {
+		if(this == EXAMPLE_ITEM) {
+			return 15;
+		}
+		
 		now = Calendar.getInstance(easternTime);
 		int hoursNow = now.get(Calendar.HOUR) % 12;
 		// if the next bus is coming tomorrow

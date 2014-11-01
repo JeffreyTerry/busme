@@ -98,6 +98,54 @@
         </ListView>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tvYouCanClickCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="@dimen/tutorial_tip_vertical_margin"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="^  These are cards.\nThey show you bus information.\nClick on a card to see more details."
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tvYouCanSwipeToRemoveCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="@dimen/tutorial_tip_vertical_margin"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="Swipe cards right to remove ===>"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+    
+    <TextView
+        android:id="@+id/tvYouCanSwipeForMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="@dimen/tutorial_tip_vertical_margin"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="Swipe left for a map of bus stops."
+        android:textSize="18sp"
+        android:visibility="invisible" />
+    
+    <TextView
+        android:id="@+id/tvYouCanSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="@dimen/tutorial_tip_vertical_margin"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="One last thing -- Use the fields above to find buses coming to or from your favorite location."
+        android:textSize="18sp"
+        android:visibility="invisible" />
+    
     <View
         android:id="@+id/shadowRetracted"
         android:layout_width="fill_parent"
@@ -113,5 +161,4 @@
         android:layout_gravity="bottom"
         android:background="@drawable/gradient_up" >
     </View>
-
 </FrameLayout>

@@ -4,34 +4,52 @@ import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity {
 	private SwipeRefreshLayout swipeLayout;
-	private ListView mainActivityListView;
 	private ViewPager mViewPager;
 	private MainFragmentAdapter mFragmentAdapter;
 	private MainController mainController;
-
+	
 	private Stack<Integer> pageHist;
-	private boolean saveToHistory;
+	private boolean saveToHistory, shouldPlayTutorial;
 	private int currentPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		SharedPreferences sharedPreferences = getSharedPreferences(
+					"com.example.busme", Context.MODE_PRIVATE);
+
+		if (!sharedPreferences.contains("device_id")) {
+			shouldPlayTutorial = true;
+		} else {
+			shouldPlayTutorial = false;
+		}
+		
 		mainController = new MainController(this, true);
 
 		setContentView(R.layout.viewpager_main);
 		initializePages();
 		initializeSwipeLayout();
+	}
+	
+	public boolean shouldPlayTutorial() {
+		return shouldPlayTutorial;
+	}
+	
+	public void setTutorialFinished() {
+		shouldPlayTutorial = false;
 	}
 
 	public MainController getMainController() {
@@ -55,6 +73,9 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int a) {
+				if(shouldPlayTutorial && mainController.getCurrentTutorialStep() == 3) {
+					mainController.advanceTutorial();
+				}
 				if (saveToHistory) {
 					pageHist.push(Integer.valueOf(currentPage));
 				}
