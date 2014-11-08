@@ -296,6 +296,7 @@ public class MainModel {
 	 * This generates a new set of cards and then sends them to the controller
 	 */
 	public void generateDefaultCards() {
+		if(mainController.tutorialIsRunning()) return;
 		stopAllCurrentCardGenerators();
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {

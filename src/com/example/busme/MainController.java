@@ -292,6 +292,7 @@ public class MainController implements OnEditorActionListener,
 	
 	public void playTutorial() {
 		tutorialIsRunning = true;
+		System.out.println("yolo");
 		listViewAdapter.add(MainListViewItem.EXAMPLE_ITEM);
 		currentTutorialStep = 0;
 		advanceTutorial();
