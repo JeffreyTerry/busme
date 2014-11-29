@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.TimeZone;
 
+import android.util.Log;
+
 public class MainListViewItem {
 	public static final Comparator<MainListViewItem> DEFAULT_COMPARATOR = new Comparator<MainListViewItem>(){
 		@Override
@@ -101,7 +103,7 @@ public class MainListViewItem {
 		associatedTcatIdStart = associatedStartId;
 		associatedTcatIdDestination = associatedDestId;
 
-		easternTime = TimeZone.getTimeZone("GMT-4:00");
+		easternTime = TimeZone.getTimeZone("GMT-5:00");
 		try {
 			hoursNext = Integer.parseInt(nextBusTimeString.substring(0, 2)) % 12;
 			minutesNext = Integer.parseInt(nextBusTimeString.substring(3, 5));
@@ -120,6 +122,9 @@ public class MainListViewItem {
 		
 		now = Calendar.getInstance(easternTime);
 		int hoursNow = now.get(Calendar.HOUR) % 12;
+		if(easternTime.inDaylightTime(now.getTime())) {
+			hoursNow = (hoursNow + 1) % 12;
+		}
 		// if the next bus is coming tomorrow
 		if((amOrPm.contentEquals("AM") && now.get(Calendar.AM_PM) == Calendar.PM) || (amOrPm.contentEquals("PM") && now.get(Calendar.AM_PM) == Calendar.AM)) {
 			if(hoursNext < 12){
