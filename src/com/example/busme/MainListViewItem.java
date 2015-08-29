@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.TimeZone;
 
-import android.util.Log;
-
 public class MainListViewItem {
 	public static final Comparator<MainListViewItem> DEFAULT_COMPARATOR = new Comparator<MainListViewItem>(){
 		@Override

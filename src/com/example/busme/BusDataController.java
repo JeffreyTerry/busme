@@ -515,7 +515,7 @@ public class BusDataController {
 				NUMBER_OF_NEARBY_STOPS_TO_LOOK_AT);
 
 		// step 2: get the dates to query for
-		TimeZone easternTime = TimeZone.getTimeZone("GMT-4:00");
+		TimeZone easternTime = TimeZone.getTimeZone("GMT-5:00");
 		Calendar now = Calendar.getInstance(easternTime);
 		Calendar[] datesToQuery = new Calendar[NUMBER_OF_FUTURE_DATES_TO_QUERY];
 		int gapBetweenDates = 10 * 60;
@@ -789,7 +789,7 @@ public class BusDataController {
 				String built = str.toString();
 
 				Pattern resultSectionPattern = Pattern
-						.compile("(leftColSub)[\\s\\S]*(<div\\s*id=\"rightColSub\">\\s*<h1>\\s*More\\s*info...\\s*<\\/h1>)");
+						.compile("(leftColSub)[\\s\\S]*(<div\\s*id=\"rightColSub\">)");
 				Matcher resultSectionMatcher = resultSectionPattern
 						.matcher(built);
 
@@ -1101,7 +1101,6 @@ public class BusDataController {
 
 	private void saveStartQueryToDatabase(String start) {
 		try {
-			System.out.println("H:i " + start + ", " + stopToTcatIds.get(start) + ", " + stopToTcatIds.containsValue(start));
 			mainDatabaseController.open();
 			if (stopToTcatIds.containsKey(start)) {
 				mainDatabaseController.addStartSearch(stopToTcatIds.get(start));
